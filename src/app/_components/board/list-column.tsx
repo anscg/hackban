@@ -466,6 +466,7 @@ export function CardComposer({
         pos: "",
         start: null,
         due: null,
+        issues: [],
         dueComplete: false,
         coverColor: null,
         coverAttachmentId: null,

@@ -253,6 +253,33 @@ exports.Prisma.CardScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.GitHubIssueScalarFieldEnum = {
+  id: 'id',
+  cardId: 'cardId',
+  owner: 'owner',
+  repo: 'repo',
+  number: 'number',
+  title: 'title',
+  state: 'state',
+  stateReason: 'stateReason',
+  closedBy: 'closedBy',
+  closedAt: 'closedAt',
+  etag: 'etag',
+  checkedAt: 'checkedAt',
+  fetchError: 'fetchError',
+  completedCardAt: 'completedCardAt',
+  addedById: 'addedById',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.GitHubConnectionScalarFieldEnum = {
+  userId: 'userId',
+  login: 'login',
+  accessToken: 'accessToken',
+  scope: 'scope',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.CardBlockScalarFieldEnum = {
   blockerId: 'blockerId',
   blockedId: 'blockedId'
@@ -407,6 +434,8 @@ exports.Prisma.ModelName = {
   BoardStar: 'BoardStar',
   List: 'List',
   Card: 'Card',
+  GitHubIssue: 'GitHubIssue',
+  GitHubConnection: 'GitHubConnection',
   CardBlock: 'CardBlock',
   Label: 'Label',
   CardLabel: 'CardLabel',
