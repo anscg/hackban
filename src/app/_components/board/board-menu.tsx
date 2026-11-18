@@ -2,13 +2,14 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { api } from "~/trpc/react";
 
 import { AutoTextarea, BOARD_COLORS, BOARD_GRADIENTS, Button, Icon, IconButton, LABEL_COLORS, Markdown, inputCls, labelStyle } from "../ui";
 import { ActivityItem } from "./activity";
 import { type BoardData } from "./types";
+import { env } from "~/env";
 
 type Pane = "main" | "about" | "activity" | "archived" | "background" | "labels" | "move" | "close";
 const TITLES: Record<Pane, string> = {
@@ -173,6 +174,11 @@ function Archived({ board, onOpenCard }: { board: BoardData; onOpenCard: (id: st
   );
 }
 
+type StockImage = {
+  thumb: string,
+  full: string
+}
+
 function Background({ board }: { board: BoardData }) {
   const utils = api.useUtils();
   const [url, setUrl] = useState("");
@@ -182,6 +188,7 @@ function Background({ board }: { board: BoardData }) {
   });
   const [uploading, setUploading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [searchResults, setSearchResults] = useState<StockImage[]>([]);
   const upload = async (file: File) => {
     setUploading(true);
     setErr(null);
@@ -192,6 +199,7 @@ function Background({ board }: { board: BoardData }) {
     await utils.board.get.invalidate({ id: board.id });
     setUploading(false);
   };
+
   return (
     <div>
       <label className={`mb-4 flex h-16 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-dashed border-[var(--color-border)] text-sm font-medium text-[var(--color-text-subtle)] hover:bg-[var(--color-neutral)] ${uploading ? "pointer-events-none opacity-50" : ""}`}>
@@ -224,11 +232,29 @@ function Background({ board }: { board: BoardData }) {
       <h3 className="mt-4 mb-2 text-sm font-semibold">Image URL</h3>
       <input className={inputCls} placeholder="https://images.unsplash.com/…" value={url} onChange={(e) => setUrl(e.target.value)} />
       <Button className="mt-2" disabled={!url.startsWith("https://")} onClick={() => update.mutate({ id: board.id, bgImage: url })}>Use image</Button>
+      <h3 className="mt-4 mb-2 text-sm font-semibold">Stock Images (Unsplash.com)</h3>
+      <input className={inputCls} placeholder="A laptop with code..." onChange={async (e) => {
+        const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(e.target.value)}&client_id=${process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.results) {
+          const images: StockImage[] = data.results.map((t: any) => ({ thumb: t.urls.thumb, full: t.urls.full, }));
+          setSearchResults(images)
+        }
+
+      }} />{searchResults.length !== 0 &&
+        <div className="columns-3 gap-2 mt-4">
+          {searchResults.map((g, i) => (
+            <button key={i} className="rounded-lg mb-2 h-fit hover:brightness-90 bg-amber-600" onClick={() => update.mutate({ id: board.id, bgImage: g.full })}> <img className="h-full rounded-lg" src={g.thumb} alt="" /> </button>
+          ))}
+        </div>}
       <h3 className="mt-4 mb-1 text-sm font-semibold">Tab icon</h3>
-      <p className="mb-2 text-xs text-[var(--color-text-subtle)]">Auto matches the background.</p>
+      <p className="mb-2 text-xs text-text-subtle">Auto matches the background.</p>
       <div className="flex flex-wrap gap-2">
         <button
-          className={`h-8 rounded-lg bg-[var(--color-neutral)] px-3 text-sm hover:bg-[var(--color-neutral-hover)] ${!board.iconColor ? "ring-2 ring-[var(--color-focus)]" : ""}`}
+          className={`h-8 rounded-lg bg-neutral px-3 text-sm hover:bg-neutral-hover ${!board.iconColor ? "ring-2 ring-focus" : ""}`}
           onClick={() => update.mutate({ id: board.id, iconColor: null })}
         >
           Auto
@@ -237,7 +263,7 @@ function Background({ board }: { board: BoardData }) {
           <button
             key={c}
             aria-label={`Tab icon ${c}`}
-            className={`h-8 w-8 rounded-lg hover:brightness-90 ${board.iconColor === c ? "ring-2 ring-[var(--color-focus)] ring-offset-1" : ""}`}
+            className={`h-8 w-8 rounded-lg hover:brightness-90 ${board.iconColor === c ? "ring-2 ring-focus ring-offset-1" : ""}`}
             style={{ background: c }}
             onClick={() => update.mutate({ id: board.id, iconColor: c })}
           />
