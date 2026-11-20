@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { api } from "~/trpc/react";
 
@@ -182,6 +182,13 @@ function Background({ board }: { board: BoardData }) {
   });
   const [uploading, setUploading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [q, setQ] = useState("");
+  const [search, setSearch] = useState("");
+  useEffect(() => {
+    const t = setTimeout(() => setSearch(q.trim()), 400);
+    return () => clearTimeout(t);
+  }, [q]);
+  const stock = api.board.unsplash.useQuery({ id: board.id, q: search }, { placeholderData: (prev) => prev, retry: false });
   const upload = async (file: File) => {
     setUploading(true);
     setErr(null);
@@ -224,6 +231,32 @@ function Background({ board }: { board: BoardData }) {
       <h3 className="mt-4 mb-2 text-sm font-semibold">Image URL</h3>
       <input className={inputCls} placeholder="https://images.unsplash.com/…" value={url} onChange={(e) => setUrl(e.target.value)} />
       <Button className="mt-2" disabled={!url.startsWith("https://")} onClick={() => update.mutate({ id: board.id, bgImage: url })}>Use image</Button>
+      {stock.data?.available && (
+        <>
+          <h3 className="mt-4 mb-2 text-sm font-semibold">Unsplash photos</h3>
+          <input className={inputCls} placeholder="Search photos" value={q} onChange={(e) => setQ(e.target.value)} />
+          {stock.error && <p className="mt-2 text-xs text-[var(--color-danger)]">{stock.error.message}</p>}
+          {search && stock.data.photos.length === 0 && !stock.isFetching && <p className="mt-2 text-xs text-[var(--color-text-subtle)]">No photos found.</p>}
+          {stock.data.photos.length > 0 && (
+            <>
+              <div className="mt-2 grid grid-cols-3 gap-2">
+                {stock.data.photos.map((p) => (
+                  <button key={p.id} title={`Photo by ${p.by} on Unsplash`} className="h-16 overflow-hidden rounded-lg hover:brightness-90" onClick={() => update.mutate({ id: board.id, bgImage: p.full })}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={p.thumb} alt={`Photo by ${p.by}`} className="h-full w-full object-cover" />
+                  </button>
+                ))}
+              </div>
+              <p className="mt-1 text-xs text-[var(--color-text-subtle)]">
+                Photos from{" "}
+                <a className="underline" href="https://unsplash.com/?utm_source=hackban&utm_medium=referral" target="_blank" rel="noreferrer">
+                  Unsplash
+                </a>
+              </p>
+            </>
+          )}
+        </>
+      )}
       <h3 className="mt-4 mb-1 text-sm font-semibold">Tab icon</h3>
       <p className="mb-2 text-xs text-[var(--color-text-subtle)]">Auto matches the background.</p>
       <div className="flex flex-wrap gap-2">

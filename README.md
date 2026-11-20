@@ -93,6 +93,7 @@ bun dev                 # http://localhost:3000
 | `GITHUB_TOKEN`         | no       | Token used to poll tracked issues when the person who linked one hasn't connected GitHub. Raises the API limit from 60 to 5000 requests/hour |
 | `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` | no | GitHub OAuth app that lets people connect their own account (private repo issues). Callback URL: `<origin>/api/github/callback` |
 | `GITHUB_WEBHOOK_SECRET` | no      | Secret of a GitHub `issues` webhook pointed at `<origin>/api/github/webhook`, for instant updates instead of waiting for the next poll |
+| `UNSPLASH_ACCESS_KEY`  | no       | Access key of an app from [Unsplash Developers](https://unsplash.com/developers); enables stock photo search in Change background |
 
 ### Hack Club Auth
 

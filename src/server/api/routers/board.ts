@@ -4,6 +4,7 @@ import { on } from "node:events";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
+import { env } from "~/env";
 import { logActivity, requireBoard, touch } from "~/server/api/access";
 import { DEFAULT_LABEL_COLORS, httpsUrl } from "~/server/api/defaults";
 import { sequentialKeys } from "~/server/api/pos";
@@ -137,6 +138,32 @@ export const boardRouter = createTRPCRouter({
       });
       logActivity(ctx.db, { boardId: board.id, actorId: userId, type: "createBoard", data: { name: board.name } });
       return board;
+    }),
+
+  /** Unsplash photo search for board backgrounds. `available` is false when no access key is configured. */
+  unsplash: protectedProcedure
+    .input(z.object({ id: z.string(), q: z.string().max(200) }))
+    .query(async ({ ctx, input }) => {
+      await requireBoard(ctx.db, ctx.session.user.id, input.id, true);
+      const key = env.UNSPLASH_ACCESS_KEY;
+      if (!key || !input.q.trim()) return { available: !!key, photos: [] };
+      // Proxied so the key stays server-side.
+      const res = await fetch(`https://api.unsplash.com/search/photos?${new URLSearchParams({ query: input.q, per_page: "12", content_filter: "high" })}`, {
+        headers: { Authorization: `Client-ID ${key}`, "Accept-Version": "v1" },
+        signal: AbortSignal.timeout(10_000),
+      }).catch(() => null);
+      if (!res?.ok) throw new TRPCError({ code: "BAD_GATEWAY", message: "Couldn't search Unsplash. Try again in a bit." });
+      const data = (await res.json()) as { results: { id: string; urls: { raw: string; thumb: string }; user: { name: string } }[] };
+      return {
+        available: true,
+        photos: data.results.map((p) => {
+          const full = new URL(p.urls.raw);
+          full.searchParams.set("w", "2560");
+          full.searchParams.set("q", "80");
+          full.searchParams.set("fm", "jpg");
+          return { id: p.id, thumb: p.urls.thumb, full: full.toString(), by: p.user.name };
+        }),
+      };
     }),
 
   update: protectedProcedure
