@@ -2,7 +2,6 @@
 // `id` must be unique; the header shows a dot until the viewer has seen the newest one.
 export const ANNOUNCEMENTS: { id: string; date: string; title: string; body: string }[] = [
   { id: "unsplash-backgrounds", date: "2026-11-20", title: "Unsplash backgrounds", body: "Search Unsplash photos under Change background in the board menu and click one to use it as the board background." },
-  { id: "github-issues", date: "2026-11-20", title: "Track GitHub issues", body: "Paste a GitHub issue link onto a card (or add it as a link) and the card shows the issue's status and is marked complete when the issue is closed; connect your GitHub account under your profile to track issues in private repos." },
   { id: "board-favicons", date: "2026-11-10", title: "Board tab icons", body: "A board's browser tab shows the Hackban icon in the board's color (or its background image's main color), which you can change under Tab icon in Change background; a workspace's pages show its logo." },
   { id: "import-access", date: "2026-11-10", title: "Import access", body: "Hackban admins can now let you run your own Trello imports with Allow import in the admin panel; Import from Trello in your profile menu then opens the importer." },
   { id: "join-board", date: "2026-11-09", title: "Join boards", body: "On a board you can see through its workspace but aren't on, click Join board in the header to become a member so you can be added to its cards." },

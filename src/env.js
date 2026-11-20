@@ -20,13 +20,6 @@ export const env = createEnv({
     AUTH_HACKCLUB_SCOPE: z.string().default("email name slack_id"),
     // Bot token (channels:manage) that adds new users to #hackban. Optional.
     SLACK_BOT_TOKEN: z.string().optional(),
-    // Raises the GitHub API rate limit for tracked issues (any token with public repo read works). Optional.
-    GITHUB_TOKEN: z.string().optional(),
-    // GitHub OAuth app that lets users connect their own account (for issues in private repos). Optional.
-    GITHUB_CLIENT_ID: z.string().optional(),
-    GITHUB_CLIENT_SECRET: z.string().optional(),
-    // Shared secret of a GitHub "issues" webhook pointed at /api/github/webhook. Optional; polling works without it.
-    GITHUB_WEBHOOK_SECRET: z.string().optional(),
     // Unsplash access key: enables stock photo search for board backgrounds. Optional.
     UNSPLASH_ACCESS_KEY: z.string().optional(),
     DATABASE_URL: z.string().url(),
@@ -56,10 +49,6 @@ export const env = createEnv({
     ADMIN_EMAILS: process.env.ADMIN_EMAILS,
     AUTH_HACKCLUB_SCOPE: process.env.AUTH_HACKCLUB_SCOPE,
     SLACK_BOT_TOKEN: process.env.SLACK_BOT_TOKEN,
-    GITHUB_TOKEN: process.env.GITHUB_TOKEN,
-    GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
-    GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
-    GITHUB_WEBHOOK_SECRET: process.env.GITHUB_WEBHOOK_SECRET,
     UNSPLASH_ACCESS_KEY: process.env.UNSPLASH_ACCESS_KEY,
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,

@@ -74,19 +74,6 @@ export type List = $Result.DefaultSelection<Prisma.$ListPayload>
  */
 export type Card = $Result.DefaultSelection<Prisma.$CardPayload>
 /**
- * Model GitHubIssue
- * A GitHub issue a card tracks. Polled (and optionally pushed by webhook);
- * when every issue on a card is closed the card is marked complete.
- */
-export type GitHubIssue = $Result.DefaultSelection<Prisma.$GitHubIssuePayload>
-/**
- * Model GitHubConnection
- * A user's own GitHub account, connected from their settings so issues in
- * private repos they can see can be tracked. Issues they add are fetched
- * with this token.
- */
-export type GitHubConnection = $Result.DefaultSelection<Prisma.$GitHubConnectionPayload>
-/**
  * Model CardBlock
  * `blocker` has to be completed (or archived) before `blocked` can go ahead.
  * Both cards are on the same board.
@@ -395,26 +382,6 @@ export class PrismaClient<
     * ```
     */
   get card(): Prisma.CardDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.gitHubIssue`: Exposes CRUD operations for the **GitHubIssue** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more GitHubIssues
-    * const gitHubIssues = await prisma.gitHubIssue.findMany()
-    * ```
-    */
-  get gitHubIssue(): Prisma.GitHubIssueDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.gitHubConnection`: Exposes CRUD operations for the **GitHubConnection** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more GitHubConnections
-    * const gitHubConnections = await prisma.gitHubConnection.findMany()
-    * ```
-    */
-  get gitHubConnection(): Prisma.GitHubConnectionDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.cardBlock`: Exposes CRUD operations for the **CardBlock** model.
@@ -1008,8 +975,6 @@ export namespace Prisma {
     BoardStar: 'BoardStar',
     List: 'List',
     Card: 'Card',
-    GitHubIssue: 'GitHubIssue',
-    GitHubConnection: 'GitHubConnection',
     CardBlock: 'CardBlock',
     Label: 'Label',
     CardLabel: 'CardLabel',
@@ -1042,7 +1007,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "account" | "session" | "verificationToken" | "user" | "workspace" | "workspaceAutoJoin" | "workspaceMember" | "board" | "boardMember" | "boardStar" | "list" | "card" | "gitHubIssue" | "gitHubConnection" | "cardBlock" | "label" | "cardLabel" | "cardMember" | "checklist" | "checkItem" | "attachment" | "comment" | "activity" | "watch" | "notification" | "trelloImport" | "oAuthClient" | "oAuthToken"
+      modelProps: "account" | "session" | "verificationToken" | "user" | "workspace" | "workspaceAutoJoin" | "workspaceMember" | "board" | "boardMember" | "boardStar" | "list" | "card" | "cardBlock" | "label" | "cardLabel" | "cardMember" | "checklist" | "checkItem" | "attachment" | "comment" | "activity" | "watch" | "notification" | "trelloImport" | "oAuthClient" | "oAuthToken"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1931,154 +1896,6 @@ export namespace Prisma {
           count: {
             args: Prisma.CardCountArgs<ExtArgs>
             result: $Utils.Optional<CardCountAggregateOutputType> | number
-          }
-        }
-      }
-      GitHubIssue: {
-        payload: Prisma.$GitHubIssuePayload<ExtArgs>
-        fields: Prisma.GitHubIssueFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.GitHubIssueFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubIssuePayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.GitHubIssueFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubIssuePayload>
-          }
-          findFirst: {
-            args: Prisma.GitHubIssueFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubIssuePayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.GitHubIssueFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubIssuePayload>
-          }
-          findMany: {
-            args: Prisma.GitHubIssueFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubIssuePayload>[]
-          }
-          create: {
-            args: Prisma.GitHubIssueCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubIssuePayload>
-          }
-          createMany: {
-            args: Prisma.GitHubIssueCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.GitHubIssueCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubIssuePayload>[]
-          }
-          delete: {
-            args: Prisma.GitHubIssueDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubIssuePayload>
-          }
-          update: {
-            args: Prisma.GitHubIssueUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubIssuePayload>
-          }
-          deleteMany: {
-            args: Prisma.GitHubIssueDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.GitHubIssueUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.GitHubIssueUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubIssuePayload>[]
-          }
-          upsert: {
-            args: Prisma.GitHubIssueUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubIssuePayload>
-          }
-          aggregate: {
-            args: Prisma.GitHubIssueAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateGitHubIssue>
-          }
-          groupBy: {
-            args: Prisma.GitHubIssueGroupByArgs<ExtArgs>
-            result: $Utils.Optional<GitHubIssueGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.GitHubIssueCountArgs<ExtArgs>
-            result: $Utils.Optional<GitHubIssueCountAggregateOutputType> | number
-          }
-        }
-      }
-      GitHubConnection: {
-        payload: Prisma.$GitHubConnectionPayload<ExtArgs>
-        fields: Prisma.GitHubConnectionFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.GitHubConnectionFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubConnectionPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.GitHubConnectionFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubConnectionPayload>
-          }
-          findFirst: {
-            args: Prisma.GitHubConnectionFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubConnectionPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.GitHubConnectionFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubConnectionPayload>
-          }
-          findMany: {
-            args: Prisma.GitHubConnectionFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubConnectionPayload>[]
-          }
-          create: {
-            args: Prisma.GitHubConnectionCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubConnectionPayload>
-          }
-          createMany: {
-            args: Prisma.GitHubConnectionCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.GitHubConnectionCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubConnectionPayload>[]
-          }
-          delete: {
-            args: Prisma.GitHubConnectionDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubConnectionPayload>
-          }
-          update: {
-            args: Prisma.GitHubConnectionUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubConnectionPayload>
-          }
-          deleteMany: {
-            args: Prisma.GitHubConnectionDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.GitHubConnectionUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.GitHubConnectionUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubConnectionPayload>[]
-          }
-          upsert: {
-            args: Prisma.GitHubConnectionUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GitHubConnectionPayload>
-          }
-          aggregate: {
-            args: Prisma.GitHubConnectionAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateGitHubConnection>
-          }
-          groupBy: {
-            args: Prisma.GitHubConnectionGroupByArgs<ExtArgs>
-            result: $Utils.Optional<GitHubConnectionGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.GitHubConnectionCountArgs<ExtArgs>
-            result: $Utils.Optional<GitHubConnectionCountAggregateOutputType> | number
           }
         }
       }
@@ -3226,8 +3043,6 @@ export namespace Prisma {
     boardStar?: BoardStarOmit
     list?: ListOmit
     card?: CardOmit
-    gitHubIssue?: GitHubIssueOmit
-    gitHubConnection?: GitHubConnectionOmit
     cardBlock?: CardBlockOmit
     label?: LabelOmit
     cardLabel?: CardLabelOmit
@@ -3337,7 +3152,6 @@ export namespace Prisma {
     watches: number
     autoJoinsCreated: number
     oauthTokens: number
-    githubIssues: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3356,7 +3170,6 @@ export namespace Prisma {
     watches?: boolean | UserCountOutputTypeCountWatchesArgs
     autoJoinsCreated?: boolean | UserCountOutputTypeCountAutoJoinsCreatedArgs
     oauthTokens?: boolean | UserCountOutputTypeCountOauthTokensArgs
-    githubIssues?: boolean | UserCountOutputTypeCountGithubIssuesArgs
   }
 
   // Custom InputTypes
@@ -3473,13 +3286,6 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountOauthTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OAuthTokenWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountGithubIssuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: GitHubIssueWhereInput
   }
 
 
@@ -3653,7 +3459,6 @@ export namespace Prisma {
     watches: number
     blocking: number
     blockedBy: number
-    issues: number
   }
 
   export type CardCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3666,7 +3471,6 @@ export namespace Prisma {
     watches?: boolean | CardCountOutputTypeCountWatchesArgs
     blocking?: boolean | CardCountOutputTypeCountBlockingArgs
     blockedBy?: boolean | CardCountOutputTypeCountBlockedByArgs
-    issues?: boolean | CardCountOutputTypeCountIssuesArgs
   }
 
   // Custom InputTypes
@@ -3741,13 +3545,6 @@ export namespace Prisma {
    */
   export type CardCountOutputTypeCountBlockedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CardBlockWhereInput
-  }
-
-  /**
-   * CardCountOutputType without action
-   */
-  export type CardCountOutputTypeCountIssuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: GitHubIssueWhereInput
   }
 
 
@@ -7321,8 +7118,6 @@ export namespace Prisma {
     watches?: boolean | User$watchesArgs<ExtArgs>
     autoJoinsCreated?: boolean | User$autoJoinsCreatedArgs<ExtArgs>
     oauthTokens?: boolean | User$oauthTokensArgs<ExtArgs>
-    githubIssues?: boolean | User$githubIssuesArgs<ExtArgs>
-    github?: boolean | User$githubArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -7397,8 +7192,6 @@ export namespace Prisma {
     watches?: boolean | User$watchesArgs<ExtArgs>
     autoJoinsCreated?: boolean | User$autoJoinsCreatedArgs<ExtArgs>
     oauthTokens?: boolean | User$oauthTokensArgs<ExtArgs>
-    githubIssues?: boolean | User$githubIssuesArgs<ExtArgs>
-    github?: boolean | User$githubArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7422,8 +7215,6 @@ export namespace Prisma {
       watches: Prisma.$WatchPayload<ExtArgs>[]
       autoJoinsCreated: Prisma.$WorkspaceAutoJoinPayload<ExtArgs>[]
       oauthTokens: Prisma.$OAuthTokenPayload<ExtArgs>[]
-      githubIssues: Prisma.$GitHubIssuePayload<ExtArgs>[]
-      github: Prisma.$GitHubConnectionPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7850,8 +7641,6 @@ export namespace Prisma {
     watches<T extends User$watchesArgs<ExtArgs> = {}>(args?: Subset<T, User$watchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     autoJoinsCreated<T extends User$autoJoinsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$autoJoinsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkspaceAutoJoinPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     oauthTokens<T extends User$oauthTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$oauthTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OAuthTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    githubIssues<T extends User$githubIssuesArgs<ExtArgs> = {}>(args?: Subset<T, User$githubIssuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GitHubIssuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    github<T extends User$githubArgs<ExtArgs> = {}>(args?: Subset<T, User$githubArgs<ExtArgs>>): Prisma__GitHubConnectionClient<$Result.GetResult<Prisma.$GitHubConnectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8641,49 +8430,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OAuthTokenScalarFieldEnum | OAuthTokenScalarFieldEnum[]
-  }
-
-  /**
-   * User.githubIssues
-   */
-  export type User$githubIssuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubIssue
-     */
-    select?: GitHubIssueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubIssue
-     */
-    omit?: GitHubIssueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubIssueInclude<ExtArgs> | null
-    where?: GitHubIssueWhereInput
-    orderBy?: GitHubIssueOrderByWithRelationInput | GitHubIssueOrderByWithRelationInput[]
-    cursor?: GitHubIssueWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: GitHubIssueScalarFieldEnum | GitHubIssueScalarFieldEnum[]
-  }
-
-  /**
-   * User.github
-   */
-  export type User$githubArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubConnection
-     */
-    select?: GitHubConnectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubConnection
-     */
-    omit?: GitHubConnectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubConnectionInclude<ExtArgs> | null
-    where?: GitHubConnectionWhereInput
   }
 
   /**
@@ -16851,7 +16597,6 @@ export namespace Prisma {
     watches?: boolean | Card$watchesArgs<ExtArgs>
     blocking?: boolean | Card$blockingArgs<ExtArgs>
     blockedBy?: boolean | Card$blockedByArgs<ExtArgs>
-    issues?: boolean | Card$issuesArgs<ExtArgs>
     _count?: boolean | CardCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["card"]>
 
@@ -16929,7 +16674,6 @@ export namespace Prisma {
     watches?: boolean | Card$watchesArgs<ExtArgs>
     blocking?: boolean | Card$blockingArgs<ExtArgs>
     blockedBy?: boolean | Card$blockedByArgs<ExtArgs>
-    issues?: boolean | Card$issuesArgs<ExtArgs>
     _count?: boolean | CardCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CardIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16952,7 +16696,6 @@ export namespace Prisma {
       watches: Prisma.$WatchPayload<ExtArgs>[]
       blocking: Prisma.$CardBlockPayload<ExtArgs>[]
       blockedBy: Prisma.$CardBlockPayload<ExtArgs>[]
-      issues: Prisma.$GitHubIssuePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17376,7 +17119,6 @@ export namespace Prisma {
     watches<T extends Card$watchesArgs<ExtArgs> = {}>(args?: Subset<T, Card$watchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     blocking<T extends Card$blockingArgs<ExtArgs> = {}>(args?: Subset<T, Card$blockingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CardBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     blockedBy<T extends Card$blockedByArgs<ExtArgs> = {}>(args?: Subset<T, Card$blockedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CardBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    issues<T extends Card$issuesArgs<ExtArgs> = {}>(args?: Subset<T, Card$issuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GitHubIssuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18035,30 +17777,6 @@ export namespace Prisma {
   }
 
   /**
-   * Card.issues
-   */
-  export type Card$issuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubIssue
-     */
-    select?: GitHubIssueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubIssue
-     */
-    omit?: GitHubIssueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubIssueInclude<ExtArgs> | null
-    where?: GitHubIssueWhereInput
-    orderBy?: GitHubIssueOrderByWithRelationInput | GitHubIssueOrderByWithRelationInput[]
-    cursor?: GitHubIssueWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: GitHubIssueScalarFieldEnum | GitHubIssueScalarFieldEnum[]
-  }
-
-  /**
    * Card without action
    */
   export type CardDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18074,2326 +17792,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CardInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model GitHubIssue
-   */
-
-  export type AggregateGitHubIssue = {
-    _count: GitHubIssueCountAggregateOutputType | null
-    _avg: GitHubIssueAvgAggregateOutputType | null
-    _sum: GitHubIssueSumAggregateOutputType | null
-    _min: GitHubIssueMinAggregateOutputType | null
-    _max: GitHubIssueMaxAggregateOutputType | null
-  }
-
-  export type GitHubIssueAvgAggregateOutputType = {
-    number: number | null
-  }
-
-  export type GitHubIssueSumAggregateOutputType = {
-    number: number | null
-  }
-
-  export type GitHubIssueMinAggregateOutputType = {
-    id: string | null
-    cardId: string | null
-    owner: string | null
-    repo: string | null
-    number: number | null
-    title: string | null
-    state: string | null
-    stateReason: string | null
-    closedBy: string | null
-    closedAt: Date | null
-    etag: string | null
-    checkedAt: Date | null
-    fetchError: string | null
-    completedCardAt: Date | null
-    addedById: string | null
-    createdAt: Date | null
-  }
-
-  export type GitHubIssueMaxAggregateOutputType = {
-    id: string | null
-    cardId: string | null
-    owner: string | null
-    repo: string | null
-    number: number | null
-    title: string | null
-    state: string | null
-    stateReason: string | null
-    closedBy: string | null
-    closedAt: Date | null
-    etag: string | null
-    checkedAt: Date | null
-    fetchError: string | null
-    completedCardAt: Date | null
-    addedById: string | null
-    createdAt: Date | null
-  }
-
-  export type GitHubIssueCountAggregateOutputType = {
-    id: number
-    cardId: number
-    owner: number
-    repo: number
-    number: number
-    title: number
-    state: number
-    stateReason: number
-    closedBy: number
-    closedAt: number
-    etag: number
-    checkedAt: number
-    fetchError: number
-    completedCardAt: number
-    addedById: number
-    createdAt: number
-    _all: number
-  }
-
-
-  export type GitHubIssueAvgAggregateInputType = {
-    number?: true
-  }
-
-  export type GitHubIssueSumAggregateInputType = {
-    number?: true
-  }
-
-  export type GitHubIssueMinAggregateInputType = {
-    id?: true
-    cardId?: true
-    owner?: true
-    repo?: true
-    number?: true
-    title?: true
-    state?: true
-    stateReason?: true
-    closedBy?: true
-    closedAt?: true
-    etag?: true
-    checkedAt?: true
-    fetchError?: true
-    completedCardAt?: true
-    addedById?: true
-    createdAt?: true
-  }
-
-  export type GitHubIssueMaxAggregateInputType = {
-    id?: true
-    cardId?: true
-    owner?: true
-    repo?: true
-    number?: true
-    title?: true
-    state?: true
-    stateReason?: true
-    closedBy?: true
-    closedAt?: true
-    etag?: true
-    checkedAt?: true
-    fetchError?: true
-    completedCardAt?: true
-    addedById?: true
-    createdAt?: true
-  }
-
-  export type GitHubIssueCountAggregateInputType = {
-    id?: true
-    cardId?: true
-    owner?: true
-    repo?: true
-    number?: true
-    title?: true
-    state?: true
-    stateReason?: true
-    closedBy?: true
-    closedAt?: true
-    etag?: true
-    checkedAt?: true
-    fetchError?: true
-    completedCardAt?: true
-    addedById?: true
-    createdAt?: true
-    _all?: true
-  }
-
-  export type GitHubIssueAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which GitHubIssue to aggregate.
-     */
-    where?: GitHubIssueWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of GitHubIssues to fetch.
-     */
-    orderBy?: GitHubIssueOrderByWithRelationInput | GitHubIssueOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: GitHubIssueWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` GitHubIssues from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` GitHubIssues.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned GitHubIssues
-    **/
-    _count?: true | GitHubIssueCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: GitHubIssueAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: GitHubIssueSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: GitHubIssueMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: GitHubIssueMaxAggregateInputType
-  }
-
-  export type GetGitHubIssueAggregateType<T extends GitHubIssueAggregateArgs> = {
-        [P in keyof T & keyof AggregateGitHubIssue]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateGitHubIssue[P]>
-      : GetScalarType<T[P], AggregateGitHubIssue[P]>
-  }
-
-
-
-
-  export type GitHubIssueGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: GitHubIssueWhereInput
-    orderBy?: GitHubIssueOrderByWithAggregationInput | GitHubIssueOrderByWithAggregationInput[]
-    by: GitHubIssueScalarFieldEnum[] | GitHubIssueScalarFieldEnum
-    having?: GitHubIssueScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: GitHubIssueCountAggregateInputType | true
-    _avg?: GitHubIssueAvgAggregateInputType
-    _sum?: GitHubIssueSumAggregateInputType
-    _min?: GitHubIssueMinAggregateInputType
-    _max?: GitHubIssueMaxAggregateInputType
-  }
-
-  export type GitHubIssueGroupByOutputType = {
-    id: string
-    cardId: string
-    owner: string
-    repo: string
-    number: number
-    title: string
-    state: string
-    stateReason: string | null
-    closedBy: string | null
-    closedAt: Date | null
-    etag: string | null
-    checkedAt: Date | null
-    fetchError: string | null
-    completedCardAt: Date | null
-    addedById: string | null
-    createdAt: Date
-    _count: GitHubIssueCountAggregateOutputType | null
-    _avg: GitHubIssueAvgAggregateOutputType | null
-    _sum: GitHubIssueSumAggregateOutputType | null
-    _min: GitHubIssueMinAggregateOutputType | null
-    _max: GitHubIssueMaxAggregateOutputType | null
-  }
-
-  type GetGitHubIssueGroupByPayload<T extends GitHubIssueGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<GitHubIssueGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof GitHubIssueGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], GitHubIssueGroupByOutputType[P]>
-            : GetScalarType<T[P], GitHubIssueGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type GitHubIssueSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    cardId?: boolean
-    owner?: boolean
-    repo?: boolean
-    number?: boolean
-    title?: boolean
-    state?: boolean
-    stateReason?: boolean
-    closedBy?: boolean
-    closedAt?: boolean
-    etag?: boolean
-    checkedAt?: boolean
-    fetchError?: boolean
-    completedCardAt?: boolean
-    addedById?: boolean
-    createdAt?: boolean
-    card?: boolean | CardDefaultArgs<ExtArgs>
-    addedBy?: boolean | GitHubIssue$addedByArgs<ExtArgs>
-  }, ExtArgs["result"]["gitHubIssue"]>
-
-  export type GitHubIssueSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    cardId?: boolean
-    owner?: boolean
-    repo?: boolean
-    number?: boolean
-    title?: boolean
-    state?: boolean
-    stateReason?: boolean
-    closedBy?: boolean
-    closedAt?: boolean
-    etag?: boolean
-    checkedAt?: boolean
-    fetchError?: boolean
-    completedCardAt?: boolean
-    addedById?: boolean
-    createdAt?: boolean
-    card?: boolean | CardDefaultArgs<ExtArgs>
-    addedBy?: boolean | GitHubIssue$addedByArgs<ExtArgs>
-  }, ExtArgs["result"]["gitHubIssue"]>
-
-  export type GitHubIssueSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    cardId?: boolean
-    owner?: boolean
-    repo?: boolean
-    number?: boolean
-    title?: boolean
-    state?: boolean
-    stateReason?: boolean
-    closedBy?: boolean
-    closedAt?: boolean
-    etag?: boolean
-    checkedAt?: boolean
-    fetchError?: boolean
-    completedCardAt?: boolean
-    addedById?: boolean
-    createdAt?: boolean
-    card?: boolean | CardDefaultArgs<ExtArgs>
-    addedBy?: boolean | GitHubIssue$addedByArgs<ExtArgs>
-  }, ExtArgs["result"]["gitHubIssue"]>
-
-  export type GitHubIssueSelectScalar = {
-    id?: boolean
-    cardId?: boolean
-    owner?: boolean
-    repo?: boolean
-    number?: boolean
-    title?: boolean
-    state?: boolean
-    stateReason?: boolean
-    closedBy?: boolean
-    closedAt?: boolean
-    etag?: boolean
-    checkedAt?: boolean
-    fetchError?: boolean
-    completedCardAt?: boolean
-    addedById?: boolean
-    createdAt?: boolean
-  }
-
-  export type GitHubIssueOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "cardId" | "owner" | "repo" | "number" | "title" | "state" | "stateReason" | "closedBy" | "closedAt" | "etag" | "checkedAt" | "fetchError" | "completedCardAt" | "addedById" | "createdAt", ExtArgs["result"]["gitHubIssue"]>
-  export type GitHubIssueInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    card?: boolean | CardDefaultArgs<ExtArgs>
-    addedBy?: boolean | GitHubIssue$addedByArgs<ExtArgs>
-  }
-  export type GitHubIssueIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    card?: boolean | CardDefaultArgs<ExtArgs>
-    addedBy?: boolean | GitHubIssue$addedByArgs<ExtArgs>
-  }
-  export type GitHubIssueIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    card?: boolean | CardDefaultArgs<ExtArgs>
-    addedBy?: boolean | GitHubIssue$addedByArgs<ExtArgs>
-  }
-
-  export type $GitHubIssuePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "GitHubIssue"
-    objects: {
-      card: Prisma.$CardPayload<ExtArgs>
-      addedBy: Prisma.$UserPayload<ExtArgs> | null
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      cardId: string
-      owner: string
-      repo: string
-      number: number
-      title: string
-      state: string
-      stateReason: string | null
-      closedBy: string | null
-      closedAt: Date | null
-      etag: string | null
-      checkedAt: Date | null
-      fetchError: string | null
-      completedCardAt: Date | null
-      addedById: string | null
-      createdAt: Date
-    }, ExtArgs["result"]["gitHubIssue"]>
-    composites: {}
-  }
-
-  type GitHubIssueGetPayload<S extends boolean | null | undefined | GitHubIssueDefaultArgs> = $Result.GetResult<Prisma.$GitHubIssuePayload, S>
-
-  type GitHubIssueCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<GitHubIssueFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: GitHubIssueCountAggregateInputType | true
-    }
-
-  export interface GitHubIssueDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GitHubIssue'], meta: { name: 'GitHubIssue' } }
-    /**
-     * Find zero or one GitHubIssue that matches the filter.
-     * @param {GitHubIssueFindUniqueArgs} args - Arguments to find a GitHubIssue
-     * @example
-     * // Get one GitHubIssue
-     * const gitHubIssue = await prisma.gitHubIssue.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends GitHubIssueFindUniqueArgs>(args: SelectSubset<T, GitHubIssueFindUniqueArgs<ExtArgs>>): Prisma__GitHubIssueClient<$Result.GetResult<Prisma.$GitHubIssuePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one GitHubIssue that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {GitHubIssueFindUniqueOrThrowArgs} args - Arguments to find a GitHubIssue
-     * @example
-     * // Get one GitHubIssue
-     * const gitHubIssue = await prisma.gitHubIssue.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends GitHubIssueFindUniqueOrThrowArgs>(args: SelectSubset<T, GitHubIssueFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GitHubIssueClient<$Result.GetResult<Prisma.$GitHubIssuePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first GitHubIssue that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GitHubIssueFindFirstArgs} args - Arguments to find a GitHubIssue
-     * @example
-     * // Get one GitHubIssue
-     * const gitHubIssue = await prisma.gitHubIssue.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends GitHubIssueFindFirstArgs>(args?: SelectSubset<T, GitHubIssueFindFirstArgs<ExtArgs>>): Prisma__GitHubIssueClient<$Result.GetResult<Prisma.$GitHubIssuePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first GitHubIssue that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GitHubIssueFindFirstOrThrowArgs} args - Arguments to find a GitHubIssue
-     * @example
-     * // Get one GitHubIssue
-     * const gitHubIssue = await prisma.gitHubIssue.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends GitHubIssueFindFirstOrThrowArgs>(args?: SelectSubset<T, GitHubIssueFindFirstOrThrowArgs<ExtArgs>>): Prisma__GitHubIssueClient<$Result.GetResult<Prisma.$GitHubIssuePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more GitHubIssues that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GitHubIssueFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all GitHubIssues
-     * const gitHubIssues = await prisma.gitHubIssue.findMany()
-     * 
-     * // Get first 10 GitHubIssues
-     * const gitHubIssues = await prisma.gitHubIssue.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const gitHubIssueWithIdOnly = await prisma.gitHubIssue.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends GitHubIssueFindManyArgs>(args?: SelectSubset<T, GitHubIssueFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GitHubIssuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a GitHubIssue.
-     * @param {GitHubIssueCreateArgs} args - Arguments to create a GitHubIssue.
-     * @example
-     * // Create one GitHubIssue
-     * const GitHubIssue = await prisma.gitHubIssue.create({
-     *   data: {
-     *     // ... data to create a GitHubIssue
-     *   }
-     * })
-     * 
-     */
-    create<T extends GitHubIssueCreateArgs>(args: SelectSubset<T, GitHubIssueCreateArgs<ExtArgs>>): Prisma__GitHubIssueClient<$Result.GetResult<Prisma.$GitHubIssuePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many GitHubIssues.
-     * @param {GitHubIssueCreateManyArgs} args - Arguments to create many GitHubIssues.
-     * @example
-     * // Create many GitHubIssues
-     * const gitHubIssue = await prisma.gitHubIssue.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends GitHubIssueCreateManyArgs>(args?: SelectSubset<T, GitHubIssueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many GitHubIssues and returns the data saved in the database.
-     * @param {GitHubIssueCreateManyAndReturnArgs} args - Arguments to create many GitHubIssues.
-     * @example
-     * // Create many GitHubIssues
-     * const gitHubIssue = await prisma.gitHubIssue.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many GitHubIssues and only return the `id`
-     * const gitHubIssueWithIdOnly = await prisma.gitHubIssue.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends GitHubIssueCreateManyAndReturnArgs>(args?: SelectSubset<T, GitHubIssueCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GitHubIssuePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a GitHubIssue.
-     * @param {GitHubIssueDeleteArgs} args - Arguments to delete one GitHubIssue.
-     * @example
-     * // Delete one GitHubIssue
-     * const GitHubIssue = await prisma.gitHubIssue.delete({
-     *   where: {
-     *     // ... filter to delete one GitHubIssue
-     *   }
-     * })
-     * 
-     */
-    delete<T extends GitHubIssueDeleteArgs>(args: SelectSubset<T, GitHubIssueDeleteArgs<ExtArgs>>): Prisma__GitHubIssueClient<$Result.GetResult<Prisma.$GitHubIssuePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one GitHubIssue.
-     * @param {GitHubIssueUpdateArgs} args - Arguments to update one GitHubIssue.
-     * @example
-     * // Update one GitHubIssue
-     * const gitHubIssue = await prisma.gitHubIssue.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends GitHubIssueUpdateArgs>(args: SelectSubset<T, GitHubIssueUpdateArgs<ExtArgs>>): Prisma__GitHubIssueClient<$Result.GetResult<Prisma.$GitHubIssuePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more GitHubIssues.
-     * @param {GitHubIssueDeleteManyArgs} args - Arguments to filter GitHubIssues to delete.
-     * @example
-     * // Delete a few GitHubIssues
-     * const { count } = await prisma.gitHubIssue.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends GitHubIssueDeleteManyArgs>(args?: SelectSubset<T, GitHubIssueDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more GitHubIssues.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GitHubIssueUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many GitHubIssues
-     * const gitHubIssue = await prisma.gitHubIssue.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends GitHubIssueUpdateManyArgs>(args: SelectSubset<T, GitHubIssueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more GitHubIssues and returns the data updated in the database.
-     * @param {GitHubIssueUpdateManyAndReturnArgs} args - Arguments to update many GitHubIssues.
-     * @example
-     * // Update many GitHubIssues
-     * const gitHubIssue = await prisma.gitHubIssue.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more GitHubIssues and only return the `id`
-     * const gitHubIssueWithIdOnly = await prisma.gitHubIssue.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends GitHubIssueUpdateManyAndReturnArgs>(args: SelectSubset<T, GitHubIssueUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GitHubIssuePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one GitHubIssue.
-     * @param {GitHubIssueUpsertArgs} args - Arguments to update or create a GitHubIssue.
-     * @example
-     * // Update or create a GitHubIssue
-     * const gitHubIssue = await prisma.gitHubIssue.upsert({
-     *   create: {
-     *     // ... data to create a GitHubIssue
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the GitHubIssue we want to update
-     *   }
-     * })
-     */
-    upsert<T extends GitHubIssueUpsertArgs>(args: SelectSubset<T, GitHubIssueUpsertArgs<ExtArgs>>): Prisma__GitHubIssueClient<$Result.GetResult<Prisma.$GitHubIssuePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of GitHubIssues.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GitHubIssueCountArgs} args - Arguments to filter GitHubIssues to count.
-     * @example
-     * // Count the number of GitHubIssues
-     * const count = await prisma.gitHubIssue.count({
-     *   where: {
-     *     // ... the filter for the GitHubIssues we want to count
-     *   }
-     * })
-    **/
-    count<T extends GitHubIssueCountArgs>(
-      args?: Subset<T, GitHubIssueCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], GitHubIssueCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a GitHubIssue.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GitHubIssueAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends GitHubIssueAggregateArgs>(args: Subset<T, GitHubIssueAggregateArgs>): Prisma.PrismaPromise<GetGitHubIssueAggregateType<T>>
-
-    /**
-     * Group by GitHubIssue.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GitHubIssueGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends GitHubIssueGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: GitHubIssueGroupByArgs['orderBy'] }
-        : { orderBy?: GitHubIssueGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, GitHubIssueGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGitHubIssueGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the GitHubIssue model
-   */
-  readonly fields: GitHubIssueFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for GitHubIssue.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__GitHubIssueClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    card<T extends CardDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CardDefaultArgs<ExtArgs>>): Prisma__CardClient<$Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    addedBy<T extends GitHubIssue$addedByArgs<ExtArgs> = {}>(args?: Subset<T, GitHubIssue$addedByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the GitHubIssue model
-   */
-  interface GitHubIssueFieldRefs {
-    readonly id: FieldRef<"GitHubIssue", 'String'>
-    readonly cardId: FieldRef<"GitHubIssue", 'String'>
-    readonly owner: FieldRef<"GitHubIssue", 'String'>
-    readonly repo: FieldRef<"GitHubIssue", 'String'>
-    readonly number: FieldRef<"GitHubIssue", 'Int'>
-    readonly title: FieldRef<"GitHubIssue", 'String'>
-    readonly state: FieldRef<"GitHubIssue", 'String'>
-    readonly stateReason: FieldRef<"GitHubIssue", 'String'>
-    readonly closedBy: FieldRef<"GitHubIssue", 'String'>
-    readonly closedAt: FieldRef<"GitHubIssue", 'DateTime'>
-    readonly etag: FieldRef<"GitHubIssue", 'String'>
-    readonly checkedAt: FieldRef<"GitHubIssue", 'DateTime'>
-    readonly fetchError: FieldRef<"GitHubIssue", 'String'>
-    readonly completedCardAt: FieldRef<"GitHubIssue", 'DateTime'>
-    readonly addedById: FieldRef<"GitHubIssue", 'String'>
-    readonly createdAt: FieldRef<"GitHubIssue", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * GitHubIssue findUnique
-   */
-  export type GitHubIssueFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubIssue
-     */
-    select?: GitHubIssueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubIssue
-     */
-    omit?: GitHubIssueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubIssueInclude<ExtArgs> | null
-    /**
-     * Filter, which GitHubIssue to fetch.
-     */
-    where: GitHubIssueWhereUniqueInput
-  }
-
-  /**
-   * GitHubIssue findUniqueOrThrow
-   */
-  export type GitHubIssueFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubIssue
-     */
-    select?: GitHubIssueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubIssue
-     */
-    omit?: GitHubIssueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubIssueInclude<ExtArgs> | null
-    /**
-     * Filter, which GitHubIssue to fetch.
-     */
-    where: GitHubIssueWhereUniqueInput
-  }
-
-  /**
-   * GitHubIssue findFirst
-   */
-  export type GitHubIssueFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubIssue
-     */
-    select?: GitHubIssueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubIssue
-     */
-    omit?: GitHubIssueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubIssueInclude<ExtArgs> | null
-    /**
-     * Filter, which GitHubIssue to fetch.
-     */
-    where?: GitHubIssueWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of GitHubIssues to fetch.
-     */
-    orderBy?: GitHubIssueOrderByWithRelationInput | GitHubIssueOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for GitHubIssues.
-     */
-    cursor?: GitHubIssueWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` GitHubIssues from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` GitHubIssues.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of GitHubIssues.
-     */
-    distinct?: GitHubIssueScalarFieldEnum | GitHubIssueScalarFieldEnum[]
-  }
-
-  /**
-   * GitHubIssue findFirstOrThrow
-   */
-  export type GitHubIssueFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubIssue
-     */
-    select?: GitHubIssueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubIssue
-     */
-    omit?: GitHubIssueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubIssueInclude<ExtArgs> | null
-    /**
-     * Filter, which GitHubIssue to fetch.
-     */
-    where?: GitHubIssueWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of GitHubIssues to fetch.
-     */
-    orderBy?: GitHubIssueOrderByWithRelationInput | GitHubIssueOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for GitHubIssues.
-     */
-    cursor?: GitHubIssueWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` GitHubIssues from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` GitHubIssues.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of GitHubIssues.
-     */
-    distinct?: GitHubIssueScalarFieldEnum | GitHubIssueScalarFieldEnum[]
-  }
-
-  /**
-   * GitHubIssue findMany
-   */
-  export type GitHubIssueFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubIssue
-     */
-    select?: GitHubIssueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubIssue
-     */
-    omit?: GitHubIssueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubIssueInclude<ExtArgs> | null
-    /**
-     * Filter, which GitHubIssues to fetch.
-     */
-    where?: GitHubIssueWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of GitHubIssues to fetch.
-     */
-    orderBy?: GitHubIssueOrderByWithRelationInput | GitHubIssueOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing GitHubIssues.
-     */
-    cursor?: GitHubIssueWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` GitHubIssues from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` GitHubIssues.
-     */
-    skip?: number
-    distinct?: GitHubIssueScalarFieldEnum | GitHubIssueScalarFieldEnum[]
-  }
-
-  /**
-   * GitHubIssue create
-   */
-  export type GitHubIssueCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubIssue
-     */
-    select?: GitHubIssueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubIssue
-     */
-    omit?: GitHubIssueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubIssueInclude<ExtArgs> | null
-    /**
-     * The data needed to create a GitHubIssue.
-     */
-    data: XOR<GitHubIssueCreateInput, GitHubIssueUncheckedCreateInput>
-  }
-
-  /**
-   * GitHubIssue createMany
-   */
-  export type GitHubIssueCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many GitHubIssues.
-     */
-    data: GitHubIssueCreateManyInput | GitHubIssueCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * GitHubIssue createManyAndReturn
-   */
-  export type GitHubIssueCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubIssue
-     */
-    select?: GitHubIssueSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubIssue
-     */
-    omit?: GitHubIssueOmit<ExtArgs> | null
-    /**
-     * The data used to create many GitHubIssues.
-     */
-    data: GitHubIssueCreateManyInput | GitHubIssueCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubIssueIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * GitHubIssue update
-   */
-  export type GitHubIssueUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubIssue
-     */
-    select?: GitHubIssueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubIssue
-     */
-    omit?: GitHubIssueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubIssueInclude<ExtArgs> | null
-    /**
-     * The data needed to update a GitHubIssue.
-     */
-    data: XOR<GitHubIssueUpdateInput, GitHubIssueUncheckedUpdateInput>
-    /**
-     * Choose, which GitHubIssue to update.
-     */
-    where: GitHubIssueWhereUniqueInput
-  }
-
-  /**
-   * GitHubIssue updateMany
-   */
-  export type GitHubIssueUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update GitHubIssues.
-     */
-    data: XOR<GitHubIssueUpdateManyMutationInput, GitHubIssueUncheckedUpdateManyInput>
-    /**
-     * Filter which GitHubIssues to update
-     */
-    where?: GitHubIssueWhereInput
-    /**
-     * Limit how many GitHubIssues to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * GitHubIssue updateManyAndReturn
-   */
-  export type GitHubIssueUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubIssue
-     */
-    select?: GitHubIssueSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubIssue
-     */
-    omit?: GitHubIssueOmit<ExtArgs> | null
-    /**
-     * The data used to update GitHubIssues.
-     */
-    data: XOR<GitHubIssueUpdateManyMutationInput, GitHubIssueUncheckedUpdateManyInput>
-    /**
-     * Filter which GitHubIssues to update
-     */
-    where?: GitHubIssueWhereInput
-    /**
-     * Limit how many GitHubIssues to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubIssueIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * GitHubIssue upsert
-   */
-  export type GitHubIssueUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubIssue
-     */
-    select?: GitHubIssueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubIssue
-     */
-    omit?: GitHubIssueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubIssueInclude<ExtArgs> | null
-    /**
-     * The filter to search for the GitHubIssue to update in case it exists.
-     */
-    where: GitHubIssueWhereUniqueInput
-    /**
-     * In case the GitHubIssue found by the `where` argument doesn't exist, create a new GitHubIssue with this data.
-     */
-    create: XOR<GitHubIssueCreateInput, GitHubIssueUncheckedCreateInput>
-    /**
-     * In case the GitHubIssue was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<GitHubIssueUpdateInput, GitHubIssueUncheckedUpdateInput>
-  }
-
-  /**
-   * GitHubIssue delete
-   */
-  export type GitHubIssueDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubIssue
-     */
-    select?: GitHubIssueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubIssue
-     */
-    omit?: GitHubIssueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubIssueInclude<ExtArgs> | null
-    /**
-     * Filter which GitHubIssue to delete.
-     */
-    where: GitHubIssueWhereUniqueInput
-  }
-
-  /**
-   * GitHubIssue deleteMany
-   */
-  export type GitHubIssueDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which GitHubIssues to delete
-     */
-    where?: GitHubIssueWhereInput
-    /**
-     * Limit how many GitHubIssues to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * GitHubIssue.addedBy
-   */
-  export type GitHubIssue$addedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-  }
-
-  /**
-   * GitHubIssue without action
-   */
-  export type GitHubIssueDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubIssue
-     */
-    select?: GitHubIssueSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubIssue
-     */
-    omit?: GitHubIssueOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubIssueInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model GitHubConnection
-   */
-
-  export type AggregateGitHubConnection = {
-    _count: GitHubConnectionCountAggregateOutputType | null
-    _min: GitHubConnectionMinAggregateOutputType | null
-    _max: GitHubConnectionMaxAggregateOutputType | null
-  }
-
-  export type GitHubConnectionMinAggregateOutputType = {
-    userId: string | null
-    login: string | null
-    accessToken: string | null
-    scope: string | null
-    createdAt: Date | null
-  }
-
-  export type GitHubConnectionMaxAggregateOutputType = {
-    userId: string | null
-    login: string | null
-    accessToken: string | null
-    scope: string | null
-    createdAt: Date | null
-  }
-
-  export type GitHubConnectionCountAggregateOutputType = {
-    userId: number
-    login: number
-    accessToken: number
-    scope: number
-    createdAt: number
-    _all: number
-  }
-
-
-  export type GitHubConnectionMinAggregateInputType = {
-    userId?: true
-    login?: true
-    accessToken?: true
-    scope?: true
-    createdAt?: true
-  }
-
-  export type GitHubConnectionMaxAggregateInputType = {
-    userId?: true
-    login?: true
-    accessToken?: true
-    scope?: true
-    createdAt?: true
-  }
-
-  export type GitHubConnectionCountAggregateInputType = {
-    userId?: true
-    login?: true
-    accessToken?: true
-    scope?: true
-    createdAt?: true
-    _all?: true
-  }
-
-  export type GitHubConnectionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which GitHubConnection to aggregate.
-     */
-    where?: GitHubConnectionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of GitHubConnections to fetch.
-     */
-    orderBy?: GitHubConnectionOrderByWithRelationInput | GitHubConnectionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: GitHubConnectionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` GitHubConnections from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` GitHubConnections.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned GitHubConnections
-    **/
-    _count?: true | GitHubConnectionCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: GitHubConnectionMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: GitHubConnectionMaxAggregateInputType
-  }
-
-  export type GetGitHubConnectionAggregateType<T extends GitHubConnectionAggregateArgs> = {
-        [P in keyof T & keyof AggregateGitHubConnection]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateGitHubConnection[P]>
-      : GetScalarType<T[P], AggregateGitHubConnection[P]>
-  }
-
-
-
-
-  export type GitHubConnectionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: GitHubConnectionWhereInput
-    orderBy?: GitHubConnectionOrderByWithAggregationInput | GitHubConnectionOrderByWithAggregationInput[]
-    by: GitHubConnectionScalarFieldEnum[] | GitHubConnectionScalarFieldEnum
-    having?: GitHubConnectionScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: GitHubConnectionCountAggregateInputType | true
-    _min?: GitHubConnectionMinAggregateInputType
-    _max?: GitHubConnectionMaxAggregateInputType
-  }
-
-  export type GitHubConnectionGroupByOutputType = {
-    userId: string
-    login: string
-    accessToken: string
-    scope: string
-    createdAt: Date
-    _count: GitHubConnectionCountAggregateOutputType | null
-    _min: GitHubConnectionMinAggregateOutputType | null
-    _max: GitHubConnectionMaxAggregateOutputType | null
-  }
-
-  type GetGitHubConnectionGroupByPayload<T extends GitHubConnectionGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<GitHubConnectionGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof GitHubConnectionGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], GitHubConnectionGroupByOutputType[P]>
-            : GetScalarType<T[P], GitHubConnectionGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type GitHubConnectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    userId?: boolean
-    login?: boolean
-    accessToken?: boolean
-    scope?: boolean
-    createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["gitHubConnection"]>
-
-  export type GitHubConnectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    userId?: boolean
-    login?: boolean
-    accessToken?: boolean
-    scope?: boolean
-    createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["gitHubConnection"]>
-
-  export type GitHubConnectionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    userId?: boolean
-    login?: boolean
-    accessToken?: boolean
-    scope?: boolean
-    createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["gitHubConnection"]>
-
-  export type GitHubConnectionSelectScalar = {
-    userId?: boolean
-    login?: boolean
-    accessToken?: boolean
-    scope?: boolean
-    createdAt?: boolean
-  }
-
-  export type GitHubConnectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "login" | "accessToken" | "scope" | "createdAt", ExtArgs["result"]["gitHubConnection"]>
-  export type GitHubConnectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type GitHubConnectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type GitHubConnectionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-
-  export type $GitHubConnectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "GitHubConnection"
-    objects: {
-      user: Prisma.$UserPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      userId: string
-      login: string
-      accessToken: string
-      scope: string
-      createdAt: Date
-    }, ExtArgs["result"]["gitHubConnection"]>
-    composites: {}
-  }
-
-  type GitHubConnectionGetPayload<S extends boolean | null | undefined | GitHubConnectionDefaultArgs> = $Result.GetResult<Prisma.$GitHubConnectionPayload, S>
-
-  type GitHubConnectionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<GitHubConnectionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: GitHubConnectionCountAggregateInputType | true
-    }
-
-  export interface GitHubConnectionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GitHubConnection'], meta: { name: 'GitHubConnection' } }
-    /**
-     * Find zero or one GitHubConnection that matches the filter.
-     * @param {GitHubConnectionFindUniqueArgs} args - Arguments to find a GitHubConnection
-     * @example
-     * // Get one GitHubConnection
-     * const gitHubConnection = await prisma.gitHubConnection.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends GitHubConnectionFindUniqueArgs>(args: SelectSubset<T, GitHubConnectionFindUniqueArgs<ExtArgs>>): Prisma__GitHubConnectionClient<$Result.GetResult<Prisma.$GitHubConnectionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one GitHubConnection that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {GitHubConnectionFindUniqueOrThrowArgs} args - Arguments to find a GitHubConnection
-     * @example
-     * // Get one GitHubConnection
-     * const gitHubConnection = await prisma.gitHubConnection.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends GitHubConnectionFindUniqueOrThrowArgs>(args: SelectSubset<T, GitHubConnectionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GitHubConnectionClient<$Result.GetResult<Prisma.$GitHubConnectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first GitHubConnection that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GitHubConnectionFindFirstArgs} args - Arguments to find a GitHubConnection
-     * @example
-     * // Get one GitHubConnection
-     * const gitHubConnection = await prisma.gitHubConnection.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends GitHubConnectionFindFirstArgs>(args?: SelectSubset<T, GitHubConnectionFindFirstArgs<ExtArgs>>): Prisma__GitHubConnectionClient<$Result.GetResult<Prisma.$GitHubConnectionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first GitHubConnection that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GitHubConnectionFindFirstOrThrowArgs} args - Arguments to find a GitHubConnection
-     * @example
-     * // Get one GitHubConnection
-     * const gitHubConnection = await prisma.gitHubConnection.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends GitHubConnectionFindFirstOrThrowArgs>(args?: SelectSubset<T, GitHubConnectionFindFirstOrThrowArgs<ExtArgs>>): Prisma__GitHubConnectionClient<$Result.GetResult<Prisma.$GitHubConnectionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more GitHubConnections that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GitHubConnectionFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all GitHubConnections
-     * const gitHubConnections = await prisma.gitHubConnection.findMany()
-     * 
-     * // Get first 10 GitHubConnections
-     * const gitHubConnections = await prisma.gitHubConnection.findMany({ take: 10 })
-     * 
-     * // Only select the `userId`
-     * const gitHubConnectionWithUserIdOnly = await prisma.gitHubConnection.findMany({ select: { userId: true } })
-     * 
-     */
-    findMany<T extends GitHubConnectionFindManyArgs>(args?: SelectSubset<T, GitHubConnectionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GitHubConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a GitHubConnection.
-     * @param {GitHubConnectionCreateArgs} args - Arguments to create a GitHubConnection.
-     * @example
-     * // Create one GitHubConnection
-     * const GitHubConnection = await prisma.gitHubConnection.create({
-     *   data: {
-     *     // ... data to create a GitHubConnection
-     *   }
-     * })
-     * 
-     */
-    create<T extends GitHubConnectionCreateArgs>(args: SelectSubset<T, GitHubConnectionCreateArgs<ExtArgs>>): Prisma__GitHubConnectionClient<$Result.GetResult<Prisma.$GitHubConnectionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many GitHubConnections.
-     * @param {GitHubConnectionCreateManyArgs} args - Arguments to create many GitHubConnections.
-     * @example
-     * // Create many GitHubConnections
-     * const gitHubConnection = await prisma.gitHubConnection.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends GitHubConnectionCreateManyArgs>(args?: SelectSubset<T, GitHubConnectionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many GitHubConnections and returns the data saved in the database.
-     * @param {GitHubConnectionCreateManyAndReturnArgs} args - Arguments to create many GitHubConnections.
-     * @example
-     * // Create many GitHubConnections
-     * const gitHubConnection = await prisma.gitHubConnection.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many GitHubConnections and only return the `userId`
-     * const gitHubConnectionWithUserIdOnly = await prisma.gitHubConnection.createManyAndReturn({
-     *   select: { userId: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends GitHubConnectionCreateManyAndReturnArgs>(args?: SelectSubset<T, GitHubConnectionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GitHubConnectionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a GitHubConnection.
-     * @param {GitHubConnectionDeleteArgs} args - Arguments to delete one GitHubConnection.
-     * @example
-     * // Delete one GitHubConnection
-     * const GitHubConnection = await prisma.gitHubConnection.delete({
-     *   where: {
-     *     // ... filter to delete one GitHubConnection
-     *   }
-     * })
-     * 
-     */
-    delete<T extends GitHubConnectionDeleteArgs>(args: SelectSubset<T, GitHubConnectionDeleteArgs<ExtArgs>>): Prisma__GitHubConnectionClient<$Result.GetResult<Prisma.$GitHubConnectionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one GitHubConnection.
-     * @param {GitHubConnectionUpdateArgs} args - Arguments to update one GitHubConnection.
-     * @example
-     * // Update one GitHubConnection
-     * const gitHubConnection = await prisma.gitHubConnection.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends GitHubConnectionUpdateArgs>(args: SelectSubset<T, GitHubConnectionUpdateArgs<ExtArgs>>): Prisma__GitHubConnectionClient<$Result.GetResult<Prisma.$GitHubConnectionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more GitHubConnections.
-     * @param {GitHubConnectionDeleteManyArgs} args - Arguments to filter GitHubConnections to delete.
-     * @example
-     * // Delete a few GitHubConnections
-     * const { count } = await prisma.gitHubConnection.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends GitHubConnectionDeleteManyArgs>(args?: SelectSubset<T, GitHubConnectionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more GitHubConnections.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GitHubConnectionUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many GitHubConnections
-     * const gitHubConnection = await prisma.gitHubConnection.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends GitHubConnectionUpdateManyArgs>(args: SelectSubset<T, GitHubConnectionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more GitHubConnections and returns the data updated in the database.
-     * @param {GitHubConnectionUpdateManyAndReturnArgs} args - Arguments to update many GitHubConnections.
-     * @example
-     * // Update many GitHubConnections
-     * const gitHubConnection = await prisma.gitHubConnection.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more GitHubConnections and only return the `userId`
-     * const gitHubConnectionWithUserIdOnly = await prisma.gitHubConnection.updateManyAndReturn({
-     *   select: { userId: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends GitHubConnectionUpdateManyAndReturnArgs>(args: SelectSubset<T, GitHubConnectionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GitHubConnectionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one GitHubConnection.
-     * @param {GitHubConnectionUpsertArgs} args - Arguments to update or create a GitHubConnection.
-     * @example
-     * // Update or create a GitHubConnection
-     * const gitHubConnection = await prisma.gitHubConnection.upsert({
-     *   create: {
-     *     // ... data to create a GitHubConnection
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the GitHubConnection we want to update
-     *   }
-     * })
-     */
-    upsert<T extends GitHubConnectionUpsertArgs>(args: SelectSubset<T, GitHubConnectionUpsertArgs<ExtArgs>>): Prisma__GitHubConnectionClient<$Result.GetResult<Prisma.$GitHubConnectionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of GitHubConnections.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GitHubConnectionCountArgs} args - Arguments to filter GitHubConnections to count.
-     * @example
-     * // Count the number of GitHubConnections
-     * const count = await prisma.gitHubConnection.count({
-     *   where: {
-     *     // ... the filter for the GitHubConnections we want to count
-     *   }
-     * })
-    **/
-    count<T extends GitHubConnectionCountArgs>(
-      args?: Subset<T, GitHubConnectionCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], GitHubConnectionCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a GitHubConnection.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GitHubConnectionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends GitHubConnectionAggregateArgs>(args: Subset<T, GitHubConnectionAggregateArgs>): Prisma.PrismaPromise<GetGitHubConnectionAggregateType<T>>
-
-    /**
-     * Group by GitHubConnection.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {GitHubConnectionGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends GitHubConnectionGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: GitHubConnectionGroupByArgs['orderBy'] }
-        : { orderBy?: GitHubConnectionGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, GitHubConnectionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGitHubConnectionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the GitHubConnection model
-   */
-  readonly fields: GitHubConnectionFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for GitHubConnection.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__GitHubConnectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the GitHubConnection model
-   */
-  interface GitHubConnectionFieldRefs {
-    readonly userId: FieldRef<"GitHubConnection", 'String'>
-    readonly login: FieldRef<"GitHubConnection", 'String'>
-    readonly accessToken: FieldRef<"GitHubConnection", 'String'>
-    readonly scope: FieldRef<"GitHubConnection", 'String'>
-    readonly createdAt: FieldRef<"GitHubConnection", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * GitHubConnection findUnique
-   */
-  export type GitHubConnectionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubConnection
-     */
-    select?: GitHubConnectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubConnection
-     */
-    omit?: GitHubConnectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubConnectionInclude<ExtArgs> | null
-    /**
-     * Filter, which GitHubConnection to fetch.
-     */
-    where: GitHubConnectionWhereUniqueInput
-  }
-
-  /**
-   * GitHubConnection findUniqueOrThrow
-   */
-  export type GitHubConnectionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubConnection
-     */
-    select?: GitHubConnectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubConnection
-     */
-    omit?: GitHubConnectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubConnectionInclude<ExtArgs> | null
-    /**
-     * Filter, which GitHubConnection to fetch.
-     */
-    where: GitHubConnectionWhereUniqueInput
-  }
-
-  /**
-   * GitHubConnection findFirst
-   */
-  export type GitHubConnectionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubConnection
-     */
-    select?: GitHubConnectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubConnection
-     */
-    omit?: GitHubConnectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubConnectionInclude<ExtArgs> | null
-    /**
-     * Filter, which GitHubConnection to fetch.
-     */
-    where?: GitHubConnectionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of GitHubConnections to fetch.
-     */
-    orderBy?: GitHubConnectionOrderByWithRelationInput | GitHubConnectionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for GitHubConnections.
-     */
-    cursor?: GitHubConnectionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` GitHubConnections from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` GitHubConnections.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of GitHubConnections.
-     */
-    distinct?: GitHubConnectionScalarFieldEnum | GitHubConnectionScalarFieldEnum[]
-  }
-
-  /**
-   * GitHubConnection findFirstOrThrow
-   */
-  export type GitHubConnectionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubConnection
-     */
-    select?: GitHubConnectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubConnection
-     */
-    omit?: GitHubConnectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubConnectionInclude<ExtArgs> | null
-    /**
-     * Filter, which GitHubConnection to fetch.
-     */
-    where?: GitHubConnectionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of GitHubConnections to fetch.
-     */
-    orderBy?: GitHubConnectionOrderByWithRelationInput | GitHubConnectionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for GitHubConnections.
-     */
-    cursor?: GitHubConnectionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` GitHubConnections from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` GitHubConnections.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of GitHubConnections.
-     */
-    distinct?: GitHubConnectionScalarFieldEnum | GitHubConnectionScalarFieldEnum[]
-  }
-
-  /**
-   * GitHubConnection findMany
-   */
-  export type GitHubConnectionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubConnection
-     */
-    select?: GitHubConnectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubConnection
-     */
-    omit?: GitHubConnectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubConnectionInclude<ExtArgs> | null
-    /**
-     * Filter, which GitHubConnections to fetch.
-     */
-    where?: GitHubConnectionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of GitHubConnections to fetch.
-     */
-    orderBy?: GitHubConnectionOrderByWithRelationInput | GitHubConnectionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing GitHubConnections.
-     */
-    cursor?: GitHubConnectionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` GitHubConnections from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` GitHubConnections.
-     */
-    skip?: number
-    distinct?: GitHubConnectionScalarFieldEnum | GitHubConnectionScalarFieldEnum[]
-  }
-
-  /**
-   * GitHubConnection create
-   */
-  export type GitHubConnectionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubConnection
-     */
-    select?: GitHubConnectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubConnection
-     */
-    omit?: GitHubConnectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubConnectionInclude<ExtArgs> | null
-    /**
-     * The data needed to create a GitHubConnection.
-     */
-    data: XOR<GitHubConnectionCreateInput, GitHubConnectionUncheckedCreateInput>
-  }
-
-  /**
-   * GitHubConnection createMany
-   */
-  export type GitHubConnectionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many GitHubConnections.
-     */
-    data: GitHubConnectionCreateManyInput | GitHubConnectionCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * GitHubConnection createManyAndReturn
-   */
-  export type GitHubConnectionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubConnection
-     */
-    select?: GitHubConnectionSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubConnection
-     */
-    omit?: GitHubConnectionOmit<ExtArgs> | null
-    /**
-     * The data used to create many GitHubConnections.
-     */
-    data: GitHubConnectionCreateManyInput | GitHubConnectionCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubConnectionIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * GitHubConnection update
-   */
-  export type GitHubConnectionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubConnection
-     */
-    select?: GitHubConnectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubConnection
-     */
-    omit?: GitHubConnectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubConnectionInclude<ExtArgs> | null
-    /**
-     * The data needed to update a GitHubConnection.
-     */
-    data: XOR<GitHubConnectionUpdateInput, GitHubConnectionUncheckedUpdateInput>
-    /**
-     * Choose, which GitHubConnection to update.
-     */
-    where: GitHubConnectionWhereUniqueInput
-  }
-
-  /**
-   * GitHubConnection updateMany
-   */
-  export type GitHubConnectionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update GitHubConnections.
-     */
-    data: XOR<GitHubConnectionUpdateManyMutationInput, GitHubConnectionUncheckedUpdateManyInput>
-    /**
-     * Filter which GitHubConnections to update
-     */
-    where?: GitHubConnectionWhereInput
-    /**
-     * Limit how many GitHubConnections to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * GitHubConnection updateManyAndReturn
-   */
-  export type GitHubConnectionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubConnection
-     */
-    select?: GitHubConnectionSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubConnection
-     */
-    omit?: GitHubConnectionOmit<ExtArgs> | null
-    /**
-     * The data used to update GitHubConnections.
-     */
-    data: XOR<GitHubConnectionUpdateManyMutationInput, GitHubConnectionUncheckedUpdateManyInput>
-    /**
-     * Filter which GitHubConnections to update
-     */
-    where?: GitHubConnectionWhereInput
-    /**
-     * Limit how many GitHubConnections to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubConnectionIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * GitHubConnection upsert
-   */
-  export type GitHubConnectionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubConnection
-     */
-    select?: GitHubConnectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubConnection
-     */
-    omit?: GitHubConnectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubConnectionInclude<ExtArgs> | null
-    /**
-     * The filter to search for the GitHubConnection to update in case it exists.
-     */
-    where: GitHubConnectionWhereUniqueInput
-    /**
-     * In case the GitHubConnection found by the `where` argument doesn't exist, create a new GitHubConnection with this data.
-     */
-    create: XOR<GitHubConnectionCreateInput, GitHubConnectionUncheckedCreateInput>
-    /**
-     * In case the GitHubConnection was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<GitHubConnectionUpdateInput, GitHubConnectionUncheckedUpdateInput>
-  }
-
-  /**
-   * GitHubConnection delete
-   */
-  export type GitHubConnectionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubConnection
-     */
-    select?: GitHubConnectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubConnection
-     */
-    omit?: GitHubConnectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubConnectionInclude<ExtArgs> | null
-    /**
-     * Filter which GitHubConnection to delete.
-     */
-    where: GitHubConnectionWhereUniqueInput
-  }
-
-  /**
-   * GitHubConnection deleteMany
-   */
-  export type GitHubConnectionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which GitHubConnections to delete
-     */
-    where?: GitHubConnectionWhereInput
-    /**
-     * Limit how many GitHubConnections to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * GitHubConnection without action
-   */
-  export type GitHubConnectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the GitHubConnection
-     */
-    select?: GitHubConnectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the GitHubConnection
-     */
-    omit?: GitHubConnectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: GitHubConnectionInclude<ExtArgs> | null
   }
 
 
@@ -35845,39 +33243,6 @@ export namespace Prisma {
   export type CardScalarFieldEnum = (typeof CardScalarFieldEnum)[keyof typeof CardScalarFieldEnum]
 
 
-  export const GitHubIssueScalarFieldEnum: {
-    id: 'id',
-    cardId: 'cardId',
-    owner: 'owner',
-    repo: 'repo',
-    number: 'number',
-    title: 'title',
-    state: 'state',
-    stateReason: 'stateReason',
-    closedBy: 'closedBy',
-    closedAt: 'closedAt',
-    etag: 'etag',
-    checkedAt: 'checkedAt',
-    fetchError: 'fetchError',
-    completedCardAt: 'completedCardAt',
-    addedById: 'addedById',
-    createdAt: 'createdAt'
-  };
-
-  export type GitHubIssueScalarFieldEnum = (typeof GitHubIssueScalarFieldEnum)[keyof typeof GitHubIssueScalarFieldEnum]
-
-
-  export const GitHubConnectionScalarFieldEnum: {
-    userId: 'userId',
-    login: 'login',
-    accessToken: 'accessToken',
-    scope: 'scope',
-    createdAt: 'createdAt'
-  };
-
-  export type GitHubConnectionScalarFieldEnum = (typeof GitHubConnectionScalarFieldEnum)[keyof typeof GitHubConnectionScalarFieldEnum]
-
-
   export const CardBlockScalarFieldEnum: {
     blockerId: 'blockerId',
     blockedId: 'blockedId'
@@ -36365,8 +33730,6 @@ export namespace Prisma {
     watches?: WatchListRelationFilter
     autoJoinsCreated?: WorkspaceAutoJoinListRelationFilter
     oauthTokens?: OAuthTokenListRelationFilter
-    githubIssues?: GitHubIssueListRelationFilter
-    github?: XOR<GitHubConnectionNullableScalarRelationFilter, GitHubConnectionWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -36400,8 +33763,6 @@ export namespace Prisma {
     watches?: WatchOrderByRelationAggregateInput
     autoJoinsCreated?: WorkspaceAutoJoinOrderByRelationAggregateInput
     oauthTokens?: OAuthTokenOrderByRelationAggregateInput
-    githubIssues?: GitHubIssueOrderByRelationAggregateInput
-    github?: GitHubConnectionOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -36438,8 +33799,6 @@ export namespace Prisma {
     watches?: WatchListRelationFilter
     autoJoinsCreated?: WorkspaceAutoJoinListRelationFilter
     oauthTokens?: OAuthTokenListRelationFilter
-    githubIssues?: GitHubIssueListRelationFilter
-    github?: XOR<GitHubConnectionNullableScalarRelationFilter, GitHubConnectionWhereInput> | null
   }, "id" | "username" | "email" | "invitedEmail" | "trelloId">
 
   export type UserOrderByWithAggregationInput = {
@@ -36988,7 +34347,6 @@ export namespace Prisma {
     watches?: WatchListRelationFilter
     blocking?: CardBlockListRelationFilter
     blockedBy?: CardBlockListRelationFilter
-    issues?: GitHubIssueListRelationFilter
   }
 
   export type CardOrderByWithRelationInput = {
@@ -37019,7 +34377,6 @@ export namespace Prisma {
     watches?: WatchOrderByRelationAggregateInput
     blocking?: CardBlockOrderByRelationAggregateInput
     blockedBy?: CardBlockOrderByRelationAggregateInput
-    issues?: GitHubIssueOrderByRelationAggregateInput
   }
 
   export type CardWhereUniqueInput = Prisma.AtLeast<{
@@ -37053,7 +34410,6 @@ export namespace Prisma {
     watches?: WatchListRelationFilter
     blocking?: CardBlockListRelationFilter
     blockedBy?: CardBlockListRelationFilter
-    issues?: GitHubIssueListRelationFilter
   }, "id" | "trelloId">
 
   export type CardOrderByWithAggregationInput = {
@@ -37102,177 +34458,6 @@ export namespace Prisma {
     shortId?: IntWithAggregatesFilter<"Card"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Card"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Card"> | Date | string
-  }
-
-  export type GitHubIssueWhereInput = {
-    AND?: GitHubIssueWhereInput | GitHubIssueWhereInput[]
-    OR?: GitHubIssueWhereInput[]
-    NOT?: GitHubIssueWhereInput | GitHubIssueWhereInput[]
-    id?: StringFilter<"GitHubIssue"> | string
-    cardId?: StringFilter<"GitHubIssue"> | string
-    owner?: StringFilter<"GitHubIssue"> | string
-    repo?: StringFilter<"GitHubIssue"> | string
-    number?: IntFilter<"GitHubIssue"> | number
-    title?: StringFilter<"GitHubIssue"> | string
-    state?: StringFilter<"GitHubIssue"> | string
-    stateReason?: StringNullableFilter<"GitHubIssue"> | string | null
-    closedBy?: StringNullableFilter<"GitHubIssue"> | string | null
-    closedAt?: DateTimeNullableFilter<"GitHubIssue"> | Date | string | null
-    etag?: StringNullableFilter<"GitHubIssue"> | string | null
-    checkedAt?: DateTimeNullableFilter<"GitHubIssue"> | Date | string | null
-    fetchError?: StringNullableFilter<"GitHubIssue"> | string | null
-    completedCardAt?: DateTimeNullableFilter<"GitHubIssue"> | Date | string | null
-    addedById?: StringNullableFilter<"GitHubIssue"> | string | null
-    createdAt?: DateTimeFilter<"GitHubIssue"> | Date | string
-    card?: XOR<CardScalarRelationFilter, CardWhereInput>
-    addedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-  }
-
-  export type GitHubIssueOrderByWithRelationInput = {
-    id?: SortOrder
-    cardId?: SortOrder
-    owner?: SortOrder
-    repo?: SortOrder
-    number?: SortOrder
-    title?: SortOrder
-    state?: SortOrder
-    stateReason?: SortOrderInput | SortOrder
-    closedBy?: SortOrderInput | SortOrder
-    closedAt?: SortOrderInput | SortOrder
-    etag?: SortOrderInput | SortOrder
-    checkedAt?: SortOrderInput | SortOrder
-    fetchError?: SortOrderInput | SortOrder
-    completedCardAt?: SortOrderInput | SortOrder
-    addedById?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    card?: CardOrderByWithRelationInput
-    addedBy?: UserOrderByWithRelationInput
-  }
-
-  export type GitHubIssueWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    cardId_owner_repo_number?: GitHubIssueCardIdOwnerRepoNumberCompoundUniqueInput
-    AND?: GitHubIssueWhereInput | GitHubIssueWhereInput[]
-    OR?: GitHubIssueWhereInput[]
-    NOT?: GitHubIssueWhereInput | GitHubIssueWhereInput[]
-    cardId?: StringFilter<"GitHubIssue"> | string
-    owner?: StringFilter<"GitHubIssue"> | string
-    repo?: StringFilter<"GitHubIssue"> | string
-    number?: IntFilter<"GitHubIssue"> | number
-    title?: StringFilter<"GitHubIssue"> | string
-    state?: StringFilter<"GitHubIssue"> | string
-    stateReason?: StringNullableFilter<"GitHubIssue"> | string | null
-    closedBy?: StringNullableFilter<"GitHubIssue"> | string | null
-    closedAt?: DateTimeNullableFilter<"GitHubIssue"> | Date | string | null
-    etag?: StringNullableFilter<"GitHubIssue"> | string | null
-    checkedAt?: DateTimeNullableFilter<"GitHubIssue"> | Date | string | null
-    fetchError?: StringNullableFilter<"GitHubIssue"> | string | null
-    completedCardAt?: DateTimeNullableFilter<"GitHubIssue"> | Date | string | null
-    addedById?: StringNullableFilter<"GitHubIssue"> | string | null
-    createdAt?: DateTimeFilter<"GitHubIssue"> | Date | string
-    card?: XOR<CardScalarRelationFilter, CardWhereInput>
-    addedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-  }, "id" | "cardId_owner_repo_number">
-
-  export type GitHubIssueOrderByWithAggregationInput = {
-    id?: SortOrder
-    cardId?: SortOrder
-    owner?: SortOrder
-    repo?: SortOrder
-    number?: SortOrder
-    title?: SortOrder
-    state?: SortOrder
-    stateReason?: SortOrderInput | SortOrder
-    closedBy?: SortOrderInput | SortOrder
-    closedAt?: SortOrderInput | SortOrder
-    etag?: SortOrderInput | SortOrder
-    checkedAt?: SortOrderInput | SortOrder
-    fetchError?: SortOrderInput | SortOrder
-    completedCardAt?: SortOrderInput | SortOrder
-    addedById?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    _count?: GitHubIssueCountOrderByAggregateInput
-    _avg?: GitHubIssueAvgOrderByAggregateInput
-    _max?: GitHubIssueMaxOrderByAggregateInput
-    _min?: GitHubIssueMinOrderByAggregateInput
-    _sum?: GitHubIssueSumOrderByAggregateInput
-  }
-
-  export type GitHubIssueScalarWhereWithAggregatesInput = {
-    AND?: GitHubIssueScalarWhereWithAggregatesInput | GitHubIssueScalarWhereWithAggregatesInput[]
-    OR?: GitHubIssueScalarWhereWithAggregatesInput[]
-    NOT?: GitHubIssueScalarWhereWithAggregatesInput | GitHubIssueScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"GitHubIssue"> | string
-    cardId?: StringWithAggregatesFilter<"GitHubIssue"> | string
-    owner?: StringWithAggregatesFilter<"GitHubIssue"> | string
-    repo?: StringWithAggregatesFilter<"GitHubIssue"> | string
-    number?: IntWithAggregatesFilter<"GitHubIssue"> | number
-    title?: StringWithAggregatesFilter<"GitHubIssue"> | string
-    state?: StringWithAggregatesFilter<"GitHubIssue"> | string
-    stateReason?: StringNullableWithAggregatesFilter<"GitHubIssue"> | string | null
-    closedBy?: StringNullableWithAggregatesFilter<"GitHubIssue"> | string | null
-    closedAt?: DateTimeNullableWithAggregatesFilter<"GitHubIssue"> | Date | string | null
-    etag?: StringNullableWithAggregatesFilter<"GitHubIssue"> | string | null
-    checkedAt?: DateTimeNullableWithAggregatesFilter<"GitHubIssue"> | Date | string | null
-    fetchError?: StringNullableWithAggregatesFilter<"GitHubIssue"> | string | null
-    completedCardAt?: DateTimeNullableWithAggregatesFilter<"GitHubIssue"> | Date | string | null
-    addedById?: StringNullableWithAggregatesFilter<"GitHubIssue"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"GitHubIssue"> | Date | string
-  }
-
-  export type GitHubConnectionWhereInput = {
-    AND?: GitHubConnectionWhereInput | GitHubConnectionWhereInput[]
-    OR?: GitHubConnectionWhereInput[]
-    NOT?: GitHubConnectionWhereInput | GitHubConnectionWhereInput[]
-    userId?: StringFilter<"GitHubConnection"> | string
-    login?: StringFilter<"GitHubConnection"> | string
-    accessToken?: StringFilter<"GitHubConnection"> | string
-    scope?: StringFilter<"GitHubConnection"> | string
-    createdAt?: DateTimeFilter<"GitHubConnection"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }
-
-  export type GitHubConnectionOrderByWithRelationInput = {
-    userId?: SortOrder
-    login?: SortOrder
-    accessToken?: SortOrder
-    scope?: SortOrder
-    createdAt?: SortOrder
-    user?: UserOrderByWithRelationInput
-  }
-
-  export type GitHubConnectionWhereUniqueInput = Prisma.AtLeast<{
-    userId?: string
-    AND?: GitHubConnectionWhereInput | GitHubConnectionWhereInput[]
-    OR?: GitHubConnectionWhereInput[]
-    NOT?: GitHubConnectionWhereInput | GitHubConnectionWhereInput[]
-    login?: StringFilter<"GitHubConnection"> | string
-    accessToken?: StringFilter<"GitHubConnection"> | string
-    scope?: StringFilter<"GitHubConnection"> | string
-    createdAt?: DateTimeFilter<"GitHubConnection"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "userId">
-
-  export type GitHubConnectionOrderByWithAggregationInput = {
-    userId?: SortOrder
-    login?: SortOrder
-    accessToken?: SortOrder
-    scope?: SortOrder
-    createdAt?: SortOrder
-    _count?: GitHubConnectionCountOrderByAggregateInput
-    _max?: GitHubConnectionMaxOrderByAggregateInput
-    _min?: GitHubConnectionMinOrderByAggregateInput
-  }
-
-  export type GitHubConnectionScalarWhereWithAggregatesInput = {
-    AND?: GitHubConnectionScalarWhereWithAggregatesInput | GitHubConnectionScalarWhereWithAggregatesInput[]
-    OR?: GitHubConnectionScalarWhereWithAggregatesInput[]
-    NOT?: GitHubConnectionScalarWhereWithAggregatesInput | GitHubConnectionScalarWhereWithAggregatesInput[]
-    userId?: StringWithAggregatesFilter<"GitHubConnection"> | string
-    login?: StringWithAggregatesFilter<"GitHubConnection"> | string
-    accessToken?: StringWithAggregatesFilter<"GitHubConnection"> | string
-    scope?: StringWithAggregatesFilter<"GitHubConnection"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"GitHubConnection"> | Date | string
   }
 
   export type CardBlockWhereInput = {
@@ -38387,8 +35572,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -38422,8 +35605,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -38457,8 +35638,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -38492,8 +35671,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -39063,7 +36240,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutCardInput
     blocking?: CardBlockCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueCreateNestedManyWithoutCardInput
   }
 
   export type CardUncheckedCreateInput = {
@@ -39093,7 +36269,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutCardInput
     blocking?: CardBlockUncheckedCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockUncheckedCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueUncheckedCreateNestedManyWithoutCardInput
   }
 
   export type CardUpdateInput = {
@@ -39123,7 +36298,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateInput = {
@@ -39153,7 +36327,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUncheckedUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUncheckedUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUncheckedUpdateManyWithoutCardNestedInput
   }
 
   export type CardCreateManyInput = {
@@ -39213,192 +36386,6 @@ export namespace Prisma {
     shortId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type GitHubIssueCreateInput = {
-    id?: string
-    owner: string
-    repo: string
-    number: number
-    title?: string
-    state?: string
-    stateReason?: string | null
-    closedBy?: string | null
-    closedAt?: Date | string | null
-    etag?: string | null
-    checkedAt?: Date | string | null
-    fetchError?: string | null
-    completedCardAt?: Date | string | null
-    createdAt?: Date | string
-    card: CardCreateNestedOneWithoutIssuesInput
-    addedBy?: UserCreateNestedOneWithoutGithubIssuesInput
-  }
-
-  export type GitHubIssueUncheckedCreateInput = {
-    id?: string
-    cardId: string
-    owner: string
-    repo: string
-    number: number
-    title?: string
-    state?: string
-    stateReason?: string | null
-    closedBy?: string | null
-    closedAt?: Date | string | null
-    etag?: string | null
-    checkedAt?: Date | string | null
-    fetchError?: string | null
-    completedCardAt?: Date | string | null
-    addedById?: string | null
-    createdAt?: Date | string
-  }
-
-  export type GitHubIssueUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    owner?: StringFieldUpdateOperationsInput | string
-    repo?: StringFieldUpdateOperationsInput | string
-    number?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
-    stateReason?: NullableStringFieldUpdateOperationsInput | string | null
-    closedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    etag?: NullableStringFieldUpdateOperationsInput | string | null
-    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fetchError?: NullableStringFieldUpdateOperationsInput | string | null
-    completedCardAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    card?: CardUpdateOneRequiredWithoutIssuesNestedInput
-    addedBy?: UserUpdateOneWithoutGithubIssuesNestedInput
-  }
-
-  export type GitHubIssueUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    cardId?: StringFieldUpdateOperationsInput | string
-    owner?: StringFieldUpdateOperationsInput | string
-    repo?: StringFieldUpdateOperationsInput | string
-    number?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
-    stateReason?: NullableStringFieldUpdateOperationsInput | string | null
-    closedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    etag?: NullableStringFieldUpdateOperationsInput | string | null
-    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fetchError?: NullableStringFieldUpdateOperationsInput | string | null
-    completedCardAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    addedById?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type GitHubIssueCreateManyInput = {
-    id?: string
-    cardId: string
-    owner: string
-    repo: string
-    number: number
-    title?: string
-    state?: string
-    stateReason?: string | null
-    closedBy?: string | null
-    closedAt?: Date | string | null
-    etag?: string | null
-    checkedAt?: Date | string | null
-    fetchError?: string | null
-    completedCardAt?: Date | string | null
-    addedById?: string | null
-    createdAt?: Date | string
-  }
-
-  export type GitHubIssueUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    owner?: StringFieldUpdateOperationsInput | string
-    repo?: StringFieldUpdateOperationsInput | string
-    number?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
-    stateReason?: NullableStringFieldUpdateOperationsInput | string | null
-    closedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    etag?: NullableStringFieldUpdateOperationsInput | string | null
-    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fetchError?: NullableStringFieldUpdateOperationsInput | string | null
-    completedCardAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type GitHubIssueUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    cardId?: StringFieldUpdateOperationsInput | string
-    owner?: StringFieldUpdateOperationsInput | string
-    repo?: StringFieldUpdateOperationsInput | string
-    number?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
-    stateReason?: NullableStringFieldUpdateOperationsInput | string | null
-    closedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    etag?: NullableStringFieldUpdateOperationsInput | string | null
-    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fetchError?: NullableStringFieldUpdateOperationsInput | string | null
-    completedCardAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    addedById?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type GitHubConnectionCreateInput = {
-    login: string
-    accessToken: string
-    scope?: string
-    createdAt?: Date | string
-    user: UserCreateNestedOneWithoutGithubInput
-  }
-
-  export type GitHubConnectionUncheckedCreateInput = {
-    userId: string
-    login: string
-    accessToken: string
-    scope?: string
-    createdAt?: Date | string
-  }
-
-  export type GitHubConnectionUpdateInput = {
-    login?: StringFieldUpdateOperationsInput | string
-    accessToken?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutGithubNestedInput
-  }
-
-  export type GitHubConnectionUncheckedUpdateInput = {
-    userId?: StringFieldUpdateOperationsInput | string
-    login?: StringFieldUpdateOperationsInput | string
-    accessToken?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type GitHubConnectionCreateManyInput = {
-    userId: string
-    login: string
-    accessToken: string
-    scope?: string
-    createdAt?: Date | string
-  }
-
-  export type GitHubConnectionUpdateManyMutationInput = {
-    login?: StringFieldUpdateOperationsInput | string
-    accessToken?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type GitHubConnectionUncheckedUpdateManyInput = {
-    userId?: StringFieldUpdateOperationsInput | string
-    login?: StringFieldUpdateOperationsInput | string
-    accessToken?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CardBlockCreateInput = {
@@ -40608,17 +37595,6 @@ export namespace Prisma {
     none?: OAuthTokenWhereInput
   }
 
-  export type GitHubIssueListRelationFilter = {
-    every?: GitHubIssueWhereInput
-    some?: GitHubIssueWhereInput
-    none?: GitHubIssueWhereInput
-  }
-
-  export type GitHubConnectionNullableScalarRelationFilter = {
-    is?: GitHubConnectionWhereInput | null
-    isNot?: GitHubConnectionWhereInput | null
-  }
-
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -40676,10 +37652,6 @@ export namespace Prisma {
   }
 
   export type OAuthTokenOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type GitHubIssueOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -41162,102 +38134,6 @@ export namespace Prisma {
   export type CardScalarRelationFilter = {
     is?: CardWhereInput
     isNot?: CardWhereInput
-  }
-
-  export type GitHubIssueCardIdOwnerRepoNumberCompoundUniqueInput = {
-    cardId: string
-    owner: string
-    repo: string
-    number: number
-  }
-
-  export type GitHubIssueCountOrderByAggregateInput = {
-    id?: SortOrder
-    cardId?: SortOrder
-    owner?: SortOrder
-    repo?: SortOrder
-    number?: SortOrder
-    title?: SortOrder
-    state?: SortOrder
-    stateReason?: SortOrder
-    closedBy?: SortOrder
-    closedAt?: SortOrder
-    etag?: SortOrder
-    checkedAt?: SortOrder
-    fetchError?: SortOrder
-    completedCardAt?: SortOrder
-    addedById?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type GitHubIssueAvgOrderByAggregateInput = {
-    number?: SortOrder
-  }
-
-  export type GitHubIssueMaxOrderByAggregateInput = {
-    id?: SortOrder
-    cardId?: SortOrder
-    owner?: SortOrder
-    repo?: SortOrder
-    number?: SortOrder
-    title?: SortOrder
-    state?: SortOrder
-    stateReason?: SortOrder
-    closedBy?: SortOrder
-    closedAt?: SortOrder
-    etag?: SortOrder
-    checkedAt?: SortOrder
-    fetchError?: SortOrder
-    completedCardAt?: SortOrder
-    addedById?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type GitHubIssueMinOrderByAggregateInput = {
-    id?: SortOrder
-    cardId?: SortOrder
-    owner?: SortOrder
-    repo?: SortOrder
-    number?: SortOrder
-    title?: SortOrder
-    state?: SortOrder
-    stateReason?: SortOrder
-    closedBy?: SortOrder
-    closedAt?: SortOrder
-    etag?: SortOrder
-    checkedAt?: SortOrder
-    fetchError?: SortOrder
-    completedCardAt?: SortOrder
-    addedById?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type GitHubIssueSumOrderByAggregateInput = {
-    number?: SortOrder
-  }
-
-  export type GitHubConnectionCountOrderByAggregateInput = {
-    userId?: SortOrder
-    login?: SortOrder
-    accessToken?: SortOrder
-    scope?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type GitHubConnectionMaxOrderByAggregateInput = {
-    userId?: SortOrder
-    login?: SortOrder
-    accessToken?: SortOrder
-    scope?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type GitHubConnectionMinOrderByAggregateInput = {
-    userId?: SortOrder
-    login?: SortOrder
-    accessToken?: SortOrder
-    scope?: SortOrder
-    createdAt?: SortOrder
   }
 
   export type CardBlockBlockerIdBlockedIdCompoundUniqueInput = {
@@ -41848,19 +38724,6 @@ export namespace Prisma {
     connect?: OAuthTokenWhereUniqueInput | OAuthTokenWhereUniqueInput[]
   }
 
-  export type GitHubIssueCreateNestedManyWithoutAddedByInput = {
-    create?: XOR<GitHubIssueCreateWithoutAddedByInput, GitHubIssueUncheckedCreateWithoutAddedByInput> | GitHubIssueCreateWithoutAddedByInput[] | GitHubIssueUncheckedCreateWithoutAddedByInput[]
-    connectOrCreate?: GitHubIssueCreateOrConnectWithoutAddedByInput | GitHubIssueCreateOrConnectWithoutAddedByInput[]
-    createMany?: GitHubIssueCreateManyAddedByInputEnvelope
-    connect?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-  }
-
-  export type GitHubConnectionCreateNestedOneWithoutUserInput = {
-    create?: XOR<GitHubConnectionCreateWithoutUserInput, GitHubConnectionUncheckedCreateWithoutUserInput>
-    connectOrCreate?: GitHubConnectionCreateOrConnectWithoutUserInput
-    connect?: GitHubConnectionWhereUniqueInput
-  }
-
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -41964,19 +38827,6 @@ export namespace Prisma {
     connectOrCreate?: OAuthTokenCreateOrConnectWithoutUserInput | OAuthTokenCreateOrConnectWithoutUserInput[]
     createMany?: OAuthTokenCreateManyUserInputEnvelope
     connect?: OAuthTokenWhereUniqueInput | OAuthTokenWhereUniqueInput[]
-  }
-
-  export type GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput = {
-    create?: XOR<GitHubIssueCreateWithoutAddedByInput, GitHubIssueUncheckedCreateWithoutAddedByInput> | GitHubIssueCreateWithoutAddedByInput[] | GitHubIssueUncheckedCreateWithoutAddedByInput[]
-    connectOrCreate?: GitHubIssueCreateOrConnectWithoutAddedByInput | GitHubIssueCreateOrConnectWithoutAddedByInput[]
-    createMany?: GitHubIssueCreateManyAddedByInputEnvelope
-    connect?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-  }
-
-  export type GitHubConnectionUncheckedCreateNestedOneWithoutUserInput = {
-    create?: XOR<GitHubConnectionCreateWithoutUserInput, GitHubConnectionUncheckedCreateWithoutUserInput>
-    connectOrCreate?: GitHubConnectionCreateOrConnectWithoutUserInput
-    connect?: GitHubConnectionWhereUniqueInput
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -42197,30 +39047,6 @@ export namespace Prisma {
     deleteMany?: OAuthTokenScalarWhereInput | OAuthTokenScalarWhereInput[]
   }
 
-  export type GitHubIssueUpdateManyWithoutAddedByNestedInput = {
-    create?: XOR<GitHubIssueCreateWithoutAddedByInput, GitHubIssueUncheckedCreateWithoutAddedByInput> | GitHubIssueCreateWithoutAddedByInput[] | GitHubIssueUncheckedCreateWithoutAddedByInput[]
-    connectOrCreate?: GitHubIssueCreateOrConnectWithoutAddedByInput | GitHubIssueCreateOrConnectWithoutAddedByInput[]
-    upsert?: GitHubIssueUpsertWithWhereUniqueWithoutAddedByInput | GitHubIssueUpsertWithWhereUniqueWithoutAddedByInput[]
-    createMany?: GitHubIssueCreateManyAddedByInputEnvelope
-    set?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    disconnect?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    delete?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    connect?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    update?: GitHubIssueUpdateWithWhereUniqueWithoutAddedByInput | GitHubIssueUpdateWithWhereUniqueWithoutAddedByInput[]
-    updateMany?: GitHubIssueUpdateManyWithWhereWithoutAddedByInput | GitHubIssueUpdateManyWithWhereWithoutAddedByInput[]
-    deleteMany?: GitHubIssueScalarWhereInput | GitHubIssueScalarWhereInput[]
-  }
-
-  export type GitHubConnectionUpdateOneWithoutUserNestedInput = {
-    create?: XOR<GitHubConnectionCreateWithoutUserInput, GitHubConnectionUncheckedCreateWithoutUserInput>
-    connectOrCreate?: GitHubConnectionCreateOrConnectWithoutUserInput
-    upsert?: GitHubConnectionUpsertWithoutUserInput
-    disconnect?: GitHubConnectionWhereInput | boolean
-    delete?: GitHubConnectionWhereInput | boolean
-    connect?: GitHubConnectionWhereUniqueInput
-    update?: XOR<XOR<GitHubConnectionUpdateToOneWithWhereWithoutUserInput, GitHubConnectionUpdateWithoutUserInput>, GitHubConnectionUncheckedUpdateWithoutUserInput>
-  }
-
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -42429,30 +39255,6 @@ export namespace Prisma {
     update?: OAuthTokenUpdateWithWhereUniqueWithoutUserInput | OAuthTokenUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: OAuthTokenUpdateManyWithWhereWithoutUserInput | OAuthTokenUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: OAuthTokenScalarWhereInput | OAuthTokenScalarWhereInput[]
-  }
-
-  export type GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput = {
-    create?: XOR<GitHubIssueCreateWithoutAddedByInput, GitHubIssueUncheckedCreateWithoutAddedByInput> | GitHubIssueCreateWithoutAddedByInput[] | GitHubIssueUncheckedCreateWithoutAddedByInput[]
-    connectOrCreate?: GitHubIssueCreateOrConnectWithoutAddedByInput | GitHubIssueCreateOrConnectWithoutAddedByInput[]
-    upsert?: GitHubIssueUpsertWithWhereUniqueWithoutAddedByInput | GitHubIssueUpsertWithWhereUniqueWithoutAddedByInput[]
-    createMany?: GitHubIssueCreateManyAddedByInputEnvelope
-    set?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    disconnect?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    delete?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    connect?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    update?: GitHubIssueUpdateWithWhereUniqueWithoutAddedByInput | GitHubIssueUpdateWithWhereUniqueWithoutAddedByInput[]
-    updateMany?: GitHubIssueUpdateManyWithWhereWithoutAddedByInput | GitHubIssueUpdateManyWithWhereWithoutAddedByInput[]
-    deleteMany?: GitHubIssueScalarWhereInput | GitHubIssueScalarWhereInput[]
-  }
-
-  export type GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput = {
-    create?: XOR<GitHubConnectionCreateWithoutUserInput, GitHubConnectionUncheckedCreateWithoutUserInput>
-    connectOrCreate?: GitHubConnectionCreateOrConnectWithoutUserInput
-    upsert?: GitHubConnectionUpsertWithoutUserInput
-    disconnect?: GitHubConnectionWhereInput | boolean
-    delete?: GitHubConnectionWhereInput | boolean
-    connect?: GitHubConnectionWhereUniqueInput
-    update?: XOR<XOR<GitHubConnectionUpdateToOneWithWhereWithoutUserInput, GitHubConnectionUpdateWithoutUserInput>, GitHubConnectionUncheckedUpdateWithoutUserInput>
   }
 
   export type WorkspaceMemberCreateNestedManyWithoutWorkspaceInput = {
@@ -43086,13 +39888,6 @@ export namespace Prisma {
     connect?: CardBlockWhereUniqueInput | CardBlockWhereUniqueInput[]
   }
 
-  export type GitHubIssueCreateNestedManyWithoutCardInput = {
-    create?: XOR<GitHubIssueCreateWithoutCardInput, GitHubIssueUncheckedCreateWithoutCardInput> | GitHubIssueCreateWithoutCardInput[] | GitHubIssueUncheckedCreateWithoutCardInput[]
-    connectOrCreate?: GitHubIssueCreateOrConnectWithoutCardInput | GitHubIssueCreateOrConnectWithoutCardInput[]
-    createMany?: GitHubIssueCreateManyCardInputEnvelope
-    connect?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-  }
-
   export type CardLabelUncheckedCreateNestedManyWithoutCardInput = {
     create?: XOR<CardLabelCreateWithoutCardInput, CardLabelUncheckedCreateWithoutCardInput> | CardLabelCreateWithoutCardInput[] | CardLabelUncheckedCreateWithoutCardInput[]
     connectOrCreate?: CardLabelCreateOrConnectWithoutCardInput | CardLabelCreateOrConnectWithoutCardInput[]
@@ -43154,13 +39949,6 @@ export namespace Prisma {
     connectOrCreate?: CardBlockCreateOrConnectWithoutBlockedInput | CardBlockCreateOrConnectWithoutBlockedInput[]
     createMany?: CardBlockCreateManyBlockedInputEnvelope
     connect?: CardBlockWhereUniqueInput | CardBlockWhereUniqueInput[]
-  }
-
-  export type GitHubIssueUncheckedCreateNestedManyWithoutCardInput = {
-    create?: XOR<GitHubIssueCreateWithoutCardInput, GitHubIssueUncheckedCreateWithoutCardInput> | GitHubIssueCreateWithoutCardInput[] | GitHubIssueUncheckedCreateWithoutCardInput[]
-    connectOrCreate?: GitHubIssueCreateOrConnectWithoutCardInput | GitHubIssueCreateOrConnectWithoutCardInput[]
-    createMany?: GitHubIssueCreateManyCardInputEnvelope
-    connect?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -43305,20 +40093,6 @@ export namespace Prisma {
     deleteMany?: CardBlockScalarWhereInput | CardBlockScalarWhereInput[]
   }
 
-  export type GitHubIssueUpdateManyWithoutCardNestedInput = {
-    create?: XOR<GitHubIssueCreateWithoutCardInput, GitHubIssueUncheckedCreateWithoutCardInput> | GitHubIssueCreateWithoutCardInput[] | GitHubIssueUncheckedCreateWithoutCardInput[]
-    connectOrCreate?: GitHubIssueCreateOrConnectWithoutCardInput | GitHubIssueCreateOrConnectWithoutCardInput[]
-    upsert?: GitHubIssueUpsertWithWhereUniqueWithoutCardInput | GitHubIssueUpsertWithWhereUniqueWithoutCardInput[]
-    createMany?: GitHubIssueCreateManyCardInputEnvelope
-    set?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    disconnect?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    delete?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    connect?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    update?: GitHubIssueUpdateWithWhereUniqueWithoutCardInput | GitHubIssueUpdateWithWhereUniqueWithoutCardInput[]
-    updateMany?: GitHubIssueUpdateManyWithWhereWithoutCardInput | GitHubIssueUpdateManyWithWhereWithoutCardInput[]
-    deleteMany?: GitHubIssueScalarWhereInput | GitHubIssueScalarWhereInput[]
-  }
-
   export type CardLabelUncheckedUpdateManyWithoutCardNestedInput = {
     create?: XOR<CardLabelCreateWithoutCardInput, CardLabelUncheckedCreateWithoutCardInput> | CardLabelCreateWithoutCardInput[] | CardLabelUncheckedCreateWithoutCardInput[]
     connectOrCreate?: CardLabelCreateOrConnectWithoutCardInput | CardLabelCreateOrConnectWithoutCardInput[]
@@ -43443,64 +40217,6 @@ export namespace Prisma {
     update?: CardBlockUpdateWithWhereUniqueWithoutBlockedInput | CardBlockUpdateWithWhereUniqueWithoutBlockedInput[]
     updateMany?: CardBlockUpdateManyWithWhereWithoutBlockedInput | CardBlockUpdateManyWithWhereWithoutBlockedInput[]
     deleteMany?: CardBlockScalarWhereInput | CardBlockScalarWhereInput[]
-  }
-
-  export type GitHubIssueUncheckedUpdateManyWithoutCardNestedInput = {
-    create?: XOR<GitHubIssueCreateWithoutCardInput, GitHubIssueUncheckedCreateWithoutCardInput> | GitHubIssueCreateWithoutCardInput[] | GitHubIssueUncheckedCreateWithoutCardInput[]
-    connectOrCreate?: GitHubIssueCreateOrConnectWithoutCardInput | GitHubIssueCreateOrConnectWithoutCardInput[]
-    upsert?: GitHubIssueUpsertWithWhereUniqueWithoutCardInput | GitHubIssueUpsertWithWhereUniqueWithoutCardInput[]
-    createMany?: GitHubIssueCreateManyCardInputEnvelope
-    set?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    disconnect?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    delete?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    connect?: GitHubIssueWhereUniqueInput | GitHubIssueWhereUniqueInput[]
-    update?: GitHubIssueUpdateWithWhereUniqueWithoutCardInput | GitHubIssueUpdateWithWhereUniqueWithoutCardInput[]
-    updateMany?: GitHubIssueUpdateManyWithWhereWithoutCardInput | GitHubIssueUpdateManyWithWhereWithoutCardInput[]
-    deleteMany?: GitHubIssueScalarWhereInput | GitHubIssueScalarWhereInput[]
-  }
-
-  export type CardCreateNestedOneWithoutIssuesInput = {
-    create?: XOR<CardCreateWithoutIssuesInput, CardUncheckedCreateWithoutIssuesInput>
-    connectOrCreate?: CardCreateOrConnectWithoutIssuesInput
-    connect?: CardWhereUniqueInput
-  }
-
-  export type UserCreateNestedOneWithoutGithubIssuesInput = {
-    create?: XOR<UserCreateWithoutGithubIssuesInput, UserUncheckedCreateWithoutGithubIssuesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutGithubIssuesInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type CardUpdateOneRequiredWithoutIssuesNestedInput = {
-    create?: XOR<CardCreateWithoutIssuesInput, CardUncheckedCreateWithoutIssuesInput>
-    connectOrCreate?: CardCreateOrConnectWithoutIssuesInput
-    upsert?: CardUpsertWithoutIssuesInput
-    connect?: CardWhereUniqueInput
-    update?: XOR<XOR<CardUpdateToOneWithWhereWithoutIssuesInput, CardUpdateWithoutIssuesInput>, CardUncheckedUpdateWithoutIssuesInput>
-  }
-
-  export type UserUpdateOneWithoutGithubIssuesNestedInput = {
-    create?: XOR<UserCreateWithoutGithubIssuesInput, UserUncheckedCreateWithoutGithubIssuesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutGithubIssuesInput
-    upsert?: UserUpsertWithoutGithubIssuesInput
-    disconnect?: UserWhereInput | boolean
-    delete?: UserWhereInput | boolean
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGithubIssuesInput, UserUpdateWithoutGithubIssuesInput>, UserUncheckedUpdateWithoutGithubIssuesInput>
-  }
-
-  export type UserCreateNestedOneWithoutGithubInput = {
-    create?: XOR<UserCreateWithoutGithubInput, UserUncheckedCreateWithoutGithubInput>
-    connectOrCreate?: UserCreateOrConnectWithoutGithubInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type UserUpdateOneRequiredWithoutGithubNestedInput = {
-    create?: XOR<UserCreateWithoutGithubInput, UserUncheckedCreateWithoutGithubInput>
-    connectOrCreate?: UserCreateOrConnectWithoutGithubInput
-    upsert?: UserUpsertWithoutGithubInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGithubInput, UserUpdateWithoutGithubInput>, UserUncheckedUpdateWithoutGithubInput>
   }
 
   export type CardCreateNestedOneWithoutBlockingInput = {
@@ -44215,8 +40931,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -44249,8 +40963,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -44299,8 +41011,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -44333,8 +41043,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -44367,8 +41075,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -44401,8 +41107,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -44451,8 +41155,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -44485,8 +41187,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -44887,71 +41587,6 @@ export namespace Prisma {
   export type OAuthTokenCreateManyUserInputEnvelope = {
     data: OAuthTokenCreateManyUserInput | OAuthTokenCreateManyUserInput[]
     skipDuplicates?: boolean
-  }
-
-  export type GitHubIssueCreateWithoutAddedByInput = {
-    id?: string
-    owner: string
-    repo: string
-    number: number
-    title?: string
-    state?: string
-    stateReason?: string | null
-    closedBy?: string | null
-    closedAt?: Date | string | null
-    etag?: string | null
-    checkedAt?: Date | string | null
-    fetchError?: string | null
-    completedCardAt?: Date | string | null
-    createdAt?: Date | string
-    card: CardCreateNestedOneWithoutIssuesInput
-  }
-
-  export type GitHubIssueUncheckedCreateWithoutAddedByInput = {
-    id?: string
-    cardId: string
-    owner: string
-    repo: string
-    number: number
-    title?: string
-    state?: string
-    stateReason?: string | null
-    closedBy?: string | null
-    closedAt?: Date | string | null
-    etag?: string | null
-    checkedAt?: Date | string | null
-    fetchError?: string | null
-    completedCardAt?: Date | string | null
-    createdAt?: Date | string
-  }
-
-  export type GitHubIssueCreateOrConnectWithoutAddedByInput = {
-    where: GitHubIssueWhereUniqueInput
-    create: XOR<GitHubIssueCreateWithoutAddedByInput, GitHubIssueUncheckedCreateWithoutAddedByInput>
-  }
-
-  export type GitHubIssueCreateManyAddedByInputEnvelope = {
-    data: GitHubIssueCreateManyAddedByInput | GitHubIssueCreateManyAddedByInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type GitHubConnectionCreateWithoutUserInput = {
-    login: string
-    accessToken: string
-    scope?: string
-    createdAt?: Date | string
-  }
-
-  export type GitHubConnectionUncheckedCreateWithoutUserInput = {
-    login: string
-    accessToken: string
-    scope?: string
-    createdAt?: Date | string
-  }
-
-  export type GitHubConnectionCreateOrConnectWithoutUserInput = {
-    where: GitHubConnectionWhereUniqueInput
-    create: XOR<GitHubConnectionCreateWithoutUserInput, GitHubConnectionUncheckedCreateWithoutUserInput>
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -45379,69 +42014,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"OAuthToken"> | Date | string
   }
 
-  export type GitHubIssueUpsertWithWhereUniqueWithoutAddedByInput = {
-    where: GitHubIssueWhereUniqueInput
-    update: XOR<GitHubIssueUpdateWithoutAddedByInput, GitHubIssueUncheckedUpdateWithoutAddedByInput>
-    create: XOR<GitHubIssueCreateWithoutAddedByInput, GitHubIssueUncheckedCreateWithoutAddedByInput>
-  }
-
-  export type GitHubIssueUpdateWithWhereUniqueWithoutAddedByInput = {
-    where: GitHubIssueWhereUniqueInput
-    data: XOR<GitHubIssueUpdateWithoutAddedByInput, GitHubIssueUncheckedUpdateWithoutAddedByInput>
-  }
-
-  export type GitHubIssueUpdateManyWithWhereWithoutAddedByInput = {
-    where: GitHubIssueScalarWhereInput
-    data: XOR<GitHubIssueUpdateManyMutationInput, GitHubIssueUncheckedUpdateManyWithoutAddedByInput>
-  }
-
-  export type GitHubIssueScalarWhereInput = {
-    AND?: GitHubIssueScalarWhereInput | GitHubIssueScalarWhereInput[]
-    OR?: GitHubIssueScalarWhereInput[]
-    NOT?: GitHubIssueScalarWhereInput | GitHubIssueScalarWhereInput[]
-    id?: StringFilter<"GitHubIssue"> | string
-    cardId?: StringFilter<"GitHubIssue"> | string
-    owner?: StringFilter<"GitHubIssue"> | string
-    repo?: StringFilter<"GitHubIssue"> | string
-    number?: IntFilter<"GitHubIssue"> | number
-    title?: StringFilter<"GitHubIssue"> | string
-    state?: StringFilter<"GitHubIssue"> | string
-    stateReason?: StringNullableFilter<"GitHubIssue"> | string | null
-    closedBy?: StringNullableFilter<"GitHubIssue"> | string | null
-    closedAt?: DateTimeNullableFilter<"GitHubIssue"> | Date | string | null
-    etag?: StringNullableFilter<"GitHubIssue"> | string | null
-    checkedAt?: DateTimeNullableFilter<"GitHubIssue"> | Date | string | null
-    fetchError?: StringNullableFilter<"GitHubIssue"> | string | null
-    completedCardAt?: DateTimeNullableFilter<"GitHubIssue"> | Date | string | null
-    addedById?: StringNullableFilter<"GitHubIssue"> | string | null
-    createdAt?: DateTimeFilter<"GitHubIssue"> | Date | string
-  }
-
-  export type GitHubConnectionUpsertWithoutUserInput = {
-    update: XOR<GitHubConnectionUpdateWithoutUserInput, GitHubConnectionUncheckedUpdateWithoutUserInput>
-    create: XOR<GitHubConnectionCreateWithoutUserInput, GitHubConnectionUncheckedCreateWithoutUserInput>
-    where?: GitHubConnectionWhereInput
-  }
-
-  export type GitHubConnectionUpdateToOneWithWhereWithoutUserInput = {
-    where?: GitHubConnectionWhereInput
-    data: XOR<GitHubConnectionUpdateWithoutUserInput, GitHubConnectionUncheckedUpdateWithoutUserInput>
-  }
-
-  export type GitHubConnectionUpdateWithoutUserInput = {
-    login?: StringFieldUpdateOperationsInput | string
-    accessToken?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type GitHubConnectionUncheckedUpdateWithoutUserInput = {
-    login?: StringFieldUpdateOperationsInput | string
-    accessToken?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type WorkspaceMemberCreateWithoutWorkspaceInput = {
     role?: string
     user: UserCreateNestedOneWithoutWorkspacesInput
@@ -45667,8 +42239,6 @@ export namespace Prisma {
     imports?: TrelloImportCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
     oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAutoJoinsCreatedInput = {
@@ -45701,8 +42271,6 @@ export namespace Prisma {
     imports?: TrelloImportUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAutoJoinsCreatedInput = {
@@ -45784,8 +42352,6 @@ export namespace Prisma {
     imports?: TrelloImportUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
     oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAutoJoinsCreatedInput = {
@@ -45818,8 +42384,6 @@ export namespace Prisma {
     imports?: TrelloImportUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type WorkspaceCreateWithoutMembersInput = {
@@ -45879,8 +42443,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutWorkspacesInput = {
@@ -45913,8 +42475,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutWorkspacesInput = {
@@ -45996,8 +42556,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWorkspacesInput = {
@@ -46030,8 +42588,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type WorkspaceCreateWithoutBoardsInput = {
@@ -46445,8 +43001,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBoardsInput = {
@@ -46479,8 +43033,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBoardsInput = {
@@ -46584,8 +43136,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBoardsInput = {
@@ -46618,8 +43168,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type BoardCreateWithoutStarsInput = {
@@ -46701,8 +43249,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStarsInput = {
@@ -46735,8 +43281,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStarsInput = {
@@ -46840,8 +43384,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStarsInput = {
@@ -46874,8 +43416,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type BoardCreateWithoutListsInput = {
@@ -46953,7 +43493,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutCardInput
     blocking?: CardBlockCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueCreateNestedManyWithoutCardInput
   }
 
   export type CardUncheckedCreateWithoutListInput = {
@@ -46982,7 +43521,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutCardInput
     blocking?: CardBlockUncheckedCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockUncheckedCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueUncheckedCreateNestedManyWithoutCardInput
   }
 
   export type CardCreateOrConnectWithoutListInput = {
@@ -47330,52 +43868,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type GitHubIssueCreateWithoutCardInput = {
-    id?: string
-    owner: string
-    repo: string
-    number: number
-    title?: string
-    state?: string
-    stateReason?: string | null
-    closedBy?: string | null
-    closedAt?: Date | string | null
-    etag?: string | null
-    checkedAt?: Date | string | null
-    fetchError?: string | null
-    completedCardAt?: Date | string | null
-    createdAt?: Date | string
-    addedBy?: UserCreateNestedOneWithoutGithubIssuesInput
-  }
-
-  export type GitHubIssueUncheckedCreateWithoutCardInput = {
-    id?: string
-    owner: string
-    repo: string
-    number: number
-    title?: string
-    state?: string
-    stateReason?: string | null
-    closedBy?: string | null
-    closedAt?: Date | string | null
-    etag?: string | null
-    checkedAt?: Date | string | null
-    fetchError?: string | null
-    completedCardAt?: Date | string | null
-    addedById?: string | null
-    createdAt?: Date | string
-  }
-
-  export type GitHubIssueCreateOrConnectWithoutCardInput = {
-    where: GitHubIssueWhereUniqueInput
-    create: XOR<GitHubIssueCreateWithoutCardInput, GitHubIssueUncheckedCreateWithoutCardInput>
-  }
-
-  export type GitHubIssueCreateManyCardInputEnvelope = {
-    data: GitHubIssueCreateManyCardInput | GitHubIssueCreateManyCardInput[]
-    skipDuplicates?: boolean
-  }
-
   export type ListUpsertWithoutCardsInput = {
     update: XOR<ListUpdateWithoutCardsInput, ListUncheckedUpdateWithoutCardsInput>
     create: XOR<ListCreateWithoutCardsInput, ListUncheckedCreateWithoutCardsInput>
@@ -47582,458 +44074,6 @@ export namespace Prisma {
     data: XOR<CardBlockUpdateManyMutationInput, CardBlockUncheckedUpdateManyWithoutBlockedInput>
   }
 
-  export type GitHubIssueUpsertWithWhereUniqueWithoutCardInput = {
-    where: GitHubIssueWhereUniqueInput
-    update: XOR<GitHubIssueUpdateWithoutCardInput, GitHubIssueUncheckedUpdateWithoutCardInput>
-    create: XOR<GitHubIssueCreateWithoutCardInput, GitHubIssueUncheckedCreateWithoutCardInput>
-  }
-
-  export type GitHubIssueUpdateWithWhereUniqueWithoutCardInput = {
-    where: GitHubIssueWhereUniqueInput
-    data: XOR<GitHubIssueUpdateWithoutCardInput, GitHubIssueUncheckedUpdateWithoutCardInput>
-  }
-
-  export type GitHubIssueUpdateManyWithWhereWithoutCardInput = {
-    where: GitHubIssueScalarWhereInput
-    data: XOR<GitHubIssueUpdateManyMutationInput, GitHubIssueUncheckedUpdateManyWithoutCardInput>
-  }
-
-  export type CardCreateWithoutIssuesInput = {
-    id?: string
-    title: string
-    description?: string
-    pos: string
-    start?: Date | string | null
-    due?: Date | string | null
-    dueComplete?: boolean
-    recurrence?: string | null
-    coverColor?: string | null
-    coverAttachmentId?: string | null
-    coverSize?: string
-    closed?: boolean
-    trelloId?: string | null
-    shortId?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    list: ListCreateNestedOneWithoutCardsInput
-    labels?: CardLabelCreateNestedManyWithoutCardInput
-    members?: CardMemberCreateNestedManyWithoutCardInput
-    checklists?: ChecklistCreateNestedManyWithoutCardInput
-    attachments?: AttachmentCreateNestedManyWithoutCardInput
-    comments?: CommentCreateNestedManyWithoutCardInput
-    activities?: ActivityCreateNestedManyWithoutCardInput
-    watches?: WatchCreateNestedManyWithoutCardInput
-    blocking?: CardBlockCreateNestedManyWithoutBlockerInput
-    blockedBy?: CardBlockCreateNestedManyWithoutBlockedInput
-  }
-
-  export type CardUncheckedCreateWithoutIssuesInput = {
-    id?: string
-    listId: string
-    title: string
-    description?: string
-    pos: string
-    start?: Date | string | null
-    due?: Date | string | null
-    dueComplete?: boolean
-    recurrence?: string | null
-    coverColor?: string | null
-    coverAttachmentId?: string | null
-    coverSize?: string
-    closed?: boolean
-    trelloId?: string | null
-    shortId?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    labels?: CardLabelUncheckedCreateNestedManyWithoutCardInput
-    members?: CardMemberUncheckedCreateNestedManyWithoutCardInput
-    checklists?: ChecklistUncheckedCreateNestedManyWithoutCardInput
-    attachments?: AttachmentUncheckedCreateNestedManyWithoutCardInput
-    comments?: CommentUncheckedCreateNestedManyWithoutCardInput
-    activities?: ActivityUncheckedCreateNestedManyWithoutCardInput
-    watches?: WatchUncheckedCreateNestedManyWithoutCardInput
-    blocking?: CardBlockUncheckedCreateNestedManyWithoutBlockerInput
-    blockedBy?: CardBlockUncheckedCreateNestedManyWithoutBlockedInput
-  }
-
-  export type CardCreateOrConnectWithoutIssuesInput = {
-    where: CardWhereUniqueInput
-    create: XOR<CardCreateWithoutIssuesInput, CardUncheckedCreateWithoutIssuesInput>
-  }
-
-  export type UserCreateWithoutGithubIssuesInput = {
-    id?: string
-    name?: string | null
-    username?: string | null
-    email?: string | null
-    emailVerified?: Date | string | null
-    image?: string | null
-    avatarKey?: string | null
-    providerImage?: string | null
-    isGhost?: boolean
-    invitedEmail?: string | null
-    isAdmin?: boolean
-    canImport?: boolean
-    slackJoined?: boolean
-    trelloId?: string | null
-    createdAt?: Date | string
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
-    boards?: BoardMemberCreateNestedManyWithoutUserInput
-    stars?: BoardStarCreateNestedManyWithoutUserInput
-    cards?: CardMemberCreateNestedManyWithoutUserInput
-    comments?: CommentCreateNestedManyWithoutAuthorInput
-    activities?: ActivityCreateNestedManyWithoutActorInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    checkItems?: CheckItemCreateNestedManyWithoutMemberInput
-    attachments?: AttachmentCreateNestedManyWithoutUploaderInput
-    imports?: TrelloImportCreateNestedManyWithoutUserInput
-    watches?: WatchCreateNestedManyWithoutUserInput
-    autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
-    oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutGithubIssuesInput = {
-    id?: string
-    name?: string | null
-    username?: string | null
-    email?: string | null
-    emailVerified?: Date | string | null
-    image?: string | null
-    avatarKey?: string | null
-    providerImage?: string | null
-    isGhost?: boolean
-    invitedEmail?: string | null
-    isAdmin?: boolean
-    canImport?: boolean
-    slackJoined?: boolean
-    trelloId?: string | null
-    createdAt?: Date | string
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
-    boards?: BoardMemberUncheckedCreateNestedManyWithoutUserInput
-    stars?: BoardStarUncheckedCreateNestedManyWithoutUserInput
-    cards?: CardMemberUncheckedCreateNestedManyWithoutUserInput
-    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
-    activities?: ActivityUncheckedCreateNestedManyWithoutActorInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    checkItems?: CheckItemUncheckedCreateNestedManyWithoutMemberInput
-    attachments?: AttachmentUncheckedCreateNestedManyWithoutUploaderInput
-    imports?: TrelloImportUncheckedCreateNestedManyWithoutUserInput
-    watches?: WatchUncheckedCreateNestedManyWithoutUserInput
-    autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
-    oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutGithubIssuesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutGithubIssuesInput, UserUncheckedCreateWithoutGithubIssuesInput>
-  }
-
-  export type CardUpsertWithoutIssuesInput = {
-    update: XOR<CardUpdateWithoutIssuesInput, CardUncheckedUpdateWithoutIssuesInput>
-    create: XOR<CardCreateWithoutIssuesInput, CardUncheckedCreateWithoutIssuesInput>
-    where?: CardWhereInput
-  }
-
-  export type CardUpdateToOneWithWhereWithoutIssuesInput = {
-    where?: CardWhereInput
-    data: XOR<CardUpdateWithoutIssuesInput, CardUncheckedUpdateWithoutIssuesInput>
-  }
-
-  export type CardUpdateWithoutIssuesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    pos?: StringFieldUpdateOperationsInput | string
-    start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    due?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dueComplete?: BoolFieldUpdateOperationsInput | boolean
-    recurrence?: NullableStringFieldUpdateOperationsInput | string | null
-    coverColor?: NullableStringFieldUpdateOperationsInput | string | null
-    coverAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
-    coverSize?: StringFieldUpdateOperationsInput | string
-    closed?: BoolFieldUpdateOperationsInput | boolean
-    trelloId?: NullableStringFieldUpdateOperationsInput | string | null
-    shortId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    list?: ListUpdateOneRequiredWithoutCardsNestedInput
-    labels?: CardLabelUpdateManyWithoutCardNestedInput
-    members?: CardMemberUpdateManyWithoutCardNestedInput
-    checklists?: ChecklistUpdateManyWithoutCardNestedInput
-    attachments?: AttachmentUpdateManyWithoutCardNestedInput
-    comments?: CommentUpdateManyWithoutCardNestedInput
-    activities?: ActivityUpdateManyWithoutCardNestedInput
-    watches?: WatchUpdateManyWithoutCardNestedInput
-    blocking?: CardBlockUpdateManyWithoutBlockerNestedInput
-    blockedBy?: CardBlockUpdateManyWithoutBlockedNestedInput
-  }
-
-  export type CardUncheckedUpdateWithoutIssuesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    listId?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    pos?: StringFieldUpdateOperationsInput | string
-    start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    due?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dueComplete?: BoolFieldUpdateOperationsInput | boolean
-    recurrence?: NullableStringFieldUpdateOperationsInput | string | null
-    coverColor?: NullableStringFieldUpdateOperationsInput | string | null
-    coverAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
-    coverSize?: StringFieldUpdateOperationsInput | string
-    closed?: BoolFieldUpdateOperationsInput | boolean
-    trelloId?: NullableStringFieldUpdateOperationsInput | string | null
-    shortId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    labels?: CardLabelUncheckedUpdateManyWithoutCardNestedInput
-    members?: CardMemberUncheckedUpdateManyWithoutCardNestedInput
-    checklists?: ChecklistUncheckedUpdateManyWithoutCardNestedInput
-    attachments?: AttachmentUncheckedUpdateManyWithoutCardNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutCardNestedInput
-    activities?: ActivityUncheckedUpdateManyWithoutCardNestedInput
-    watches?: WatchUncheckedUpdateManyWithoutCardNestedInput
-    blocking?: CardBlockUncheckedUpdateManyWithoutBlockerNestedInput
-    blockedBy?: CardBlockUncheckedUpdateManyWithoutBlockedNestedInput
-  }
-
-  export type UserUpsertWithoutGithubIssuesInput = {
-    update: XOR<UserUpdateWithoutGithubIssuesInput, UserUncheckedUpdateWithoutGithubIssuesInput>
-    create: XOR<UserCreateWithoutGithubIssuesInput, UserUncheckedCreateWithoutGithubIssuesInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutGithubIssuesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutGithubIssuesInput, UserUncheckedUpdateWithoutGithubIssuesInput>
-  }
-
-  export type UserUpdateWithoutGithubIssuesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    avatarKey?: NullableStringFieldUpdateOperationsInput | string | null
-    providerImage?: NullableStringFieldUpdateOperationsInput | string | null
-    isGhost?: BoolFieldUpdateOperationsInput | boolean
-    invitedEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canImport?: BoolFieldUpdateOperationsInput | boolean
-    slackJoined?: BoolFieldUpdateOperationsInput | boolean
-    trelloId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
-    boards?: BoardMemberUpdateManyWithoutUserNestedInput
-    stars?: BoardStarUpdateManyWithoutUserNestedInput
-    cards?: CardMemberUpdateManyWithoutUserNestedInput
-    comments?: CommentUpdateManyWithoutAuthorNestedInput
-    activities?: ActivityUpdateManyWithoutActorNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    checkItems?: CheckItemUpdateManyWithoutMemberNestedInput
-    attachments?: AttachmentUpdateManyWithoutUploaderNestedInput
-    imports?: TrelloImportUpdateManyWithoutUserNestedInput
-    watches?: WatchUpdateManyWithoutUserNestedInput
-    autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
-    oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutGithubIssuesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    avatarKey?: NullableStringFieldUpdateOperationsInput | string | null
-    providerImage?: NullableStringFieldUpdateOperationsInput | string | null
-    isGhost?: BoolFieldUpdateOperationsInput | boolean
-    invitedEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canImport?: BoolFieldUpdateOperationsInput | boolean
-    slackJoined?: BoolFieldUpdateOperationsInput | boolean
-    trelloId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
-    boards?: BoardMemberUncheckedUpdateManyWithoutUserNestedInput
-    stars?: BoardStarUncheckedUpdateManyWithoutUserNestedInput
-    cards?: CardMemberUncheckedUpdateManyWithoutUserNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
-    activities?: ActivityUncheckedUpdateManyWithoutActorNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    checkItems?: CheckItemUncheckedUpdateManyWithoutMemberNestedInput
-    attachments?: AttachmentUncheckedUpdateManyWithoutUploaderNestedInput
-    imports?: TrelloImportUncheckedUpdateManyWithoutUserNestedInput
-    watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
-    autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
-    oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
-  }
-
-  export type UserCreateWithoutGithubInput = {
-    id?: string
-    name?: string | null
-    username?: string | null
-    email?: string | null
-    emailVerified?: Date | string | null
-    image?: string | null
-    avatarKey?: string | null
-    providerImage?: string | null
-    isGhost?: boolean
-    invitedEmail?: string | null
-    isAdmin?: boolean
-    canImport?: boolean
-    slackJoined?: boolean
-    trelloId?: string | null
-    createdAt?: Date | string
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
-    boards?: BoardMemberCreateNestedManyWithoutUserInput
-    stars?: BoardStarCreateNestedManyWithoutUserInput
-    cards?: CardMemberCreateNestedManyWithoutUserInput
-    comments?: CommentCreateNestedManyWithoutAuthorInput
-    activities?: ActivityCreateNestedManyWithoutActorInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    checkItems?: CheckItemCreateNestedManyWithoutMemberInput
-    attachments?: AttachmentCreateNestedManyWithoutUploaderInput
-    imports?: TrelloImportCreateNestedManyWithoutUserInput
-    watches?: WatchCreateNestedManyWithoutUserInput
-    autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
-    oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-  }
-
-  export type UserUncheckedCreateWithoutGithubInput = {
-    id?: string
-    name?: string | null
-    username?: string | null
-    email?: string | null
-    emailVerified?: Date | string | null
-    image?: string | null
-    avatarKey?: string | null
-    providerImage?: string | null
-    isGhost?: boolean
-    invitedEmail?: string | null
-    isAdmin?: boolean
-    canImport?: boolean
-    slackJoined?: boolean
-    trelloId?: string | null
-    createdAt?: Date | string
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
-    boards?: BoardMemberUncheckedCreateNestedManyWithoutUserInput
-    stars?: BoardStarUncheckedCreateNestedManyWithoutUserInput
-    cards?: CardMemberUncheckedCreateNestedManyWithoutUserInput
-    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
-    activities?: ActivityUncheckedCreateNestedManyWithoutActorInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    checkItems?: CheckItemUncheckedCreateNestedManyWithoutMemberInput
-    attachments?: AttachmentUncheckedCreateNestedManyWithoutUploaderInput
-    imports?: TrelloImportUncheckedCreateNestedManyWithoutUserInput
-    watches?: WatchUncheckedCreateNestedManyWithoutUserInput
-    autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
-    oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-  }
-
-  export type UserCreateOrConnectWithoutGithubInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutGithubInput, UserUncheckedCreateWithoutGithubInput>
-  }
-
-  export type UserUpsertWithoutGithubInput = {
-    update: XOR<UserUpdateWithoutGithubInput, UserUncheckedUpdateWithoutGithubInput>
-    create: XOR<UserCreateWithoutGithubInput, UserUncheckedCreateWithoutGithubInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutGithubInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutGithubInput, UserUncheckedUpdateWithoutGithubInput>
-  }
-
-  export type UserUpdateWithoutGithubInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    avatarKey?: NullableStringFieldUpdateOperationsInput | string | null
-    providerImage?: NullableStringFieldUpdateOperationsInput | string | null
-    isGhost?: BoolFieldUpdateOperationsInput | boolean
-    invitedEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canImport?: BoolFieldUpdateOperationsInput | boolean
-    slackJoined?: BoolFieldUpdateOperationsInput | boolean
-    trelloId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
-    boards?: BoardMemberUpdateManyWithoutUserNestedInput
-    stars?: BoardStarUpdateManyWithoutUserNestedInput
-    cards?: CardMemberUpdateManyWithoutUserNestedInput
-    comments?: CommentUpdateManyWithoutAuthorNestedInput
-    activities?: ActivityUpdateManyWithoutActorNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    checkItems?: CheckItemUpdateManyWithoutMemberNestedInput
-    attachments?: AttachmentUpdateManyWithoutUploaderNestedInput
-    imports?: TrelloImportUpdateManyWithoutUserNestedInput
-    watches?: WatchUpdateManyWithoutUserNestedInput
-    autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
-    oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutGithubInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    avatarKey?: NullableStringFieldUpdateOperationsInput | string | null
-    providerImage?: NullableStringFieldUpdateOperationsInput | string | null
-    isGhost?: BoolFieldUpdateOperationsInput | boolean
-    invitedEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canImport?: BoolFieldUpdateOperationsInput | boolean
-    slackJoined?: BoolFieldUpdateOperationsInput | boolean
-    trelloId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
-    boards?: BoardMemberUncheckedUpdateManyWithoutUserNestedInput
-    stars?: BoardStarUncheckedUpdateManyWithoutUserNestedInput
-    cards?: CardMemberUncheckedUpdateManyWithoutUserNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
-    activities?: ActivityUncheckedUpdateManyWithoutActorNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    checkItems?: CheckItemUncheckedUpdateManyWithoutMemberNestedInput
-    attachments?: AttachmentUncheckedUpdateManyWithoutUploaderNestedInput
-    imports?: TrelloImportUncheckedUpdateManyWithoutUserNestedInput
-    watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
-    autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
-    oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-  }
-
   export type CardCreateWithoutBlockingInput = {
     id?: string
     title: string
@@ -48060,7 +44100,6 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCardInput
     watches?: WatchCreateNestedManyWithoutCardInput
     blockedBy?: CardBlockCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueCreateNestedManyWithoutCardInput
   }
 
   export type CardUncheckedCreateWithoutBlockingInput = {
@@ -48089,7 +44128,6 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCardInput
     watches?: WatchUncheckedCreateNestedManyWithoutCardInput
     blockedBy?: CardBlockUncheckedCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueUncheckedCreateNestedManyWithoutCardInput
   }
 
   export type CardCreateOrConnectWithoutBlockingInput = {
@@ -48123,7 +44161,6 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCardInput
     watches?: WatchCreateNestedManyWithoutCardInput
     blocking?: CardBlockCreateNestedManyWithoutBlockerInput
-    issues?: GitHubIssueCreateNestedManyWithoutCardInput
   }
 
   export type CardUncheckedCreateWithoutBlockedByInput = {
@@ -48152,7 +44189,6 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCardInput
     watches?: WatchUncheckedCreateNestedManyWithoutCardInput
     blocking?: CardBlockUncheckedCreateNestedManyWithoutBlockerInput
-    issues?: GitHubIssueUncheckedCreateNestedManyWithoutCardInput
   }
 
   export type CardCreateOrConnectWithoutBlockedByInput = {
@@ -48197,7 +44233,6 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCardNestedInput
     watches?: WatchUpdateManyWithoutCardNestedInput
     blockedBy?: CardBlockUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateWithoutBlockingInput = {
@@ -48226,7 +44261,6 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCardNestedInput
     watches?: WatchUncheckedUpdateManyWithoutCardNestedInput
     blockedBy?: CardBlockUncheckedUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUncheckedUpdateManyWithoutCardNestedInput
   }
 
   export type CardUpsertWithoutBlockedByInput = {
@@ -48266,7 +44300,6 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCardNestedInput
     watches?: WatchUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUpdateManyWithoutBlockerNestedInput
-    issues?: GitHubIssueUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateWithoutBlockedByInput = {
@@ -48295,7 +44328,6 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCardNestedInput
     watches?: WatchUncheckedUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUncheckedUpdateManyWithoutBlockerNestedInput
-    issues?: GitHubIssueUncheckedUpdateManyWithoutCardNestedInput
   }
 
   export type BoardCreateWithoutLabelsInput = {
@@ -48462,7 +44494,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutCardInput
     blocking?: CardBlockCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueCreateNestedManyWithoutCardInput
   }
 
   export type CardUncheckedCreateWithoutLabelsInput = {
@@ -48491,7 +44522,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutCardInput
     blocking?: CardBlockUncheckedCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockUncheckedCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueUncheckedCreateNestedManyWithoutCardInput
   }
 
   export type CardCreateOrConnectWithoutLabelsInput = {
@@ -48557,7 +44587,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateWithoutLabelsInput = {
@@ -48586,7 +44615,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUncheckedUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUncheckedUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUncheckedUpdateManyWithoutCardNestedInput
   }
 
   export type LabelUpsertWithoutCardsInput = {
@@ -48642,7 +44670,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutCardInput
     blocking?: CardBlockCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueCreateNestedManyWithoutCardInput
   }
 
   export type CardUncheckedCreateWithoutMembersInput = {
@@ -48671,7 +44698,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutCardInput
     blocking?: CardBlockUncheckedCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockUncheckedCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueUncheckedCreateNestedManyWithoutCardInput
   }
 
   export type CardCreateOrConnectWithoutMembersInput = {
@@ -48709,8 +44735,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCardsInput = {
@@ -48743,8 +44767,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCardsInput = {
@@ -48789,7 +44811,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateWithoutMembersInput = {
@@ -48818,7 +44839,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUncheckedUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUncheckedUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUncheckedUpdateManyWithoutCardNestedInput
   }
 
   export type UserUpsertWithoutCardsInput = {
@@ -48862,8 +44882,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCardsInput = {
@@ -48896,8 +44914,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type CardCreateWithoutChecklistsInput = {
@@ -48926,7 +44942,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutCardInput
     blocking?: CardBlockCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueCreateNestedManyWithoutCardInput
   }
 
   export type CardUncheckedCreateWithoutChecklistsInput = {
@@ -48955,7 +44970,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutCardInput
     blocking?: CardBlockUncheckedCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockUncheckedCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueUncheckedCreateNestedManyWithoutCardInput
   }
 
   export type CardCreateOrConnectWithoutChecklistsInput = {
@@ -49030,7 +45044,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateWithoutChecklistsInput = {
@@ -49059,7 +45072,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUncheckedUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUncheckedUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUncheckedUpdateManyWithoutCardNestedInput
   }
 
   export type CheckItemUpsertWithWhereUniqueWithoutChecklistInput = {
@@ -49129,8 +45141,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCheckItemsInput = {
@@ -49163,8 +45173,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCheckItemsInput = {
@@ -49240,8 +45248,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCheckItemsInput = {
@@ -49274,8 +45280,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type CardCreateWithoutAttachmentsInput = {
@@ -49304,7 +45308,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutCardInput
     blocking?: CardBlockCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueCreateNestedManyWithoutCardInput
   }
 
   export type CardUncheckedCreateWithoutAttachmentsInput = {
@@ -49333,7 +45336,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutCardInput
     blocking?: CardBlockUncheckedCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockUncheckedCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueUncheckedCreateNestedManyWithoutCardInput
   }
 
   export type CardCreateOrConnectWithoutAttachmentsInput = {
@@ -49371,8 +45373,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAttachmentsInput = {
@@ -49405,8 +45405,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAttachmentsInput = {
@@ -49451,7 +45449,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateWithoutAttachmentsInput = {
@@ -49480,7 +45477,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUncheckedUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUncheckedUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUncheckedUpdateManyWithoutCardNestedInput
   }
 
   export type UserUpsertWithoutAttachmentsInput = {
@@ -49524,8 +45520,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAttachmentsInput = {
@@ -49558,8 +45552,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type CardCreateWithoutCommentsInput = {
@@ -49588,7 +45580,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutCardInput
     blocking?: CardBlockCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueCreateNestedManyWithoutCardInput
   }
 
   export type CardUncheckedCreateWithoutCommentsInput = {
@@ -49617,7 +45608,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutCardInput
     blocking?: CardBlockUncheckedCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockUncheckedCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueUncheckedCreateNestedManyWithoutCardInput
   }
 
   export type CardCreateOrConnectWithoutCommentsInput = {
@@ -49655,8 +45645,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -49689,8 +45677,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -49735,7 +45721,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateWithoutCommentsInput = {
@@ -49764,7 +45749,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUncheckedUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUncheckedUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUncheckedUpdateManyWithoutCardNestedInput
   }
 
   export type UserUpsertWithoutCommentsInput = {
@@ -49808,8 +45792,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -49842,8 +45824,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type BoardCreateWithoutActivitiesInput = {
@@ -49921,7 +45901,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutCardInput
     blocking?: CardBlockCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueCreateNestedManyWithoutCardInput
   }
 
   export type CardUncheckedCreateWithoutActivitiesInput = {
@@ -49950,7 +45929,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutCardInput
     blocking?: CardBlockUncheckedCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockUncheckedCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueUncheckedCreateNestedManyWithoutCardInput
   }
 
   export type CardCreateOrConnectWithoutActivitiesInput = {
@@ -49988,8 +45966,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutActivitiesInput = {
@@ -50022,8 +45998,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutActivitiesInput = {
@@ -50123,7 +46097,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateWithoutActivitiesInput = {
@@ -50152,7 +46125,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUncheckedUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUncheckedUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUncheckedUpdateManyWithoutCardNestedInput
   }
 
   export type UserUpsertWithoutActivitiesInput = {
@@ -50196,8 +46168,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutActivitiesInput = {
@@ -50230,8 +46200,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutWatchesInput = {
@@ -50264,8 +46232,6 @@ export namespace Prisma {
     imports?: TrelloImportCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutWatchesInput = {
@@ -50298,8 +46264,6 @@ export namespace Prisma {
     imports?: TrelloImportUncheckedCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutWatchesInput = {
@@ -50382,7 +46346,6 @@ export namespace Prisma {
     activities?: ActivityCreateNestedManyWithoutCardInput
     blocking?: CardBlockCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueCreateNestedManyWithoutCardInput
   }
 
   export type CardUncheckedCreateWithoutWatchesInput = {
@@ -50411,7 +46374,6 @@ export namespace Prisma {
     activities?: ActivityUncheckedCreateNestedManyWithoutCardInput
     blocking?: CardBlockUncheckedCreateNestedManyWithoutBlockerInput
     blockedBy?: CardBlockUncheckedCreateNestedManyWithoutBlockedInput
-    issues?: GitHubIssueUncheckedCreateNestedManyWithoutCardInput
   }
 
   export type CardCreateOrConnectWithoutWatchesInput = {
@@ -50460,8 +46422,6 @@ export namespace Prisma {
     imports?: TrelloImportUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWatchesInput = {
@@ -50494,8 +46454,6 @@ export namespace Prisma {
     imports?: TrelloImportUncheckedUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type BoardUpsertWithoutWatchesInput = {
@@ -50590,7 +46548,6 @@ export namespace Prisma {
     activities?: ActivityUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateWithoutWatchesInput = {
@@ -50619,7 +46576,6 @@ export namespace Prisma {
     activities?: ActivityUncheckedUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUncheckedUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUncheckedUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUncheckedUpdateManyWithoutCardNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -50652,8 +46608,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -50686,8 +46640,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -50736,8 +46688,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -50770,8 +46720,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutImportsInput = {
@@ -50804,8 +46752,6 @@ export namespace Prisma {
     watches?: WatchCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutImportsInput = {
@@ -50838,8 +46784,6 @@ export namespace Prisma {
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
     oauthTokens?: OAuthTokenUncheckedCreateNestedManyWithoutUserInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutImportsInput = {
@@ -50888,8 +46832,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutImportsInput = {
@@ -50922,8 +46864,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
     oauthTokens?: OAuthTokenUncheckedUpdateManyWithoutUserNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type OAuthTokenCreateWithoutClientInput = {
@@ -51029,8 +46969,6 @@ export namespace Prisma {
     imports?: TrelloImportCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinCreateNestedManyWithoutCreatedByInput
-    githubIssues?: GitHubIssueCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOauthTokensInput = {
@@ -51063,8 +47001,6 @@ export namespace Prisma {
     imports?: TrelloImportUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedCreateNestedManyWithoutCreatedByInput
-    githubIssues?: GitHubIssueUncheckedCreateNestedManyWithoutAddedByInput
-    github?: GitHubConnectionUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOauthTokensInput = {
@@ -51142,8 +47078,6 @@ export namespace Prisma {
     imports?: TrelloImportUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUpdateManyWithoutCreatedByNestedInput
-    githubIssues?: GitHubIssueUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOauthTokensInput = {
@@ -51176,8 +47110,6 @@ export namespace Prisma {
     imports?: TrelloImportUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     autoJoinsCreated?: WorkspaceAutoJoinUncheckedUpdateManyWithoutCreatedByNestedInput
-    githubIssues?: GitHubIssueUncheckedUpdateManyWithoutAddedByNestedInput
-    github?: GitHubConnectionUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -51302,24 +47234,6 @@ export namespace Prisma {
     scope?: string | null
     usedAt?: Date | string | null
     expiresAt: Date | string
-    createdAt?: Date | string
-  }
-
-  export type GitHubIssueCreateManyAddedByInput = {
-    id?: string
-    cardId: string
-    owner: string
-    repo: string
-    number: number
-    title?: string
-    state?: string
-    stateReason?: string | null
-    closedBy?: string | null
-    closedAt?: Date | string | null
-    etag?: string | null
-    checkedAt?: Date | string | null
-    fetchError?: string | null
-    completedCardAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -51698,60 +47612,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type GitHubIssueUpdateWithoutAddedByInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    owner?: StringFieldUpdateOperationsInput | string
-    repo?: StringFieldUpdateOperationsInput | string
-    number?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
-    stateReason?: NullableStringFieldUpdateOperationsInput | string | null
-    closedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    etag?: NullableStringFieldUpdateOperationsInput | string | null
-    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fetchError?: NullableStringFieldUpdateOperationsInput | string | null
-    completedCardAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    card?: CardUpdateOneRequiredWithoutIssuesNestedInput
-  }
-
-  export type GitHubIssueUncheckedUpdateWithoutAddedByInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    cardId?: StringFieldUpdateOperationsInput | string
-    owner?: StringFieldUpdateOperationsInput | string
-    repo?: StringFieldUpdateOperationsInput | string
-    number?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
-    stateReason?: NullableStringFieldUpdateOperationsInput | string | null
-    closedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    etag?: NullableStringFieldUpdateOperationsInput | string | null
-    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fetchError?: NullableStringFieldUpdateOperationsInput | string | null
-    completedCardAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type GitHubIssueUncheckedUpdateManyWithoutAddedByInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    cardId?: StringFieldUpdateOperationsInput | string
-    owner?: StringFieldUpdateOperationsInput | string
-    repo?: StringFieldUpdateOperationsInput | string
-    number?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
-    stateReason?: NullableStringFieldUpdateOperationsInput | string | null
-    closedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    etag?: NullableStringFieldUpdateOperationsInput | string | null
-    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fetchError?: NullableStringFieldUpdateOperationsInput | string | null
-    completedCardAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type WorkspaceMemberCreateManyWorkspaceInput = {
     userId: string
     role?: string
@@ -52101,7 +47961,6 @@ export namespace Prisma {
     watches?: WatchUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateWithoutListInput = {
@@ -52130,7 +47989,6 @@ export namespace Prisma {
     watches?: WatchUncheckedUpdateManyWithoutCardNestedInput
     blocking?: CardBlockUncheckedUpdateManyWithoutBlockerNestedInput
     blockedBy?: CardBlockUncheckedUpdateManyWithoutBlockedNestedInput
-    issues?: GitHubIssueUncheckedUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateManyWithoutListInput = {
@@ -52210,24 +48068,6 @@ export namespace Prisma {
 
   export type CardBlockCreateManyBlockedInput = {
     blockerId: string
-  }
-
-  export type GitHubIssueCreateManyCardInput = {
-    id?: string
-    owner: string
-    repo: string
-    number: number
-    title?: string
-    state?: string
-    stateReason?: string | null
-    closedBy?: string | null
-    closedAt?: Date | string | null
-    etag?: string | null
-    checkedAt?: Date | string | null
-    fetchError?: string | null
-    completedCardAt?: Date | string | null
-    addedById?: string | null
-    createdAt?: Date | string
   }
 
   export type CardLabelUpdateWithoutCardInput = {
@@ -52410,60 +48250,6 @@ export namespace Prisma {
 
   export type CardBlockUncheckedUpdateManyWithoutBlockedInput = {
     blockerId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type GitHubIssueUpdateWithoutCardInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    owner?: StringFieldUpdateOperationsInput | string
-    repo?: StringFieldUpdateOperationsInput | string
-    number?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
-    stateReason?: NullableStringFieldUpdateOperationsInput | string | null
-    closedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    etag?: NullableStringFieldUpdateOperationsInput | string | null
-    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fetchError?: NullableStringFieldUpdateOperationsInput | string | null
-    completedCardAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    addedBy?: UserUpdateOneWithoutGithubIssuesNestedInput
-  }
-
-  export type GitHubIssueUncheckedUpdateWithoutCardInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    owner?: StringFieldUpdateOperationsInput | string
-    repo?: StringFieldUpdateOperationsInput | string
-    number?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
-    stateReason?: NullableStringFieldUpdateOperationsInput | string | null
-    closedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    etag?: NullableStringFieldUpdateOperationsInput | string | null
-    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fetchError?: NullableStringFieldUpdateOperationsInput | string | null
-    completedCardAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    addedById?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type GitHubIssueUncheckedUpdateManyWithoutCardInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    owner?: StringFieldUpdateOperationsInput | string
-    repo?: StringFieldUpdateOperationsInput | string
-    number?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
-    stateReason?: NullableStringFieldUpdateOperationsInput | string | null
-    closedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    etag?: NullableStringFieldUpdateOperationsInput | string | null
-    checkedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fetchError?: NullableStringFieldUpdateOperationsInput | string | null
-    completedCardAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    addedById?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CardLabelCreateManyLabelInput = {
