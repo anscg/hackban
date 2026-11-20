@@ -92,7 +92,7 @@ export async function fetchIssue(ref: IssueRef, etag?: string | null, token: str
   const headers: Record<string, string> = { Accept: "application/vnd.github+json", "User-Agent": "hackban" };
   if (token) headers.Authorization = `Bearer ${token}`;
   if (etag) headers["If-None-Match"] = etag;
-  const res = await fetch(`https://api.github.com/repos/${ref.owner}/${ref.repo}/issues/${ref.number}`, { headers });
+  const res = await fetch(`https://api.github.com/repos/${ref.owner}/${ref.repo}/issues/${ref.number}`, { headers, signal: AbortSignal.timeout(15_000) });
   if (res.status === 304) return "unchanged";
   if (res.status === 401) throw new GitHubAuthError("GitHub rejected the token");
   if (res.status === 404 || res.status === 410) return null;
@@ -257,12 +257,19 @@ export async function syncDueIssues(db: DB) {
   }
 }
 
-const sched = globalThis as unknown as { githubPoller?: ReturnType<typeof setInterval> };
+const sched = globalThis as unknown as { githubPoller?: ReturnType<typeof setInterval>; githubPolling?: boolean };
 
 /** Poll tracked issues in the background. Idempotent across dev reloads. */
 export function startIssuePoller(db: DB) {
   if (sched.githubPoller) return;
-  const tick = () => void syncDueIssues(db).catch((e: unknown) => console.error("[github] poll failed", e));
+  // A slow pass mustn't overlap the next one, or the same issue could be applied twice.
+  const tick = () => {
+    if (sched.githubPolling) return;
+    sched.githubPolling = true;
+    void syncDueIssues(db)
+      .catch((e: unknown) => console.error("[github] poll failed", e))
+      .finally(() => (sched.githubPolling = false));
+  };
   sched.githubPoller = setInterval(tick, 60_000);
   sched.githubPoller.unref?.();
   setTimeout(tick, 5_000).unref?.();
