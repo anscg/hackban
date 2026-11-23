@@ -35,6 +35,18 @@ type HackClubProfile = {
   };
 };
 
+/** Slack display name via Cachet, or null if it's unset, uncached (202) or Cachet is slow/down. */
+async function slackDisplayName(slackId: string) {
+  try {
+    const res = await fetch(`https://cachet.dunkirk.sh/users/${slackId}`, { signal: AbortSignal.timeout(3000) });
+    if (res.status !== 200) return null;
+    const name = ((await res.json()) as { displayName?: string }).displayName?.trim();
+    return name === "" ? null : (name ?? null);
+  } catch {
+    return null;
+  }
+}
+
 export const authConfig = {
   providers: [
     {
@@ -52,11 +64,13 @@ export const authConfig = {
       token: "https://auth.hackclub.com/oauth/token",
       userinfo: "https://auth.hackclub.com/api/v1/me",
       checks: ["pkce", "state"],
-      profile({ identity: p }: HackClubProfile) {
+      // Only used when the account is first created; later logins keep the stored name.
+      async profile({ identity: p }: HackClubProfile) {
         const full = [p.first_name, p.last_name].filter(Boolean).join(" ");
+        const slackName = p.slack_id ? await slackDisplayName(p.slack_id) : null;
         return {
           id: p.id,
-          name: full !== "" ? full : (p.primary_email ?? null),
+          name: slackName ?? (full !== "" ? full : (p.primary_email ?? null)),
           email: p.primary_email ?? null,
           image: p.slack_id ? `https://cachet.dunkirk.sh/users/${p.slack_id}/r` : null,
         };
