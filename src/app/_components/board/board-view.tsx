@@ -34,6 +34,7 @@ import { Header } from "../header";
 import { boardBg, useBoardIcon } from "../ui";
 import { BoardHeader } from "./board-header";
 import { BoardMenu } from "./board-menu";
+import { CalendarView, TableView } from "./board-views";
 import { BoardCtx } from "./members";
 import { confetti } from "../confetti";
 import { CardFront, REPEAT_SHOW_DONE_MS } from "./card-front";
@@ -46,6 +47,7 @@ import {
   emptyFilters,
   filterActive,
   type BoardData,
+  type BoardViewMode,
   type CardData,
   type Filters,
 } from "./types";
@@ -181,6 +183,20 @@ export function BoardView({
       else if ((JSON.parse(sessionStorage.getItem("boardFilters") ?? "null") as { boardId: string } | null)?.boardId === boardId) sessionStorage.removeItem("boardFilters");
     } catch {}
   }, [boardId, filters]);
+  // Board / table / calendar, remembered per board in this browser.
+  const [view, setViewState] = useState<BoardViewMode>("board");
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem(`hackban:view:${boardId}`);
+      setViewState(v === "table" || v === "calendar" ? v : "board");
+    } catch {}
+  }, [boardId]);
+  const setView = (v: BoardViewMode) => {
+    setViewState(v);
+    try {
+      localStorage.setItem(`hackban:view:${boardId}`, v);
+    } catch {}
+  };
   const [menuOpen, setMenuOpen] = useState(false);
   const [quick, setQuick] = useState<{ card: CardData; rect: DOMRect } | null>(
     null,
@@ -566,6 +582,8 @@ export function BoardView({
               filters={filters}
               setFilters={setFilters}
               onMenu={() => setMenuOpen((m) => !m)}
+              view={view}
+              setView={setView}
             />
             <div
               className="relative flex min-h-0 flex-1"
@@ -578,7 +596,9 @@ export function BoardView({
                 if (id) void utils.card.get.prefetch({ id });
               }}
             >
-              <DndContext
+              {view === "table" && <TableView board={shown} isVisible={isVisible} onOpenCard={open} onHoverCard={onHoverCard} />}
+              {view === "calendar" && <CalendarView board={shown} isVisible={isVisible} onOpenCard={open} onHoverCard={onHoverCard} />}
+              {view === "board" && <DndContext
                 sensors={sensors}
                 collisionDetection={collision}
                 onDragStart={onDragStart}
@@ -668,7 +688,7 @@ export function BoardView({
                     </DragOverlay>,
                     document.body,
                   )}
-              </DndContext>
+              </DndContext>}
               <BoardMenu
                 board={shown}
                 open={menuOpen}

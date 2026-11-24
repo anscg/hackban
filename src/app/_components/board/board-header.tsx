@@ -6,13 +6,19 @@ import { api } from "~/trpc/react";
 
 import { Avatar, Icon, Popover, inputCls, labelStyle, usePopoverState } from "../ui";
 import { MemberAvatars, ShareDialog } from "./members";
-import { filterActive, type BoardData, type Filters } from "./types";
+import { filterActive, type BoardData, type BoardViewMode, type Filters } from "./types";
 
 const VIS = {
   private: { icon: "lock", label: "Private", desc: "Only board members can see this board. Workspace admins can close the board or remove members." },
   workspace: { icon: "people", label: "Workspace", desc: "All members of the workspace can see and edit this board." },
   public: { icon: "globe", label: "Public", desc: "Anyone on the internet can see this board. Only board members can edit." },
 } as const;
+
+const VIEWS = [
+  ["board", "board", "Board"],
+  ["table", "table", "Table"],
+  ["calendar", "calendar", "Calendar"],
+] as const;
 
 const hdrBtn = "flex h-8 items-center gap-1.5 rounded-[3px] px-2.5 text-sm font-medium text-white transition-colors hover:bg-white/20";
 
@@ -22,12 +28,16 @@ export function BoardHeader({
   filters,
   setFilters,
   onMenu,
+  view,
+  setView,
 }: {
   board: BoardData;
   meId: string;
   filters: Filters;
   setFilters: (f: Filters) => void;
   onMenu: () => void;
+  view: BoardViewMode;
+  setView: (v: BoardViewMode) => void;
 }) {
   const utils = api.useUtils();
   const vis = usePopoverState();
@@ -67,6 +77,19 @@ export function BoardHeader({
       <button onClick={vis.toggle} className={`${hdrBtn} w-8 justify-center px-0`} title={v.label}>
         <Icon name={v.icon} />
       </button>
+      <div role="group" aria-label="View" className="ml-1 flex h-8 items-center rounded-[4px] bg-black/20 p-0.5">
+        {VIEWS.map(([k, icon, label]) => (
+          <button
+            key={k}
+            aria-pressed={view === k}
+            onClick={() => setView(k)}
+            title={`${label} view`}
+            className={`flex h-7 items-center gap-1.5 rounded-[3px] px-2 text-sm font-medium transition-colors ${view === k ? "bg-[#dcdfe4] text-[#172b4d]" : "text-white hover:bg-white/20"}`}
+          >
+            <Icon name={icon} size={14} /> <span className="hidden md:inline">{label}</span>
+          </button>
+        ))}
+      </div>
       <div className="flex-1" />
       {/* Left of the filter buttons: the row is right-aligned, so this grows
           into empty space instead of shifting My cards / Filters. */}

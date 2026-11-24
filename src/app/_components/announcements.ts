@@ -1,6 +1,7 @@
 // What's new in Hackban, newest first. Add an entry for every user-facing update or change.
 // `id` must be unique; the header shows a dot until the viewer has seen the newest one.
 export const ANNOUNCEMENTS: { id: string; date: string; title: string; body: string }[] = [
+  { id: "table-calendar-views", date: "2026-11-24", title: "Table and calendar views", body: "Switch a board between Board, Table and Calendar in its header: the table lists every card with its list, labels, members and due date (click a column to sort), the calendar places cards on their due date by month, and your filters apply to both." },
   { id: "slack-display-name", date: "2026-11-23", title: "Slack display names", body: "New accounts start with your Hack Club Slack display name instead of your full name; you can still change it on your profile page." },
   { id: "unsplash-backgrounds", date: "2026-11-20", title: "Unsplash backgrounds", body: "Search Unsplash photos under Change background in the board menu and click one to use it as the board background." },
   { id: "board-favicons", date: "2026-11-10", title: "Board tab icons", body: "A board's browser tab shows the Hackban icon in the board's color (or its background image's main color), which you can change under Tab icon in Change background; a workspace's pages show its logo." },

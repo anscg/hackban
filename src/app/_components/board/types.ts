@@ -4,6 +4,8 @@ export type BoardData = RouterOutputs["board"]["get"];
 export type ListData = BoardData["lists"][number];
 export type CardData = ListData["cards"][number];
 
+export type BoardViewMode = "board" | "table" | "calendar";
+
 export type Filters = {
   q: string;
   members: string[]; // "none" = no members

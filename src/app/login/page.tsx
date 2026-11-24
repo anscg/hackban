@@ -27,7 +27,6 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
             Continue with Hack Club
           </button>
         </form>
-        <p className="mt-6 text-xs text-[var(--color-text-subtle)]">Trello, but it&apos;s ours.</p>
       </div>
     </main>
   );
