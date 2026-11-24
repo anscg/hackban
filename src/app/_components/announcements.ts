@@ -1,6 +1,8 @@
 // What's new in Hackban, newest first. Add an entry for every user-facing update or change.
 // `id` must be unique; the header shows a dot until the viewer has seen the newest one.
 export const ANNOUNCEMENTS: { id: string; date: string; title: string; body: string }[] = [
+  { id: "edit-table-roadmap", date: "2026-11-24", title: "Edit from table and roadmap", body: "Edit titles, assignees, lists, labels and dates right in the table's cells and add cards with + Add item; on the roadmap, drag a bar to move a card's dates, drag its ends to change them, or click an empty row to schedule it." },
+  { id: "mcp-full-coverage", date: "2026-11-24", title: "Even more MCP tools", body: "Connected apps can now copy boards and lists, move or archive every card in a list, reorder lists, set card covers and board backgrounds, manage invite links, create and edit workspaces, look people up, and read your own activity." },
   { id: "table-roadmap-views", date: "2026-11-24", title: "Table and roadmap views", body: "Switch a board between Board, Table and Roadmap in its header: the table lists cards grouped by list with assignees, labels and dates (click a column to sort), the roadmap draws each card as a bar from its start date to its due date with Month, Quarter and Year zoom, and your filters apply to both." },
   { id: "slack-display-name", date: "2026-11-23", title: "Slack display names", body: "New accounts start with your Hack Club Slack display name instead of your full name; you can still change it on your profile page." },
   { id: "unsplash-backgrounds", date: "2026-11-20", title: "Unsplash backgrounds", body: "Search Unsplash photos under Change background in the board menu and click one to use it as the board background." },

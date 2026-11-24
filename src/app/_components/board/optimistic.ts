@@ -70,8 +70,8 @@ export function memberPatch(member: Member | undefined, userId: string, on: bool
   };
 }
 
-/** Optimistic patches for any scalar date/completion fields. */
-export function fieldsPatch(fields: Partial<Pick<CardData, "start" | "due" | "dueComplete" | "recurrence">>) {
+/** Optimistic patches for a card's title and scalar date/completion fields. */
+export function fieldsPatch(fields: Partial<Pick<CardData, "title" | "start" | "due" | "dueComplete" | "recurrence">>) {
   return {
     front: (c: CardData): CardData => ({ ...c, ...fields }),
     detail: (c: CardDetail): CardDetail => ({ ...c, ...fields }),

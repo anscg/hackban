@@ -596,8 +596,8 @@ export function BoardView({
                 if (id) void utils.card.get.prefetch({ id });
               }}
             >
-              {view === "table" && <TableView board={shown} isVisible={isVisible} onOpenCard={open} onHoverCard={onHoverCard} />}
-              {view === "roadmap" && <RoadmapView board={shown} isVisible={isVisible} onOpenCard={open} onHoverCard={onHoverCard} />}
+              {view === "table" && <TableView board={shown} isVisible={isVisible} onOpenCard={open} onHoverCard={onHoverCard} readOnly={readOnly} />}
+              {view === "roadmap" && <RoadmapView board={shown} isVisible={isVisible} onOpenCard={open} onHoverCard={onHoverCard} readOnly={readOnly} />}
               {view === "board" && <DndContext
                 sensors={sensors}
                 collisionDetection={collision}

@@ -46,15 +46,20 @@ export function hackbanMcp(user: User, base: string) {
 
   server.registerTool(
     "list_workspaces",
-    { title: "List workspaces", description: "Your workspaces and the open boards in each.", annotations: read },
-    async () =>
-      text(
-        (await api.workspace.list()).map((w) => ({
-          id: w.id,
-          name: w.name,
-          boards: w.boards.map((b) => ({ id: b.id, name: b.name, starred: b.starred, url: `${base}/b/${b.id}` })),
-        })),
-      ),
+    {
+      title: "List workspaces",
+      description: "Your workspaces and the open boards in each, boards you're a guest on outside your workspaces, and (with includeArchived) your closed boards.",
+      inputSchema: { includeArchived: z.boolean().default(false) },
+      annotations: read,
+    },
+    async ({ includeArchived }) => {
+      const board = (b: { id: string; name: string; starred?: boolean }) => ({ id: b.id, name: b.name, starred: b.starred ? true : undefined, url: `${base}/b/${b.id}` });
+      return text({
+        workspaces: (await api.workspace.list()).map((w) => ({ id: w.id, name: w.name, boards: w.boards.map(board) })),
+        guestBoards: (await api.board.guestBoards()).map((b) => ({ ...board(b), workspace: b.workspace.name })),
+        archivedBoards: includeArchived ? (await api.board.closed()).map((b) => ({ ...board(b), workspace: b.workspace.name })) : undefined,
+      });
+    },
   );
 
   server.registerTool(
@@ -101,6 +106,7 @@ export function hackbanMcp(user: User, base: string) {
           cards: l.cards.map((c) => ({
             id: c.id,
             title: c.title,
+            start: c.start ?? undefined,
             due: c.due ?? undefined,
             // Cards can be completed without a due date, so say so whenever it's true.
             dueComplete: c.dueComplete || undefined,
@@ -138,7 +144,8 @@ export function hackbanMcp(user: User, base: string) {
           name: cl.name,
           items: cl.items.map((i) => ({ id: i.id, name: i.name, complete: i.complete })),
         })),
-        attachments: c.attachments.map((a) => ({ name: a.name, url: abs(a.url) })),
+        attachments: c.attachments.map((a) => ({ id: a.id, name: a.name, url: abs(a.url) })),
+        cover: c.coverColor || c.coverAttachmentId ? { color: c.coverColor ?? undefined, attachmentId: c.coverAttachmentId ?? undefined, size: c.coverSize } : undefined,
         comments: c.comments.map((m) => ({ id: m.id, author: m.author.name, text: m.text, at: m.createdAt })),
         blockedBy: c.blockedBy.length ? c.blockedBy : undefined,
         blocking: c.blocking.length ? c.blocking : undefined,
@@ -210,6 +217,49 @@ export function hackbanMcp(user: User, base: string) {
   );
 
   server.registerTool(
+    "copy_list",
+    { title: "Copy list", description: "Copy a list and its open cards to just after it on the same board.", inputSchema: { listId: z.string(), name: z.string().min(1).max(512) }, annotations: write },
+    async ({ listId, name }) => text({ id: (await api.list.copy({ id: listId, name })).id }),
+  );
+
+  server.registerTool(
+    "move_all_cards",
+    {
+      title: "Move all cards in list",
+      description: "Move every open card in a list to the end of another list (on this board or another; moving boards drops their labels).",
+      inputSchema: { listId: z.string(), toListId: z.string() },
+      annotations: write,
+    },
+    async ({ listId, toListId }) => {
+      await api.list.moveAllCards({ id: listId, toListId });
+      return text({ ok: true });
+    },
+  );
+
+  server.registerTool(
+    "archive_all_cards",
+    { title: "Archive all cards in list", description: "Archive every open card in a list (restore them with update_card).", inputSchema: { listId: z.string() }, annotations: write },
+    async ({ listId }) => {
+      await api.list.archiveAllCards({ id: listId });
+      return text({ ok: true });
+    },
+  );
+
+  server.registerTool(
+    "sort_list",
+    {
+      title: "Reorder list",
+      description: "Put a list's cards in a new order. Pass its card IDs (from get_board) in the order you want; cards you leave out keep their order at the end.",
+      inputSchema: { listId: z.string(), cardIds: z.array(z.string()).max(5000) },
+      annotations: { ...write, idempotentHint: true },
+    },
+    async ({ listId, cardIds }) => {
+      await api.list.sortCards({ id: listId, ids: cardIds });
+      return text({ ok: true });
+    },
+  );
+
+  server.registerTool(
     "create_card",
     {
       title: "Create card",
@@ -234,7 +284,7 @@ export function hackbanMcp(user: User, base: string) {
     "update_card",
     {
       title: "Update card",
-      description: "Change a card's title, description, dates or completion, or archive/restore it. Omitted fields are left alone.",
+      description: "Change a card's title, description, dates, completion or cover, or archive/restore it. Omitted fields are left alone.",
       inputSchema: {
         cardId: z.string(),
         title: z.string().min(1).max(16384).optional(),
@@ -243,6 +293,9 @@ export function hackbanMcp(user: User, base: string) {
         due: when.nullable().optional(),
         dueComplete: z.boolean().optional().describe("Mark the due date done. Repeating cards roll to their next due date instead."),
         recurrence: z.enum(RECURRENCES).nullable().optional().describe("Repeat the card's dates on this schedule; null stops repeating"),
+        coverColor: z.string().max(16).nullable().optional().describe("green, yellow, orange, red, purple, blue, sky, lime, pink or black; null removes a color cover"),
+        coverAttachmentId: z.string().nullable().optional().describe("An image attachment (IDs from get_card) to use as the cover; null removes it"),
+        coverSize: z.enum(["normal", "full"]).optional().describe("full = the cover fills the whole card front"),
         archived: z.boolean().optional(),
       },
       annotations: write,
@@ -374,6 +427,20 @@ export function hackbanMcp(user: User, base: string) {
   );
 
   server.registerTool(
+    "move_check_item",
+    {
+      title: "Move checklist item",
+      description: "Reorder a checklist item, or move it to another checklist on the same card (IDs from get_card).",
+      inputSchema: { itemId: z.string(), checklistId: z.string().describe("Target checklist (can be its current one)"), afterItemId: z.string().nullable().describe("Place after this item; null = first") },
+      annotations: { ...write, idempotentHint: true },
+    },
+    async ({ itemId, checklistId, afterItemId }) => {
+      await api.card.moveCheckItem({ itemId, checklistId, afterId: afterItemId });
+      return text({ ok: true });
+    },
+  );
+
+  server.registerTool(
     "rename_checklist",
     { title: "Rename checklist", description: "Rename a checklist (IDs from get_card).", inputSchema: { checklistId: z.string(), name: z.string().min(1).max(512) }, annotations: { ...write, idempotentHint: true } },
     async (input) => {
@@ -401,6 +468,15 @@ export function hackbanMcp(user: User, base: string) {
     },
     async ({ cardId, url, name }) => {
       await api.card.addLink({ id: cardId, url, name });
+      return text({ ok: true });
+    },
+  );
+
+  server.registerTool(
+    "rename_attachment",
+    { title: "Rename attachment", description: "Rename a card attachment (IDs from get_card).", inputSchema: { attachmentId: z.string(), name: z.string().min(1).max(256) }, annotations: { ...write, idempotentHint: true } },
+    async (input) => {
+      await api.card.updateAttachment(input);
       return text({ ok: true });
     },
   );
@@ -488,19 +564,42 @@ export function hackbanMcp(user: User, base: string) {
     "update_board",
     {
       title: "Update board",
-      description: "Rename a board, change its description or visibility, or archive (close)/reopen it. Visibility and closing need board admin.",
+      description:
+        "Rename a board, change its description, visibility or background, star it for yourself, move it to another workspace, or archive (close)/reopen it. Visibility, moving and closing need board admin.",
       inputSchema: {
         boardId: z.string(),
         name: z.string().min(1).max(200).optional(),
         description: z.string().max(16384).optional().describe("Markdown"),
         visibility: z.enum(["private", "workspace", "public"]).optional(),
+        background: z.string().max(200).optional().describe("A hex color like #0079bf, or a CSS linear-gradient(...) of hex colors"),
+        bgImage: z.string().max(2048).nullable().optional().describe("https URL of a background image; null removes it"),
+        iconColor: z.string().nullable().optional().describe("Hex color like #0079bf for the board's browser tab icon; null = follow the background"),
+        starred: z.boolean().optional().describe("Star or unstar it for you"),
+        workspaceId: z.string().optional().describe("Move the board to this workspace"),
         archived: z.boolean().optional(),
       },
       annotations: write,
     },
-    async ({ boardId, archived, ...rest }) => {
-      const b = await api.board.update({ id: boardId, ...rest, closed: archived });
+    async ({ boardId, archived, starred, workspaceId, ...rest }) => {
+      if (starred !== undefined) await api.board.star({ id: boardId, starred });
+      if (workspaceId) await api.board.move({ id: boardId, workspaceId });
+      const fields = { ...rest, closed: archived };
+      const b = Object.values(fields).some((v) => v !== undefined) ? await api.board.update({ id: boardId, ...fields }) : await api.board.get({ id: boardId });
       return text({ id: b.id, name: b.name, visibility: b.visibility, archived: b.closed, url: `${base}/b/${b.id}` });
+    },
+  );
+
+  server.registerTool(
+    "copy_board",
+    {
+      title: "Copy board",
+      description: "Copy a board (its lists and labels, and optionally its open cards) into a workspace.",
+      inputSchema: { boardId: z.string(), name: z.string().min(1).max(200), workspaceId: z.string(), keepCards: z.boolean().default(true) },
+      annotations: write,
+    },
+    async ({ boardId, ...rest }) => {
+      const b = await api.board.copy({ id: boardId, ...rest });
+      return text({ id: b.id, url: `${base}/b/${b.id}` });
     },
   );
 
@@ -555,6 +654,37 @@ export function hackbanMcp(user: User, base: string) {
     },
   );
 
+  server.registerTool(
+    "create_workspace",
+    { title: "Create workspace", description: "Create a workspace with you as its admin.", inputSchema: { name: z.string().min(1).max(100) }, annotations: write },
+    async (input) => text({ id: (await api.workspace.create(input)).id }),
+  );
+
+  server.registerTool(
+    "update_workspace",
+    {
+      title: "Update workspace",
+      description: "Rename a workspace or change its description (workspace admins only).",
+      inputSchema: { workspaceId: z.string(), name: z.string().min(1).max(100).optional(), description: z.string().max(2000).optional() },
+      annotations: { ...write, idempotentHint: true },
+    },
+    async ({ workspaceId, ...rest }) => {
+      await api.workspace.update({ id: workspaceId, ...rest });
+      return text({ ok: true });
+    },
+  );
+
+  server.registerTool(
+    "search_users",
+    {
+      title: "Search users",
+      description: "Find people who have logged in to Hackban by name or username (or an exact email), to get the user IDs other tools take.",
+      inputSchema: { query: z.string().min(2).max(100) },
+      annotations: read,
+    },
+    async ({ query }) => text((await api.board.searchUsers({ q: query })).map(({ id, name, username, email }) => ({ id, name, username: username ?? undefined, email: email ?? undefined }))),
+  );
+
   const invitee = {
     userId: z.string().optional().describe("Someone who has logged in (IDs from get_board or get_workspace)"),
     email: z.string().optional().describe("Or an email: they're added now and join for real when they first log in"),
@@ -589,6 +719,34 @@ export function hackbanMcp(user: User, base: string) {
   );
 
   server.registerTool(
+    "set_invite_link",
+    {
+      title: "Board invite link",
+      description: "Turn a board's invite link on (anyone with it can join the board as the given role) or off, or reset it so the old link stops working. Board admins only.",
+      inputSchema: { boardId: z.string(), enabled: z.boolean(), role: z.enum(["normal", "observer"]).optional(), reset: z.boolean().optional() },
+      annotations: write,
+    },
+    async ({ boardId, ...rest }) => {
+      const b = await api.board.setInviteLink({ id: boardId, ...rest });
+      return text({ url: b.inviteToken ? `${base}/join/${b.inviteToken}` : null, role: b.inviteRole });
+    },
+  );
+
+  server.registerTool(
+    "join_by_invite",
+    {
+      title: "Join with invite link",
+      description: "Join a board from an invite link someone gave you (the link or just its token).",
+      inputSchema: { link: z.string().max(2048) },
+      annotations: { ...write, idempotentHint: true },
+    },
+    async ({ link }) => {
+      const { boardId } = await api.board.joinByInvite({ token: link.trim().split("/").filter(Boolean).pop() ?? "" });
+      return text({ boardId, url: `${base}/b/${boardId}` });
+    },
+  );
+
+  server.registerTool(
     "add_workspace_member",
     {
       title: "Add workspace member",
@@ -606,14 +764,47 @@ export function hackbanMcp(user: User, base: string) {
     "notifications",
     {
       title: "Notifications",
-      description: "Your latest 50 notifications (assignments, comments on watched cards). Pass markRead to mark them all read.",
-      inputSchema: { markRead: z.boolean().default(false) },
+      description: "Your latest 50 notifications (assignments, comments on watched cards). Pass markRead to mark them all read, or readIds to mark just those.",
+      inputSchema: { markRead: z.boolean().default(false), readIds: z.array(z.string()).max(50).default([]) },
       annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: false },
     },
-    async ({ markRead }) => {
+    async ({ markRead, readIds }) => {
       const list = await api.notification.list();
       if (markRead) await api.notification.markAllRead();
-      return text(list.map((n) => ({ type: n.type, read: n.read, at: n.createdAt, ...n.data, url: n.data.cardId ? `${base}/c/${n.data.cardId}` : undefined })));
+      else for (const id of readIds) await api.notification.markRead({ id });
+      return text(list.map((n) => ({ id: n.id, type: n.type, read: n.read, at: n.createdAt, ...n.data, url: n.data.cardId ? `${base}/c/${n.data.cardId}` : undefined })));
+    },
+  );
+
+  server.registerTool(
+    "update_profile",
+    {
+      title: "Update profile",
+      description: "Change your display name or username (2–32 lowercase letters, numbers or underscores; null clears it).",
+      inputSchema: { name: z.string().min(1).max(100).optional(), username: z.string().nullable().optional() },
+      annotations: { ...write, idempotentHint: true },
+    },
+    async (input) => {
+      await api.me.update(input);
+      const { id, name, username } = await api.me.profile();
+      return text({ id, name, username });
+    },
+  );
+
+  server.registerTool(
+    "my_activity",
+    {
+      title: "My activity",
+      description: "What you've done across all boards, newest first (30 per page).",
+      inputSchema: { cursor: z.string().optional().describe("`next` from the previous page") },
+      annotations: read,
+    },
+    async ({ cursor }) => {
+      const { items, next } = await api.me.activity({ cursor });
+      return text({
+        items: items.map((a) => ({ type: a.type, board: a.board?.name, card: a.card?.title, data: a.data, at: a.createdAt })),
+        next,
+      });
     },
   );
 

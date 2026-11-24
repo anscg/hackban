@@ -174,13 +174,15 @@ in Claude Code, or in any MCP client). The client signs in with OAuth: you appro
 it once on a Hackban consent page, and it then acts as you, with your permissions.
 Revoke an app any time under **Settings → Connected apps** (`/me/settings`).
 
-Tools: `whoami`, `list_workspaces`, `get_workspace`, `search`, `get_board`,
+Tools: `whoami`, `update_profile`, `my_activity`, `list_workspaces`, `get_workspace`,
+`create_workspace`, `update_workspace`, `search`, `search_users`, `get_board`,
 `get_archived`, `board_activity`, `get_card`, `my_cards`, `notifications`,
-`create_board`, `update_board`, `add_board_member`, `add_workspace_member`,
-`create_list`, `update_list`, `move_list`, `save_label`, `create_card`, `update_card`,
-`move_card`, `copy_card`, `watch_card`, `add_comment`, `edit_comment`, `add_link`,
-`set_card_label`, `set_card_member`, `set_card_blocker`, `add_checklist`, `rename_checklist`,
-`add_check_item`, `update_check_item`. They call the same tRPC procedures as the web
+`create_board`, `update_board`, `copy_board`, `add_board_member`, `add_workspace_member`,
+`join_board`, `set_invite_link`, `join_by_invite`, `create_list`, `update_list`, `move_list`,
+`copy_list`, `move_all_cards`, `archive_all_cards`, `sort_list`, `save_label`, `create_card`,
+`update_card`, `move_card`, `copy_card`, `watch_card`, `add_comment`, `edit_comment`,
+`add_link`, `rename_attachment`, `set_card_label`, `set_card_member`, `set_card_blocker`,
+`add_checklist`, `rename_checklist`, `add_check_item`, `update_check_item`, `move_check_item`. They call the same tRPC procedures as the web
 app, so access checks, activity and live updates match. Nothing is permanently
 deleted: cards, lists and boards can only be archived, and members can be added
 (by user or email invite) but not removed. Site-admin powers aren't available over MCP.

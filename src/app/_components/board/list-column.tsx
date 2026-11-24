@@ -437,24 +437,10 @@ function ListMenu({ list, board, onAddCard }: { list: ListData; board: BoardData
   );
 }
 
-export function CardComposer({
-  listId,
-  boardId,
-  where,
-  onClose,
-  onCreated,
-}: {
-  listId: string;
-  boardId: string;
-  where: "top" | "bottom";
-  onClose: () => void;
-  /** Called with the real card once the server creates it. */
-  onCreated?: (card: { id: string; title: string }) => void;
-}) {
-  const [title, setTitle] = useState("");
-  const ref = useRef<HTMLDivElement>(null);
+/** Creates a card with an optimistic temp card in place until the server answers. */
+export function useCreateCard(listId: string, boardId: string, where: "top" | "bottom", onCreated?: (card: { id: string; title: string }) => void) {
   const utils = api.useUtils();
-  const create = api.card.create.useMutation({
+  return api.card.create.useMutation({
     onMutate: async ({ title }) => {
       rememberLocal(title);
       await utils.board.get.cancel({ id: boardId });
@@ -500,6 +486,25 @@ export function CardComposer({
     },
     onSettled: () => utils.board.get.invalidate({ id: boardId }),
   });
+}
+
+export function CardComposer({
+  listId,
+  boardId,
+  where,
+  onClose,
+  onCreated,
+}: {
+  listId: string;
+  boardId: string;
+  where: "top" | "bottom";
+  onClose: () => void;
+  /** Called with the real card once the server creates it. */
+  onCreated?: (card: { id: string; title: string }) => void;
+}) {
+  const [title, setTitle] = useState("");
+  const ref = useRef<HTMLDivElement>(null);
+  const create = useCreateCard(listId, boardId, where, onCreated);
   useEffect(() => {
     ref.current?.scrollIntoView({ block: "nearest" });
   }, [title]);
