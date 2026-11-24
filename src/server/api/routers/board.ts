@@ -12,7 +12,7 @@ import { memberInput, userForInvite } from "~/server/invite";
 import { boardBgKey, boardBgPath, removeBoardBg, removeStored, storedKeys } from "~/server/storage";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { type db as Db } from "~/server/db";
-import { boardBus, type BoardEvent } from "~/server/realtime";
+import { boardBus, listenForEvents, type BoardEvent } from "~/server/realtime";
 
 /** Board backgrounds are a color or gradient, never arbitrary CSS. */
 const background = z
@@ -541,6 +541,7 @@ export const boardRouter = createTRPCRouter({
     .input(z.object({ id: z.string() }))
     .subscription(async function* ({ ctx, input, signal }) {
       await requireBoard(ctx.db, ctx.session.user.id, input.id, false);
+      void listenForEvents();
       for await (const [event] of on(boardBus, `board:${input.id}`, { signal })) {
         yield event as BoardEvent;
       }

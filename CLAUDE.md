@@ -34,7 +34,7 @@ Run typecheck, lint and the tests before you call a change done.
 - Positions use `fractional-indexing` (`posAfter`, `posAtEnd`, `sequentialKeys` in `src/server/api/pos.ts`).
 - Schema changes deploy through `prisma db push` on boot, which refuses destructive changes. If a change needs
   something db push won't do (like a unique index on a new column), add idempotent SQL to `prisma/pre-push.sql`. Never put destructive SQL there.
-- Production runs as a single replica with an in-process event bus. Don't add anything that assumes more than one.
+- Production can run several replicas: live updates go through Postgres `LISTEN/NOTIFY` (`realtime.ts`) and uploads live in Postgres (`storage.ts`). Don't keep shared state in process memory or on local disk.
 
 ## Client conventions
 

@@ -294,6 +294,14 @@ model CheckItem {
   member      User?     @relation(fields: [memberId], references: [id], onDelete: SetNull)
 }
 
+/// Uploaded file bytes (attachments, avatars, logos, backgrounds). In Postgres rather than on a
+/// volume so any number of app replicas can serve them.
+model StoredFile {
+  key       String   @id
+  data      Bytes
+  createdAt DateTime @default(now())
+}
+
 model Attachment {
   id         String   @id @default(cuid())
   cardId     String

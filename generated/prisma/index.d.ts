@@ -105,6 +105,12 @@ export type Checklist = $Result.DefaultSelection<Prisma.$ChecklistPayload>
  */
 export type CheckItem = $Result.DefaultSelection<Prisma.$CheckItemPayload>
 /**
+ * Model StoredFile
+ * Uploaded file bytes (attachments, avatars, logos, backgrounds). In Postgres rather than on a
+ * volume so any number of app replicas can serve them.
+ */
+export type StoredFile = $Result.DefaultSelection<Prisma.$StoredFilePayload>
+/**
  * Model Attachment
  * 
  */
@@ -442,6 +448,16 @@ export class PrismaClient<
     * ```
     */
   get checkItem(): Prisma.CheckItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.storedFile`: Exposes CRUD operations for the **StoredFile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StoredFiles
+    * const storedFiles = await prisma.storedFile.findMany()
+    * ```
+    */
+  get storedFile(): Prisma.StoredFileDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.attachment`: Exposes CRUD operations for the **Attachment** model.
@@ -981,6 +997,7 @@ export namespace Prisma {
     CardMember: 'CardMember',
     Checklist: 'Checklist',
     CheckItem: 'CheckItem',
+    StoredFile: 'StoredFile',
     Attachment: 'Attachment',
     Comment: 'Comment',
     Activity: 'Activity',
@@ -1007,7 +1024,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "account" | "session" | "verificationToken" | "user" | "workspace" | "workspaceAutoJoin" | "workspaceMember" | "board" | "boardMember" | "boardStar" | "list" | "card" | "cardBlock" | "label" | "cardLabel" | "cardMember" | "checklist" | "checkItem" | "attachment" | "comment" | "activity" | "watch" | "notification" | "trelloImport" | "oAuthClient" | "oAuthToken"
+      modelProps: "account" | "session" | "verificationToken" | "user" | "workspace" | "workspaceAutoJoin" | "workspaceMember" | "board" | "boardMember" | "boardStar" | "list" | "card" | "cardBlock" | "label" | "cardLabel" | "cardMember" | "checklist" | "checkItem" | "storedFile" | "attachment" | "comment" | "activity" | "watch" | "notification" | "trelloImport" | "oAuthClient" | "oAuthToken"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2343,6 +2360,80 @@ export namespace Prisma {
           }
         }
       }
+      StoredFile: {
+        payload: Prisma.$StoredFilePayload<ExtArgs>
+        fields: Prisma.StoredFileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StoredFileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoredFilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StoredFileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoredFilePayload>
+          }
+          findFirst: {
+            args: Prisma.StoredFileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoredFilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StoredFileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoredFilePayload>
+          }
+          findMany: {
+            args: Prisma.StoredFileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoredFilePayload>[]
+          }
+          create: {
+            args: Prisma.StoredFileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoredFilePayload>
+          }
+          createMany: {
+            args: Prisma.StoredFileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StoredFileCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoredFilePayload>[]
+          }
+          delete: {
+            args: Prisma.StoredFileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoredFilePayload>
+          }
+          update: {
+            args: Prisma.StoredFileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoredFilePayload>
+          }
+          deleteMany: {
+            args: Prisma.StoredFileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StoredFileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StoredFileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoredFilePayload>[]
+          }
+          upsert: {
+            args: Prisma.StoredFileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoredFilePayload>
+          }
+          aggregate: {
+            args: Prisma.StoredFileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStoredFile>
+          }
+          groupBy: {
+            args: Prisma.StoredFileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StoredFileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StoredFileCountArgs<ExtArgs>
+            result: $Utils.Optional<StoredFileCountAggregateOutputType> | number
+          }
+        }
+      }
       Attachment: {
         payload: Prisma.$AttachmentPayload<ExtArgs>
         fields: Prisma.AttachmentFieldRefs
@@ -3049,6 +3140,7 @@ export namespace Prisma {
     cardMember?: CardMemberOmit
     checklist?: ChecklistOmit
     checkItem?: CheckItemOmit
+    storedFile?: StoredFileOmit
     attachment?: AttachmentOmit
     comment?: CommentOmit
     activity?: ActivityOmit
@@ -24177,6 +24269,975 @@ export namespace Prisma {
 
 
   /**
+   * Model StoredFile
+   */
+
+  export type AggregateStoredFile = {
+    _count: StoredFileCountAggregateOutputType | null
+    _min: StoredFileMinAggregateOutputType | null
+    _max: StoredFileMaxAggregateOutputType | null
+  }
+
+  export type StoredFileMinAggregateOutputType = {
+    key: string | null
+    data: Bytes | null
+    createdAt: Date | null
+  }
+
+  export type StoredFileMaxAggregateOutputType = {
+    key: string | null
+    data: Bytes | null
+    createdAt: Date | null
+  }
+
+  export type StoredFileCountAggregateOutputType = {
+    key: number
+    data: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type StoredFileMinAggregateInputType = {
+    key?: true
+    data?: true
+    createdAt?: true
+  }
+
+  export type StoredFileMaxAggregateInputType = {
+    key?: true
+    data?: true
+    createdAt?: true
+  }
+
+  export type StoredFileCountAggregateInputType = {
+    key?: true
+    data?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type StoredFileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StoredFile to aggregate.
+     */
+    where?: StoredFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StoredFiles to fetch.
+     */
+    orderBy?: StoredFileOrderByWithRelationInput | StoredFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StoredFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StoredFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StoredFiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StoredFiles
+    **/
+    _count?: true | StoredFileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StoredFileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StoredFileMaxAggregateInputType
+  }
+
+  export type GetStoredFileAggregateType<T extends StoredFileAggregateArgs> = {
+        [P in keyof T & keyof AggregateStoredFile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStoredFile[P]>
+      : GetScalarType<T[P], AggregateStoredFile[P]>
+  }
+
+
+
+
+  export type StoredFileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StoredFileWhereInput
+    orderBy?: StoredFileOrderByWithAggregationInput | StoredFileOrderByWithAggregationInput[]
+    by: StoredFileScalarFieldEnum[] | StoredFileScalarFieldEnum
+    having?: StoredFileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StoredFileCountAggregateInputType | true
+    _min?: StoredFileMinAggregateInputType
+    _max?: StoredFileMaxAggregateInputType
+  }
+
+  export type StoredFileGroupByOutputType = {
+    key: string
+    data: Bytes
+    createdAt: Date
+    _count: StoredFileCountAggregateOutputType | null
+    _min: StoredFileMinAggregateOutputType | null
+    _max: StoredFileMaxAggregateOutputType | null
+  }
+
+  type GetStoredFileGroupByPayload<T extends StoredFileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StoredFileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StoredFileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StoredFileGroupByOutputType[P]>
+            : GetScalarType<T[P], StoredFileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StoredFileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    key?: boolean
+    data?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["storedFile"]>
+
+  export type StoredFileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    key?: boolean
+    data?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["storedFile"]>
+
+  export type StoredFileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    key?: boolean
+    data?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["storedFile"]>
+
+  export type StoredFileSelectScalar = {
+    key?: boolean
+    data?: boolean
+    createdAt?: boolean
+  }
+
+  export type StoredFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"key" | "data" | "createdAt", ExtArgs["result"]["storedFile"]>
+
+  export type $StoredFilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StoredFile"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      key: string
+      data: Prisma.Bytes
+      createdAt: Date
+    }, ExtArgs["result"]["storedFile"]>
+    composites: {}
+  }
+
+  type StoredFileGetPayload<S extends boolean | null | undefined | StoredFileDefaultArgs> = $Result.GetResult<Prisma.$StoredFilePayload, S>
+
+  type StoredFileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StoredFileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StoredFileCountAggregateInputType | true
+    }
+
+  export interface StoredFileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StoredFile'], meta: { name: 'StoredFile' } }
+    /**
+     * Find zero or one StoredFile that matches the filter.
+     * @param {StoredFileFindUniqueArgs} args - Arguments to find a StoredFile
+     * @example
+     * // Get one StoredFile
+     * const storedFile = await prisma.storedFile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StoredFileFindUniqueArgs>(args: SelectSubset<T, StoredFileFindUniqueArgs<ExtArgs>>): Prisma__StoredFileClient<$Result.GetResult<Prisma.$StoredFilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StoredFile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StoredFileFindUniqueOrThrowArgs} args - Arguments to find a StoredFile
+     * @example
+     * // Get one StoredFile
+     * const storedFile = await prisma.storedFile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StoredFileFindUniqueOrThrowArgs>(args: SelectSubset<T, StoredFileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StoredFileClient<$Result.GetResult<Prisma.$StoredFilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StoredFile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoredFileFindFirstArgs} args - Arguments to find a StoredFile
+     * @example
+     * // Get one StoredFile
+     * const storedFile = await prisma.storedFile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StoredFileFindFirstArgs>(args?: SelectSubset<T, StoredFileFindFirstArgs<ExtArgs>>): Prisma__StoredFileClient<$Result.GetResult<Prisma.$StoredFilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StoredFile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoredFileFindFirstOrThrowArgs} args - Arguments to find a StoredFile
+     * @example
+     * // Get one StoredFile
+     * const storedFile = await prisma.storedFile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StoredFileFindFirstOrThrowArgs>(args?: SelectSubset<T, StoredFileFindFirstOrThrowArgs<ExtArgs>>): Prisma__StoredFileClient<$Result.GetResult<Prisma.$StoredFilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StoredFiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoredFileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StoredFiles
+     * const storedFiles = await prisma.storedFile.findMany()
+     * 
+     * // Get first 10 StoredFiles
+     * const storedFiles = await prisma.storedFile.findMany({ take: 10 })
+     * 
+     * // Only select the `key`
+     * const storedFileWithKeyOnly = await prisma.storedFile.findMany({ select: { key: true } })
+     * 
+     */
+    findMany<T extends StoredFileFindManyArgs>(args?: SelectSubset<T, StoredFileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoredFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StoredFile.
+     * @param {StoredFileCreateArgs} args - Arguments to create a StoredFile.
+     * @example
+     * // Create one StoredFile
+     * const StoredFile = await prisma.storedFile.create({
+     *   data: {
+     *     // ... data to create a StoredFile
+     *   }
+     * })
+     * 
+     */
+    create<T extends StoredFileCreateArgs>(args: SelectSubset<T, StoredFileCreateArgs<ExtArgs>>): Prisma__StoredFileClient<$Result.GetResult<Prisma.$StoredFilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StoredFiles.
+     * @param {StoredFileCreateManyArgs} args - Arguments to create many StoredFiles.
+     * @example
+     * // Create many StoredFiles
+     * const storedFile = await prisma.storedFile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StoredFileCreateManyArgs>(args?: SelectSubset<T, StoredFileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StoredFiles and returns the data saved in the database.
+     * @param {StoredFileCreateManyAndReturnArgs} args - Arguments to create many StoredFiles.
+     * @example
+     * // Create many StoredFiles
+     * const storedFile = await prisma.storedFile.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StoredFiles and only return the `key`
+     * const storedFileWithKeyOnly = await prisma.storedFile.createManyAndReturn({
+     *   select: { key: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StoredFileCreateManyAndReturnArgs>(args?: SelectSubset<T, StoredFileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoredFilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StoredFile.
+     * @param {StoredFileDeleteArgs} args - Arguments to delete one StoredFile.
+     * @example
+     * // Delete one StoredFile
+     * const StoredFile = await prisma.storedFile.delete({
+     *   where: {
+     *     // ... filter to delete one StoredFile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StoredFileDeleteArgs>(args: SelectSubset<T, StoredFileDeleteArgs<ExtArgs>>): Prisma__StoredFileClient<$Result.GetResult<Prisma.$StoredFilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StoredFile.
+     * @param {StoredFileUpdateArgs} args - Arguments to update one StoredFile.
+     * @example
+     * // Update one StoredFile
+     * const storedFile = await prisma.storedFile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StoredFileUpdateArgs>(args: SelectSubset<T, StoredFileUpdateArgs<ExtArgs>>): Prisma__StoredFileClient<$Result.GetResult<Prisma.$StoredFilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StoredFiles.
+     * @param {StoredFileDeleteManyArgs} args - Arguments to filter StoredFiles to delete.
+     * @example
+     * // Delete a few StoredFiles
+     * const { count } = await prisma.storedFile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StoredFileDeleteManyArgs>(args?: SelectSubset<T, StoredFileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StoredFiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoredFileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StoredFiles
+     * const storedFile = await prisma.storedFile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StoredFileUpdateManyArgs>(args: SelectSubset<T, StoredFileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StoredFiles and returns the data updated in the database.
+     * @param {StoredFileUpdateManyAndReturnArgs} args - Arguments to update many StoredFiles.
+     * @example
+     * // Update many StoredFiles
+     * const storedFile = await prisma.storedFile.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StoredFiles and only return the `key`
+     * const storedFileWithKeyOnly = await prisma.storedFile.updateManyAndReturn({
+     *   select: { key: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StoredFileUpdateManyAndReturnArgs>(args: SelectSubset<T, StoredFileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoredFilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StoredFile.
+     * @param {StoredFileUpsertArgs} args - Arguments to update or create a StoredFile.
+     * @example
+     * // Update or create a StoredFile
+     * const storedFile = await prisma.storedFile.upsert({
+     *   create: {
+     *     // ... data to create a StoredFile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StoredFile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StoredFileUpsertArgs>(args: SelectSubset<T, StoredFileUpsertArgs<ExtArgs>>): Prisma__StoredFileClient<$Result.GetResult<Prisma.$StoredFilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StoredFiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoredFileCountArgs} args - Arguments to filter StoredFiles to count.
+     * @example
+     * // Count the number of StoredFiles
+     * const count = await prisma.storedFile.count({
+     *   where: {
+     *     // ... the filter for the StoredFiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends StoredFileCountArgs>(
+      args?: Subset<T, StoredFileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StoredFileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StoredFile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoredFileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StoredFileAggregateArgs>(args: Subset<T, StoredFileAggregateArgs>): Prisma.PrismaPromise<GetStoredFileAggregateType<T>>
+
+    /**
+     * Group by StoredFile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoredFileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StoredFileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StoredFileGroupByArgs['orderBy'] }
+        : { orderBy?: StoredFileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StoredFileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStoredFileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StoredFile model
+   */
+  readonly fields: StoredFileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StoredFile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StoredFileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StoredFile model
+   */
+  interface StoredFileFieldRefs {
+    readonly key: FieldRef<"StoredFile", 'String'>
+    readonly data: FieldRef<"StoredFile", 'Bytes'>
+    readonly createdAt: FieldRef<"StoredFile", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StoredFile findUnique
+   */
+  export type StoredFileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoredFile
+     */
+    select?: StoredFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoredFile
+     */
+    omit?: StoredFileOmit<ExtArgs> | null
+    /**
+     * Filter, which StoredFile to fetch.
+     */
+    where: StoredFileWhereUniqueInput
+  }
+
+  /**
+   * StoredFile findUniqueOrThrow
+   */
+  export type StoredFileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoredFile
+     */
+    select?: StoredFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoredFile
+     */
+    omit?: StoredFileOmit<ExtArgs> | null
+    /**
+     * Filter, which StoredFile to fetch.
+     */
+    where: StoredFileWhereUniqueInput
+  }
+
+  /**
+   * StoredFile findFirst
+   */
+  export type StoredFileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoredFile
+     */
+    select?: StoredFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoredFile
+     */
+    omit?: StoredFileOmit<ExtArgs> | null
+    /**
+     * Filter, which StoredFile to fetch.
+     */
+    where?: StoredFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StoredFiles to fetch.
+     */
+    orderBy?: StoredFileOrderByWithRelationInput | StoredFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StoredFiles.
+     */
+    cursor?: StoredFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StoredFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StoredFiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StoredFiles.
+     */
+    distinct?: StoredFileScalarFieldEnum | StoredFileScalarFieldEnum[]
+  }
+
+  /**
+   * StoredFile findFirstOrThrow
+   */
+  export type StoredFileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoredFile
+     */
+    select?: StoredFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoredFile
+     */
+    omit?: StoredFileOmit<ExtArgs> | null
+    /**
+     * Filter, which StoredFile to fetch.
+     */
+    where?: StoredFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StoredFiles to fetch.
+     */
+    orderBy?: StoredFileOrderByWithRelationInput | StoredFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StoredFiles.
+     */
+    cursor?: StoredFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StoredFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StoredFiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StoredFiles.
+     */
+    distinct?: StoredFileScalarFieldEnum | StoredFileScalarFieldEnum[]
+  }
+
+  /**
+   * StoredFile findMany
+   */
+  export type StoredFileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoredFile
+     */
+    select?: StoredFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoredFile
+     */
+    omit?: StoredFileOmit<ExtArgs> | null
+    /**
+     * Filter, which StoredFiles to fetch.
+     */
+    where?: StoredFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StoredFiles to fetch.
+     */
+    orderBy?: StoredFileOrderByWithRelationInput | StoredFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StoredFiles.
+     */
+    cursor?: StoredFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StoredFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StoredFiles.
+     */
+    skip?: number
+    distinct?: StoredFileScalarFieldEnum | StoredFileScalarFieldEnum[]
+  }
+
+  /**
+   * StoredFile create
+   */
+  export type StoredFileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoredFile
+     */
+    select?: StoredFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoredFile
+     */
+    omit?: StoredFileOmit<ExtArgs> | null
+    /**
+     * The data needed to create a StoredFile.
+     */
+    data: XOR<StoredFileCreateInput, StoredFileUncheckedCreateInput>
+  }
+
+  /**
+   * StoredFile createMany
+   */
+  export type StoredFileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StoredFiles.
+     */
+    data: StoredFileCreateManyInput | StoredFileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StoredFile createManyAndReturn
+   */
+  export type StoredFileCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoredFile
+     */
+    select?: StoredFileSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoredFile
+     */
+    omit?: StoredFileOmit<ExtArgs> | null
+    /**
+     * The data used to create many StoredFiles.
+     */
+    data: StoredFileCreateManyInput | StoredFileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StoredFile update
+   */
+  export type StoredFileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoredFile
+     */
+    select?: StoredFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoredFile
+     */
+    omit?: StoredFileOmit<ExtArgs> | null
+    /**
+     * The data needed to update a StoredFile.
+     */
+    data: XOR<StoredFileUpdateInput, StoredFileUncheckedUpdateInput>
+    /**
+     * Choose, which StoredFile to update.
+     */
+    where: StoredFileWhereUniqueInput
+  }
+
+  /**
+   * StoredFile updateMany
+   */
+  export type StoredFileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StoredFiles.
+     */
+    data: XOR<StoredFileUpdateManyMutationInput, StoredFileUncheckedUpdateManyInput>
+    /**
+     * Filter which StoredFiles to update
+     */
+    where?: StoredFileWhereInput
+    /**
+     * Limit how many StoredFiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StoredFile updateManyAndReturn
+   */
+  export type StoredFileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoredFile
+     */
+    select?: StoredFileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoredFile
+     */
+    omit?: StoredFileOmit<ExtArgs> | null
+    /**
+     * The data used to update StoredFiles.
+     */
+    data: XOR<StoredFileUpdateManyMutationInput, StoredFileUncheckedUpdateManyInput>
+    /**
+     * Filter which StoredFiles to update
+     */
+    where?: StoredFileWhereInput
+    /**
+     * Limit how many StoredFiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StoredFile upsert
+   */
+  export type StoredFileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoredFile
+     */
+    select?: StoredFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoredFile
+     */
+    omit?: StoredFileOmit<ExtArgs> | null
+    /**
+     * The filter to search for the StoredFile to update in case it exists.
+     */
+    where: StoredFileWhereUniqueInput
+    /**
+     * In case the StoredFile found by the `where` argument doesn't exist, create a new StoredFile with this data.
+     */
+    create: XOR<StoredFileCreateInput, StoredFileUncheckedCreateInput>
+    /**
+     * In case the StoredFile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StoredFileUpdateInput, StoredFileUncheckedUpdateInput>
+  }
+
+  /**
+   * StoredFile delete
+   */
+  export type StoredFileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoredFile
+     */
+    select?: StoredFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoredFile
+     */
+    omit?: StoredFileOmit<ExtArgs> | null
+    /**
+     * Filter which StoredFile to delete.
+     */
+    where: StoredFileWhereUniqueInput
+  }
+
+  /**
+   * StoredFile deleteMany
+   */
+  export type StoredFileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StoredFiles to delete
+     */
+    where?: StoredFileWhereInput
+    /**
+     * Limit how many StoredFiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StoredFile without action
+   */
+  export type StoredFileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoredFile
+     */
+    select?: StoredFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoredFile
+     */
+    omit?: StoredFileOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model Attachment
    */
 
@@ -33303,6 +34364,15 @@ export namespace Prisma {
   export type CheckItemScalarFieldEnum = (typeof CheckItemScalarFieldEnum)[keyof typeof CheckItemScalarFieldEnum]
 
 
+  export const StoredFileScalarFieldEnum: {
+    key: 'key',
+    data: 'data',
+    createdAt: 'createdAt'
+  };
+
+  export type StoredFileScalarFieldEnum = (typeof StoredFileScalarFieldEnum)[keyof typeof StoredFileScalarFieldEnum]
+
+
   export const AttachmentScalarFieldEnum: {
     id: 'id',
     cardId: 'cardId',
@@ -33485,6 +34555,20 @@ export namespace Prisma {
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'Bytes'
+   */
+  export type BytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes'>
+    
+
+
+  /**
+   * Reference to a field of type 'Bytes[]'
+   */
+  export type ListBytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes[]'>
     
 
 
@@ -34779,6 +35863,48 @@ export namespace Prisma {
     due?: DateTimeNullableWithAggregatesFilter<"CheckItem"> | Date | string | null
     memberId?: StringNullableWithAggregatesFilter<"CheckItem"> | string | null
     trelloId?: StringNullableWithAggregatesFilter<"CheckItem"> | string | null
+  }
+
+  export type StoredFileWhereInput = {
+    AND?: StoredFileWhereInput | StoredFileWhereInput[]
+    OR?: StoredFileWhereInput[]
+    NOT?: StoredFileWhereInput | StoredFileWhereInput[]
+    key?: StringFilter<"StoredFile"> | string
+    data?: BytesFilter<"StoredFile"> | Bytes
+    createdAt?: DateTimeFilter<"StoredFile"> | Date | string
+  }
+
+  export type StoredFileOrderByWithRelationInput = {
+    key?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StoredFileWhereUniqueInput = Prisma.AtLeast<{
+    key?: string
+    AND?: StoredFileWhereInput | StoredFileWhereInput[]
+    OR?: StoredFileWhereInput[]
+    NOT?: StoredFileWhereInput | StoredFileWhereInput[]
+    data?: BytesFilter<"StoredFile"> | Bytes
+    createdAt?: DateTimeFilter<"StoredFile"> | Date | string
+  }, "key">
+
+  export type StoredFileOrderByWithAggregationInput = {
+    key?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+    _count?: StoredFileCountOrderByAggregateInput
+    _max?: StoredFileMaxOrderByAggregateInput
+    _min?: StoredFileMinOrderByAggregateInput
+  }
+
+  export type StoredFileScalarWhereWithAggregatesInput = {
+    AND?: StoredFileScalarWhereWithAggregatesInput | StoredFileScalarWhereWithAggregatesInput[]
+    OR?: StoredFileScalarWhereWithAggregatesInput[]
+    NOT?: StoredFileScalarWhereWithAggregatesInput | StoredFileScalarWhereWithAggregatesInput[]
+    key?: StringWithAggregatesFilter<"StoredFile"> | string
+    data?: BytesWithAggregatesFilter<"StoredFile"> | Bytes
+    createdAt?: DateTimeWithAggregatesFilter<"StoredFile"> | Date | string
   }
 
   export type AttachmentWhereInput = {
@@ -36683,6 +37809,48 @@ export namespace Prisma {
     trelloId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type StoredFileCreateInput = {
+    key: string
+    data: Bytes
+    createdAt?: Date | string
+  }
+
+  export type StoredFileUncheckedCreateInput = {
+    key: string
+    data: Bytes
+    createdAt?: Date | string
+  }
+
+  export type StoredFileUpdateInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    data?: BytesFieldUpdateOperationsInput | Bytes
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StoredFileUncheckedUpdateInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    data?: BytesFieldUpdateOperationsInput | Bytes
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StoredFileCreateManyInput = {
+    key: string
+    data: Bytes
+    createdAt?: Date | string
+  }
+
+  export type StoredFileUpdateManyMutationInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    data?: BytesFieldUpdateOperationsInput | Bytes
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StoredFileUncheckedUpdateManyInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    data?: BytesFieldUpdateOperationsInput | Bytes
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AttachmentCreateInput = {
     id?: string
     name: string
@@ -38285,6 +39453,41 @@ export namespace Prisma {
     due?: SortOrder
     memberId?: SortOrder
     trelloId?: SortOrder
+  }
+
+  export type BytesFilter<$PrismaModel = never> = {
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel>
+    in?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesFilter<$PrismaModel> | Bytes
+  }
+
+  export type StoredFileCountOrderByAggregateInput = {
+    key?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StoredFileMaxOrderByAggregateInput = {
+    key?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StoredFileMinOrderByAggregateInput = {
+    key?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BytesWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel>
+    in?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesWithAggregatesFilter<$PrismaModel> | Bytes
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBytesFilter<$PrismaModel>
+    _max?: NestedBytesFilter<$PrismaModel>
   }
 
   export type AttachmentCountOrderByAggregateInput = {
@@ -40445,6 +41648,10 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCheckItemsInput, UserUpdateWithoutCheckItemsInput>, UserUncheckedUpdateWithoutCheckItemsInput>
   }
 
+  export type BytesFieldUpdateOperationsInput = {
+    set?: Bytes
+  }
+
   export type CardCreateNestedOneWithoutAttachmentsInput = {
     create?: XOR<CardCreateWithoutAttachmentsInput, CardUncheckedCreateWithoutAttachmentsInput>
     connectOrCreate?: CardCreateOrConnectWithoutAttachmentsInput
@@ -40899,6 +42106,23 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedBytesFilter<$PrismaModel = never> = {
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel>
+    in?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesFilter<$PrismaModel> | Bytes
+  }
+
+  export type NestedBytesWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel>
+    in?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Bytes[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesWithAggregatesFilter<$PrismaModel> | Bytes
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBytesFilter<$PrismaModel>
+    _max?: NestedBytesFilter<$PrismaModel>
   }
 
   export type UserCreateWithoutAccountsInput = {

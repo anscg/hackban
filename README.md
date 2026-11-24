@@ -49,10 +49,10 @@ src/
     api/routers/           tRPC: board, list, card, workspace, admin, import, me, …
     mcp.ts, oauth.ts       MCP server tools + its OAuth 2.1 provider
     api/access.ts          permission checks + activity logging
-    realtime.ts            in-process event bus behind the live-update stream
+    realtime.ts            live-update events, shared between replicas via Postgres LISTEN/NOTIFY
     import/                Trello client, JSON shape, idempotent apply
     autojoin.ts            domain auto-join rules
-    storage.ts             uploaded files on disk
+    storage.ts             uploaded files (stored in Postgres)
 prisma/schema.prisma
 ```
 
@@ -83,7 +83,7 @@ bun dev                 # http://localhost:3000
 | `AUTH_URL`             | prod     | Public URL, e.g. `https://hackban.hackclub.com` |
 | `AUTH_TRUST_HOST`      | prod     | `true` when behind a proxy |
 | `ADMIN_EMAILS`         | no       | Comma-separated emails that are always site admins |
-| `UPLOAD_DIR`           | no       | Where attachments are stored. Default `./uploads` |
+| `UPLOAD_DIR`           | no       | Old on-disk upload folder; files found there are copied into Postgres on boot. Default `./uploads` |
 | `SLACK_BOT_TOKEN`      | no       | Bot token with `channels:manage`; adds each user to #hackban on first login. The bot must be in the channel |
 | `UNSPLASH_ACCESS_KEY`  | no       | Access key of an app from [Unsplash Developers](https://unsplash.com/developers); enables stock photo search in Change background |
 
@@ -213,11 +213,11 @@ The `Dockerfile` builds a standalone Next.js server:
 
 - On boot it runs `prisma db push` (additive schema changes; it refuses
   destructive ones), then starts the server on port 3000.
-- Uploaded files go to `UPLOAD_DIR` (`/data/uploads` in the image), so **mount a
-  persistent volume at `/data`**.
-- **Run exactly one replica.** Live updates use an in-process event bus.
-  Scaling out needs a shared bus (e.g. Redis or Postgres `LISTEN/NOTIFY`) in
-  `src/server/realtime.ts`.
+- Uploaded files are stored in Postgres (`StoredFile`), so the app needs no volume
+  and can run several replicas with rolling deploys. Any files still in `UPLOAD_DIR`
+  from older versions are copied into the database on boot.
+- Live updates travel through Postgres `LISTEN/NOTIFY` (`src/server/realtime.ts`),
+  so every replica hears every change.
 - Give it **about 1 GB of memory**; the default 128 MB gets OOM-killed during
   boot.
 

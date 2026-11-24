@@ -295,6 +295,12 @@ exports.Prisma.CheckItemScalarFieldEnum = {
   trelloId: 'trelloId'
 };
 
+exports.Prisma.StoredFileScalarFieldEnum = {
+  key: 'key',
+  data: 'data',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.AttachmentScalarFieldEnum = {
   id: 'id',
   cardId: 'cardId',
@@ -413,6 +419,7 @@ exports.Prisma.ModelName = {
   CardMember: 'CardMember',
   Checklist: 'Checklist',
   CheckItem: 'CheckItem',
+  StoredFile: 'StoredFile',
   Attachment: 'Attachment',
   Comment: 'Comment',
   Activity: 'Activity',

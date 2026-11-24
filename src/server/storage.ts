@@ -1,4 +1,4 @@
-import { mkdir, readFile, unlink, writeFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
 import { nanoid } from "nanoid";
@@ -8,20 +8,34 @@ import { type Prisma } from "../../generated/prisma";
 import { env } from "~/env";
 import { db } from "~/server/db";
 
-// Resolved lazily: during `next build` env validation (and its defaults) is
-// skipped, so UPLOAD_DIR can be undefined at module load.
+// Files used to live in UPLOAD_DIR on a volume; they're read from there only until
+// copyDiskFiles() has moved them into the database. Resolved lazily: during
+// `next build` env validation (and its defaults) is skipped.
 const root = () => path.resolve(env.UPLOAD_DIR ?? "./uploads");
 
+// shortcut: file bytes live in Postgres (fine at a few MB of uploads); move to object storage if uploads reach GBs.
 export async function saveFile(data: Uint8Array) {
   const key = nanoid(24);
-  await mkdir(root(), { recursive: true });
-  await writeFile(path.join(root(), key), data);
+  await db.storedFile.create({ data: { key, data: new Uint8Array(data) } });
   return key;
 }
 
-export function readStored(key: string) {
+export async function readStored(key: string) {
   if (!/^[\w-]+$/.test(key)) throw new Error("bad key");
-  return readFile(path.join(root(), key));
+  const row = await db.storedFile.findUnique({ where: { key } });
+  return row ? row.data : readFile(path.join(root(), key));
+}
+
+/** One-time move of files from the old upload volume into the database; safe to run on every boot and from several replicas. */
+export async function copyDiskFiles() {
+  const keys = await readdir(root()).catch(() => [] as string[]);
+  let copied = 0;
+  for (const key of keys.filter((k) => /^[\w-]+$/.test(k))) {
+    if (await db.storedFile.findUnique({ where: { key }, select: { key: true } })) continue;
+    const data = await readFile(path.join(root(), key));
+    copied += (await db.storedFile.createMany({ data: [{ key, data }], skipDuplicates: true })).count;
+  }
+  return copied;
 }
 
 /** PNG/JPEG/GIF/WebP type read from the file's magic bytes (not the client's claim), or null. */
@@ -39,7 +53,7 @@ export async function removeStored(key: string | null | undefined) {
   if (!key || !/^[\w-]+$/.test(key)) return;
   // Copied cards share their attachments' files; keep it while any row still uses it.
   if (await db.attachment.count({ where: { storageKey: key } })) return;
-  await unlink(path.join(root(), key)).catch(() => undefined);
+  await db.storedFile.deleteMany({ where: { key } });
 }
 
 /**
