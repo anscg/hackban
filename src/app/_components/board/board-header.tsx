@@ -17,7 +17,6 @@ const VIS = {
 const VIEWS = [
   ["board", "board", "Board"],
   ["table", "table", "Table"],
-  ["roadmap", "roadmap", "Roadmap"],
 ] as const;
 
 const hdrBtn = "flex h-8 items-center gap-1.5 rounded-[3px] px-2.5 text-sm font-medium text-white transition-colors hover:bg-white/20";

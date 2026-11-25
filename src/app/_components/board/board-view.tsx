@@ -34,7 +34,7 @@ import { Header } from "../header";
 import { boardBg, useBoardIcon } from "../ui";
 import { BoardHeader } from "./board-header";
 import { BoardMenu } from "./board-menu";
-import { RoadmapView, TableView } from "./board-views";
+import { TableView } from "./board-views";
 import { BoardCtx } from "./members";
 import { confetti } from "../confetti";
 import { CardFront, REPEAT_SHOW_DONE_MS } from "./card-front";
@@ -183,12 +183,12 @@ export function BoardView({
       else if ((JSON.parse(sessionStorage.getItem("boardFilters") ?? "null") as { boardId: string } | null)?.boardId === boardId) sessionStorage.removeItem("boardFilters");
     } catch {}
   }, [boardId, filters]);
-  // Board / table / roadmap, remembered per board in this browser.
+  // Board / table, remembered per board in this browser.
   const [view, setViewState] = useState<BoardViewMode>("board");
   useEffect(() => {
     try {
       const v = localStorage.getItem(`hackban:view:${boardId}`);
-      setViewState(v === "table" || v === "roadmap" ? v : "board");
+      setViewState(v === "table" ? v : "board");
     } catch {}
   }, [boardId]);
   const setView = (v: BoardViewMode) => {
@@ -597,7 +597,6 @@ export function BoardView({
               }}
             >
               {view === "table" && <TableView board={shown} isVisible={isVisible} onOpenCard={open} onHoverCard={onHoverCard} readOnly={readOnly} />}
-              {view === "roadmap" && <RoadmapView board={shown} isVisible={isVisible} onOpenCard={open} onHoverCard={onHoverCard} readOnly={readOnly} />}
               {view === "board" && <DndContext
                 sensors={sensors}
                 collisionDetection={collision}
